@@ -8,11 +8,11 @@ namespace HRSystem.Models
         public HRContext(DbContextOptions options):base(options) { }
        
        public DbSet<Employee> Employees { get; set; }
-       // public DbSet<Attendance> Attendances { get; set; }
+        // public DbSet<Attendance> Attendances { get; set; }
         //public DbSet<Holidays> Holidays { get; set; }
 
-       // public DbSet<GeneralSettings> GeneralSettings { get; set; }
-        
+        public DbSet<GeneralSettings> GeneralSettings { get; set; }
+
 
 
     }

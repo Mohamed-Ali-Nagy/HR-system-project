@@ -18,6 +18,8 @@ namespace WebApplication1
             );
 
             builder.Services.AddScoped<IEmployeeRepositry,EmployeeRepository>();
+            builder.Services.AddScoped<IGeneralSettingRepository,GeneralSettingRepository>();
+
 
             var app = builder.Build();
 
