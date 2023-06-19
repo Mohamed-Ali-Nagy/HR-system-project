@@ -47,9 +47,8 @@ namespace HRSystem.Controllers
 
             }
             return View("getDetails", employeeDepartmentVM);
-
-
-
         }
+
+
     }
 }
