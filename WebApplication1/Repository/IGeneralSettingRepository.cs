@@ -1,18 +1,19 @@
-﻿namespace HRSystem.Repository
+﻿using HRSystem.Models;
+namespace HRSystem.Repository
 {
     public interface IGeneralSettingRepository
     {
         double GetAddHourRate ();
         double GetDeducateHourRate ();
-        void UpdateAddHourRate();
-        void UpdateDeducateHourRate();
+        void UpdateAddHourRate(double HourRate);
+        void UpdateDeducateHourRate(double HourRate);
 
 
-        public string GetWeekRest1();
-        public string GetWeekRest2();
-        public void UpdateWeekRest1();
-        public void UpdateWeekRest2();
+        string GetWeekRest1();
+        string GetWeekRest2();
+        void UpdateWeekRest1(string weekRest);
+        void UpdateWeekRest2(string weekRest);
 
-        public void Save();
+        void Save();
     }
 }
