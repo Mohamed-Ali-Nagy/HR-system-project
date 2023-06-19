@@ -2,7 +2,7 @@
 
 namespace HRSystem.Repository
 {
-    public class GeneralSettingRepository : IGeneralSettingRepository
+    public  class GeneralSettingRepository : IGeneralSettingRepository
     {
         HRContext _context;
 
@@ -10,55 +10,56 @@ namespace HRSystem.Repository
         {
             _context = hRContext;
         }
-
         public double GetAddHourRate()
         {
-            throw new NotImplementedException();
+            _context.GeneralSettings.FirstOrDefault(x => x.AddHourRate);
         }
-
-        //double IGeneralSettingRepository GetAddHourRate()
-        //{
-        //    _context.GeneralSettings.FirstOrDefault(x => x.AddHourRate);
-        //}
 
         double IGeneralSettingRepository.GetDeducateHourRate()
         {
-            throw new NotImplementedException();
+            return _context.GeneralSettings.FirstOrDefault().DeducateHourRate;
         }
 
-        string IGeneralSettingRepository.GetWeekRest1()
+        public string GetWeekRest1()
         {
-            throw new NotImplementedException();
+            return _context.GeneralSettings.FirstOrDefault().WeekRest1;
         }
 
-        string IGeneralSettingRepository.GetWeekRest2()
+        public string GetWeekRest2()
         {
-            throw new NotImplementedException();
+            return _context.GeneralSettings.FirstOrDefault().WeekRest2;
         }
 
-        void IGeneralSettingRepository.Save()
+        public void Save()
         {
-            throw new NotImplementedException();
+            _context.SaveChanges();
         }
 
-        void IGeneralSettingRepository.UpdateAddHourRate()
+        public void UpdateAddHourRate(double HourRate)
         {
-            throw new NotImplementedException();
+            var generalSettings = _context.GeneralSettings.FirstOrDefault();
+            generalSettings.AddHourRate=HourRate;
+            
+
         }
 
-        void IGeneralSettingRepository.UpdateDeducateHourRate()
+        public void UpdateDeducateHourRate(double HourRate)
         {
-            throw new NotImplementedException();
+            var generalSettings = _context.GeneralSettings.FirstOrDefault();
+            generalSettings.DeducateHourRate = HourRate;
+            
         }
 
-        void IGeneralSettingRepository.UpdateWeekRest1()
+        public void UpdateWeekRest1(string weekRest)
         {
-            throw new NotImplementedException();
+            var generalSettings = _context.GeneralSettings.FirstOrDefault();
+            generalSettings.WeekRest1 = weekRest; 
         }
 
-        void IGeneralSettingRepository.UpdateWeekRest2()
+        public void UpdateWeekRest2(string weekRest)
         {
-            throw new NotImplementedException();
+            var generalSettings = _context.GeneralSettings.FirstOrDefault();
+            generalSettings.WeekRest2= weekRest;
         }
     }
 }
