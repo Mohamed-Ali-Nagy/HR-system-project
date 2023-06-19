@@ -12,7 +12,7 @@ namespace HRSystem.Repository
         }
         public double GetAddHourRate()
         {
-            _context.GeneralSettings.FirstOrDefault(x => x.AddHourRate);
+            return _context.GeneralSettings.FirstOrDefault().AddHourRate;
         }
 
         double IGeneralSettingRepository.GetDeducateHourRate()

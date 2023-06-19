@@ -38,7 +38,6 @@ namespace HRSystem.Controllers
             generalSettingRepository.UpdateWeekRest2(generalSettings.WeekRest2);
             generalSettingRepository.Save();
             return RedirectToAction("index", generalSettings);
-            
         }
     }
 }
