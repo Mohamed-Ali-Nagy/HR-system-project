@@ -2,5 +2,9 @@
 {
     public class Department
     {
+        public int Id { get; set; }
+
+        public virtual List<Employee>? Employees { get; set; } = new List<Employee>();
+
     }
 }
