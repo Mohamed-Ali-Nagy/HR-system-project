@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HRSystem.Migrations
 {
     [DbContext(typeof(HRContext))]
-    [Migration("20230618221317_v4")]
-    partial class v4
+    [Migration("20230619175831_attnewv2")]
+    partial class attnewv2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -59,56 +59,115 @@ namespace HRSystem.Migrations
 
             modelBuilder.Entity("HRSystem.Models.Department", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("ID");
+                    b.HasKey("Id");
 
                     b.ToTable("Departments");
                 });
 
             modelBuilder.Entity("HRSystem.Models.Employee", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("DeptID")
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("AttendanceTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("BirthDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("DeptID")
                         .HasColumnType("int");
+
+                    b.Property<int>("EmpGender")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("HireDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("LeavingTime")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Phone")
-                        .HasColumnType("int");
+                    b.Property<string>("NationalId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("ID");
+                    b.Property<string>("Nationality")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Salary")
+                        .HasColumnType("float");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("DeptID");
 
                     b.ToTable("Employees");
                 });
 
+            modelBuilder.Entity("HRSystem.Models.GeneralSettings", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<double>("AddHourRate")
+                        .HasColumnType("float");
+
+                    b.Property<double>("DeducateHourRate")
+                        .HasColumnType("float");
+
+                    b.Property<string>("WeekRest1")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("WeekRest2")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("GeneralSettings");
+                });
+
             modelBuilder.Entity("HRSystem.Models.Attendance", b =>
                 {
                     b.HasOne("HRSystem.Models.Department", "department")
-                        .WithMany("attendances")
+                        .WithMany("Attendances")
                         .HasForeignKey("DeptID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("HRSystem.Models.Employee", "employee")
-                        .WithMany("attendances")
+                        .WithMany("Attendances")
                         .HasForeignKey("EmpID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -121,24 +180,22 @@ namespace HRSystem.Migrations
             modelBuilder.Entity("HRSystem.Models.Employee", b =>
                 {
                     b.HasOne("HRSystem.Models.Department", "department")
-                        .WithMany("employees")
-                        .HasForeignKey("DeptID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("Employees")
+                        .HasForeignKey("DeptID");
 
                     b.Navigation("department");
                 });
 
             modelBuilder.Entity("HRSystem.Models.Department", b =>
                 {
-                    b.Navigation("attendances");
+                    b.Navigation("Attendances");
 
-                    b.Navigation("employees");
+                    b.Navigation("Employees");
                 });
 
             modelBuilder.Entity("HRSystem.Models.Employee", b =>
                 {
-                    b.Navigation("attendances");
+                    b.Navigation("Attendances");
                 });
 #pragma warning restore 612, 618
         }

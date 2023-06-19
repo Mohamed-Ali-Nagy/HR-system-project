@@ -3,7 +3,7 @@ namespace HRSystem.Repository
 {
     public interface IGeneralSettingRepository
     {
-        double GetAddHourRate ();
+      
         double GetDeducateHourRate ();
         void UpdateAddHourRate(double HourRate);
         void UpdateDeducateHourRate(double HourRate);

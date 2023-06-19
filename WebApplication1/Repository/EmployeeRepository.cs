@@ -2,7 +2,7 @@
 
 namespace HRSystem.Repository
 {
-    public class EmployeeRepository : IEmployeeRepositry
+    public class EmployeeRepository:IEmployeeRepositry
     {
         HRContext HRdb;
         public EmployeeRepository(HRContext HRdb)
@@ -46,6 +46,6 @@ namespace HRSystem.Repository
             throw new NotImplementedException();
         }
 
-      
+
     }
 }

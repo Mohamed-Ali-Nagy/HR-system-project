@@ -10,8 +10,8 @@ namespace HRSystem.Controllers
         IAttendanceRepository AttendanceRepository;
         HRContext db;
         public AttendanceController(IAttendanceRepository _attendanceRepository
-            
-            ,HRContext _db
+
+            , HRContext _db
             )
         {
             AttendanceRepository = _attendanceRepository;
@@ -20,22 +20,26 @@ namespace HRSystem.Controllers
         }
         public IActionResult Index()
         {
-             List<Attendance> attendanceModel = AttendanceRepository.GetAll();
+            List<Attendance> attendanceModel = AttendanceRepository.GetAll();
 
-            List< AttendanceViewModel> allViewModel = new List<AttendanceViewModel>();
+            List<AttendanceViewModel> allViewModel = new List<AttendanceViewModel>();
 
-            for (var i=0;i< attendanceModel.Count;i++)
+            for (var i = 0; i < attendanceModel.Count; i++)
             {
                 AttendanceViewModel attvm = new AttendanceViewModel()
                 {
                     TimeAttendance = attendanceModel[i].TimeAttendance,
                     TimeLeave = attendanceModel[i].TimeLeave,
                     Date = attendanceModel[i].Date
-                  
+
                 };
 
-                attvm.EmployeeName = db.Employees.Where(n => n.ID == attendanceModel[i].EmpID).FirstOrDefault().Name;
-                attvm.DepartmentName= db.Departments.Where(n => n.ID == attendanceModel[i].DeptID).FirstOrDefault().Name;
+                Employee emp = db.Employees.Where(n => n.Id == attendanceModel[i].EmpID).FirstOrDefault();
+
+
+                attvm.EmployeeName = emp.Name;
+
+                attvm.DepartmentName = emp.department.Name;
 
                 allViewModel.Add(attvm);
             }
@@ -48,9 +52,9 @@ namespace HRSystem.Controllers
 
 
 
-        
 
-   
+
+
 
     }
 }

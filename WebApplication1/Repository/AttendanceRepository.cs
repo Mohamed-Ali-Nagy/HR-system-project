@@ -2,14 +2,14 @@
 
 namespace HRSystem.Repository
 {
-    public class AttendanceRepository : IAttendanceRepository
+    public class AttendanceRepository :IAttendanceRepository
     {
 
         HRContext db;
 
         public AttendanceRepository(HRContext _db)
         {
-            db = _db;   
+            db = _db;
         }
         public void delete(int id)
         {
@@ -20,27 +20,27 @@ namespace HRSystem.Repository
 
         public List<Attendance> GetAll()
         {
-           return  db.Attendances.ToList();
+            return db.Attendances.ToList();
         }
 
-     
+
 
         public Attendance GetBYId(int id)
         {
-           return db.Attendances.FirstOrDefault(n => n.ID == id);
+            return db.Attendances.FirstOrDefault(n => n.ID == id);
         }
 
         public void insert(Attendance newAttendance)
         {
 
 
-            db.Attendances.Add(newAttendance);  
-          
+            db.Attendances.Add(newAttendance);
+
         }
 
         public void save()
         {
-             db.SaveChanges();
+            db.SaveChanges();
         }
 
         public void update(int id, Attendance Atten)
@@ -50,7 +50,6 @@ namespace HRSystem.Repository
             oldattendance.TimeAttendance = Atten.TimeAttendance;
             oldattendance.TimeLeave = Atten.TimeLeave;
             oldattendance.Date = Atten.Date;
-            oldattendance.DeptID = Atten.DeptID;
             oldattendance.EmpID = Atten.EmpID;
         }
     }

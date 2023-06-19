@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace HRSystem.Migrations
 {
     /// <inheritdoc />
-    public partial class v8 : Migration
+    public partial class attnewv2 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -32,8 +32,8 @@ namespace HRSystem.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     AddHourRate = table.Column<double>(type: "float", nullable: false),
                     DeducateHourRate = table.Column<double>(type: "float", nullable: false),
-                    WeekRest1 = table.Column<int>(type: "int", nullable: true),
-                    WeekRest2 = table.Column<int>(type: "int", nullable: true)
+                    WeekRest1 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    WeekRest2 = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -71,28 +71,43 @@ namespace HRSystem.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Attendance",
+                name: "Attendances",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    EmpId = table.Column<int>(type: "int", nullable: false)
+                    TimeAttendance = table.Column<TimeSpan>(type: "time", nullable: false),
+                    TimeLeave = table.Column<TimeSpan>(type: "time", nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EmpID = table.Column<int>(type: "int", nullable: false),
+                    DeptID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Attendance", x => x.Id);
+                    table.PrimaryKey("PK_Attendances", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_Attendance_Employees_EmpId",
-                        column: x => x.EmpId,
+                        name: "FK_Attendances_Departments_DeptID",
+                        column: x => x.DeptID,
+                        principalTable: "Departments",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.NoAction);
+                    table.ForeignKey(
+                        name: "FK_Attendances_Employees_EmpID",
+                        column: x => x.EmpID,
                         principalTable: "Employees",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Attendance_EmpId",
-                table: "Attendance",
-                column: "EmpId");
+                name: "IX_Attendances_DeptID",
+                table: "Attendances",
+                column: "DeptID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Attendances_EmpID",
+                table: "Attendances",
+                column: "EmpID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Employees_DeptID",
@@ -104,7 +119,7 @@ namespace HRSystem.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Attendance");
+                name: "Attendances");
 
             migrationBuilder.DropTable(
                 name: "GeneralSettings");

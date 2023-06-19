@@ -24,20 +24,29 @@ namespace HRSystem.Migrations
 
             modelBuilder.Entity("HRSystem.Models.Attendance", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
-                    b.Property<int>("EmpId")
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("EmpID")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.Property<TimeSpan>("TimeAttendance")
+                        .HasColumnType("time");
 
-                    b.HasIndex("EmpId");
+                    b.Property<TimeSpan>("TimeLeave")
+                        .HasColumnType("time");
 
-                    b.ToTable("Attendance");
+                    b.HasKey("ID");
+
+                    b.HasIndex("EmpID");
+
+                    b.ToTable("Attendances");
                 });
 
             modelBuilder.Entity("HRSystem.Models.Department", b =>
@@ -145,7 +154,7 @@ namespace HRSystem.Migrations
                 {
                     b.HasOne("HRSystem.Models.Employee", "employee")
                         .WithMany("Attendances")
-                        .HasForeignKey("EmpId")
+                        .HasForeignKey("EmpID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
