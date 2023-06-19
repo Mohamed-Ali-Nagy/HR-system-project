@@ -4,6 +4,7 @@ using HRSystem.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HRSystem.Migrations
 {
     [DbContext(typeof(HRContext))]
-    partial class HRContextModelSnapshot : ModelSnapshot
+    [Migration("20230618215544_v3")]
+    partial class v3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -45,11 +48,17 @@ namespace HRSystem.Migrations
                     b.Property<TimeSpan>("TimeLeave")
                         .HasColumnType("time");
 
+                    b.Property<int?>("departmentID")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("employeeID")
+                        .HasColumnType("int");
+
                     b.HasKey("ID");
 
-                    b.HasIndex("DeptID");
+                    b.HasIndex("departmentID");
 
-                    b.HasIndex("EmpID");
+                    b.HasIndex("employeeID");
 
                     b.ToTable("Attendances");
                 });
@@ -89,9 +98,12 @@ namespace HRSystem.Migrations
                     b.Property<int>("Phone")
                         .HasColumnType("int");
 
+                    b.Property<int?>("departmentID")
+                        .HasColumnType("int");
+
                     b.HasKey("ID");
 
-                    b.HasIndex("DeptID");
+                    b.HasIndex("departmentID");
 
                     b.ToTable("Employees");
                 });
@@ -100,15 +112,11 @@ namespace HRSystem.Migrations
                 {
                     b.HasOne("HRSystem.Models.Department", "department")
                         .WithMany("attendances")
-                        .HasForeignKey("DeptID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("departmentID");
 
                     b.HasOne("HRSystem.Models.Employee", "employee")
                         .WithMany("attendances")
-                        .HasForeignKey("EmpID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("employeeID");
 
                     b.Navigation("department");
 
@@ -119,9 +127,7 @@ namespace HRSystem.Migrations
                 {
                     b.HasOne("HRSystem.Models.Department", "department")
                         .WithMany("employees")
-                        .HasForeignKey("DeptID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("departmentID");
 
                     b.Navigation("department");
                 });
