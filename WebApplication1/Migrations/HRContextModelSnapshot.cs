@@ -130,11 +130,11 @@ namespace HRSystem.Migrations
                     b.Property<double>("DeducateHourRate")
                         .HasColumnType("float");
 
-                    b.Property<int?>("WeekRest1")
-                        .HasColumnType("int");
+                    b.Property<string>("WeekRest1")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("WeekRest2")
-                        .HasColumnType("int");
+                    b.Property<string>("WeekRest2")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
