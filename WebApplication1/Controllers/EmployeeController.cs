@@ -49,6 +49,18 @@ namespace HRSystem.Controllers
             return View("getDetails", employeeDepartmentVM);
         }
 
+        [HttpGet]
+        public IActionResult add()
+        {
+            ViewData["DepartmentList"]=departmentRepo.getAll();
+            return View();
+        }
+        [HttpPost]
+        public IActionResult add(Employee employee)
+        {
+
+        }
+
 
     }
 }
