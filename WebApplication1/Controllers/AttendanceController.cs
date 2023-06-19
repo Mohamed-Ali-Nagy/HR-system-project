@@ -50,28 +50,7 @@ namespace HRSystem.Controllers
 
         
 
-            //AttendanceViewModel allViewModel = new AttendanceViewModel();
-
-            //allViewModel.EmployeeNames = new List<string>();
-            //allViewModel.DepartmentNames = new List<string>();
-
-            //foreach (var attendance in attendanceModel)
-            //{
-            //    if (attendance.employee != null) // Check if employee object is not null
-            //    {
-            //        allViewModel.EmployeeNames.Add(attendance.employee.Name);
-            //        allViewModel.DepartmentNames.Add(attendance.department.Name);
-            //    }
-            //}
-
-            //// Set other properties of allViewModel as needed
-            //if (attendanceModel.Count > 0)
-            //{
-            //    allViewModel.ID = attendanceModel[0].ID;
-            //    allViewModel.TimeAttendance = attendanceModel[0].TimeAttendance;
-            //    allViewModel.TimeLeave = attendanceModel[0].TimeLeave;
-            //    allViewModel.Date = attendanceModel[0].Date;
-            //}
+   
 
     }
 }
