@@ -9,6 +9,7 @@ namespace HRSystem.Models
         {
             
         }
+        public HRContext() : base() { }
        
        public virtual DbSet<Employee> Employees { get; set; }
         public virtual DbSet<Department> Departments { get; set; }
