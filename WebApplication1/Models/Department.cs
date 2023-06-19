@@ -1,16 +1,11 @@
-﻿using Microsoft.Build.Framework;
-
-namespace HRSystem.Models
+﻿namespace HRSystem.Models
 {
     public class Department
     {
-        public int ID { get; set; }
-
-        [Required]
+        public int Id { get; set; }
         public string Name { get; set; }
 
-        public List<Employee>? employees { get; set; } = new List<Employee>();
+        public virtual List<Employee>? Employees { get; set; } = new List<Employee>();
 
-        public List<Attendance>? attendances { get; set; } = new List<Attendance>();
     }
 }

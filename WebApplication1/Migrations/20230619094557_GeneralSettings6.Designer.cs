@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HRSystem.Migrations
 {
     [DbContext(typeof(HRContext))]
-    [Migration("20230618181207_v1")]
-    partial class v1
+    [Migration("20230619094557_GeneralSettings6")]
+    partial class GeneralSettings6
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -51,6 +51,31 @@ namespace HRSystem.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Employees");
+                });
+
+            modelBuilder.Entity("HRSystem.Models.GeneralSettings", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<double>("AddHourRate")
+                        .HasColumnType("float");
+
+                    b.Property<double>("DeducateHourRate")
+                        .HasColumnType("float");
+
+                    b.Property<int?>("WeekRest1")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("WeekRest2")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("GeneralSettings");
                 });
 #pragma warning restore 612, 618
         }

@@ -4,6 +4,7 @@ using HRSystem.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HRSystem.Migrations
 {
     [DbContext(typeof(HRContext))]
-    partial class HRContextModelSnapshot : ModelSnapshot
+    [Migration("20230619123854_v8")]
+    partial class v8
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -130,11 +133,11 @@ namespace HRSystem.Migrations
                     b.Property<double>("DeducateHourRate")
                         .HasColumnType("float");
 
-                    b.Property<string>("WeekRest1")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("WeekRest1")
+                        .HasColumnType("int");
 
-                    b.Property<string>("WeekRest2")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("WeekRest2")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
