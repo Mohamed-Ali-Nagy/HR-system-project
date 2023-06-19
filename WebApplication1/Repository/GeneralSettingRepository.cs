@@ -10,10 +10,16 @@ namespace HRSystem.Repository
         {
             _context = hRContext;
         }
-        double IGeneralSettingRepository.GetAddHourRate()
+
+        public double GetAddHourRate()
         {
-            _context.GeneralSettings.FirstOrDefault(x => x.AddHourRate);
+            throw new NotImplementedException();
         }
+
+        //double IGeneralSettingRepository GetAddHourRate()
+        //{
+        //    _context.GeneralSettings.FirstOrDefault(x => x.AddHourRate);
+        //}
 
         double IGeneralSettingRepository.GetDeducateHourRate()
         {

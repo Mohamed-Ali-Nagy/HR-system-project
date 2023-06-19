@@ -1,5 +1,6 @@
 using HRSystem.Models;
 using HRSystem.Repository;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
 namespace WebApplication1
@@ -19,6 +20,7 @@ namespace WebApplication1
 
             builder.Services.AddScoped<IEmployeeRepositry,EmployeeRepository>();
             builder.Services.AddScoped<IGeneralSettingRepository,GeneralSettingRepository>();
+            builder.Services.AddScoped<IDepartmentRepository,DepartmentRepository>();
 
 
             var app = builder.Build();

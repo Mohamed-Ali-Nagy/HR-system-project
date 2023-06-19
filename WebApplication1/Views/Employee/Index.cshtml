@@ -1,0 +1,47 @@
+﻿@model List<Employee>
+@{
+    ViewData["Title"] = "Index";
+    int i = 1;
+}
+
+<h1>Index</h1>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Address</th>
+            <th scope="col">Phone</th>
+            <th scope="col">HireDate</th>
+            <th scope="col">Salary</th>
+            <th scope="col">Attendance Time</th>
+            <th scope="col">Leaving Time</th>
+            <th scope="col">Operation</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Employee e in Model)
+        {
+            <tr>
+                <th scope="row">@i++</th>
+                <td>@e.Name</td>
+                <td>@e.Address</td>
+                <td>@e.Phone</td>
+                <td>@e.HireDate</td>
+                <td>@e.Salary</td>
+                <td>@e.AttendanceTime</td>
+                <td>@e.LeavingTime</td>
+                <td>
+                    <a class="btn btn-danger">delete</a>
+                </td>
+
+
+
+
+            </tr>
+            
+        
+        }
+      
+    </tbody>
+</table>

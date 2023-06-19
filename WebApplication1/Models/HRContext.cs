@@ -5,9 +5,13 @@ namespace HRSystem.Models
     public class HRContext:DbContext
     {
 
-        public HRContext(DbContextOptions options):base(options) { }
+        public HRContext(DbContextOptions options):base(options) 
+        {
+            
+        }
        
-       public DbSet<Employee> Employees { get; set; }
+       public virtual DbSet<Employee> Employees { get; set; }
+        public virtual DbSet<Department> Departments { get; set; }
         // public DbSet<Attendance> Attendances { get; set; }
         //public DbSet<Holidays> Holidays { get; set; }
 

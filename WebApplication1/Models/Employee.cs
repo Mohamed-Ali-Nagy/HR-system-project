@@ -5,6 +5,7 @@ namespace HRSystem.Models
     public class Employee
     {
         public int Id { get; set; }
+
         public string Name { get; set; }
         public string Address { get; set; }
         public string Phone { get; set; }
@@ -15,13 +16,14 @@ namespace HRSystem.Models
         public string NationalId { get; set; }
         public DateTime HireDate { get; set; }
         public double Salary { get; set; }
-        public TimeOnly AttendanceTime { get; set; }
-        public TimeOnly LeavingTime { get; set; }
+        public DateTime AttendanceTime { get; set; }
+        public DateTime LeavingTime { get; set; }
+        public bool IsDeleted { get; set; } = false;
 
         public virtual List<Attendance>? Attendances { get; set; } = new List<Attendance>();
 
         [ForeignKey("department")]
-        public int DeptID { get; set; }
+        public int? DeptID { get; set; }
         public virtual Department? department { get; set; }
 
     }
