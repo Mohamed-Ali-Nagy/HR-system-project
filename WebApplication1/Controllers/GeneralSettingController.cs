@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace HRSystem.Controllers
 {
     public class GeneralSettingController : Controller
-    
     {
         IGeneralSettingRepository generalSettingRepository;
         public GeneralSettingController(IGeneralSettingRepository _generalSettingRepository)
@@ -16,9 +15,9 @@ namespace HRSystem.Controllers
         {
             GeneralSettings generalSettings = new GeneralSettings();
             generalSettings.WeekRest1 = generalSettingRepository.GetWeekRest1();
-            generalSettings.WeekRest2 = generalSettingRepository.GetWeekRest2();
-           
-            generalSettings.DeducateHourRate = generalSettingRepository.GetDeducateHourRate();
+            generalSettings.WeekRest2= generalSettingRepository.GetWeekRest2();
+            generalSettings.AddHourRate=generalSettingRepository.GetAddHourRate();
+            generalSettings.DeducateHourRate=generalSettingRepository.GetDeducateHourRate();
             return View(generalSettings);
         }
         public IActionResult Edit()
@@ -26,12 +25,12 @@ namespace HRSystem.Controllers
             GeneralSettings generalSettings = new GeneralSettings();
             generalSettings.WeekRest1 = generalSettingRepository.GetWeekRest1();
             generalSettings.WeekRest2 = generalSettingRepository.GetWeekRest2();
-
+            generalSettings.AddHourRate = generalSettingRepository.GetAddHourRate();
             generalSettings.DeducateHourRate = generalSettingRepository.GetDeducateHourRate();
             return View(generalSettings);
         }
 
-        public IActionResult Save(GeneralSettings generalSettings)
+        public IActionResult Save(GeneralSettings generalSettings) 
         {
             generalSettingRepository.UpdateAddHourRate(generalSettings.AddHourRate);
             generalSettingRepository.UpdateDeducateHourRate(generalSettings.DeducateHourRate);
@@ -39,7 +38,6 @@ namespace HRSystem.Controllers
             generalSettingRepository.UpdateWeekRest2(generalSettings.WeekRest2);
             generalSettingRepository.Save();
             return RedirectToAction("index", generalSettings);
-
         }
     }
 }

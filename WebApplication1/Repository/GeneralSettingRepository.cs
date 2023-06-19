@@ -2,7 +2,7 @@
 
 namespace HRSystem.Repository
 {
-    public  class GeneralSettingRepository: IGeneralSettingRepository
+    public  class GeneralSettingRepository : IGeneralSettingRepository
     {
         HRContext _context;
 
@@ -10,7 +10,10 @@ namespace HRSystem.Repository
         {
             _context = hRContext;
         }
-      
+        public double GetAddHourRate()
+        {
+            return _context.GeneralSettings.FirstOrDefault().AddHourRate;
+        }
 
         double IGeneralSettingRepository.GetDeducateHourRate()
         {
@@ -35,8 +38,8 @@ namespace HRSystem.Repository
         public void UpdateAddHourRate(double HourRate)
         {
             var generalSettings = _context.GeneralSettings.FirstOrDefault();
-            generalSettings.AddHourRate = HourRate;
-
+            generalSettings.AddHourRate=HourRate;
+            
 
         }
 
@@ -44,22 +47,19 @@ namespace HRSystem.Repository
         {
             var generalSettings = _context.GeneralSettings.FirstOrDefault();
             generalSettings.DeducateHourRate = HourRate;
-
+            
         }
 
         public void UpdateWeekRest1(string weekRest)
         {
             var generalSettings = _context.GeneralSettings.FirstOrDefault();
-            generalSettings.WeekRest1 = weekRest;
+            generalSettings.WeekRest1 = weekRest; 
         }
 
         public void UpdateWeekRest2(string weekRest)
         {
             var generalSettings = _context.GeneralSettings.FirstOrDefault();
-            generalSettings.WeekRest2 = weekRest;
-
-
-
+            generalSettings.WeekRest2= weekRest;
         }
     }
 }
