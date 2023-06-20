@@ -49,6 +49,28 @@ namespace HRSystem.Controllers
             return View("getDetails", employeeDepartmentVM);
         }
 
+        [HttpGet]
+        public IActionResult add()
+        {
+            ViewData["DepartmentList"]=departmentRepo.getAll();
+            ViewData["EmpGender"]=new List<Gender>() { Gender.Male,Gender.Female};
+            return View();
+        }
+        [HttpPost]
+        public IActionResult add(Employee employee)
+        {
+            if(!ModelState.IsValid)
+            {
+                ViewData["DepartmentList"] = departmentRepo.getAll();
+                ViewData["EmpGender"] = new List<Gender>() { Gender.Male, Gender.Female };
+
+                return View("add", employee);
+            }
+            employeeRepo.add(employee);
+            employeeRepo.save();
+            return RedirectToAction("Index");
+        }
+
 
     }
 }

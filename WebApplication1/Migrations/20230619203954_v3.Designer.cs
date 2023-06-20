@@ -4,6 +4,7 @@ using HRSystem.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HRSystem.Migrations
 {
     [DbContext(typeof(HRContext))]
-    partial class HRContextModelSnapshot : ModelSnapshot
+    [Migration("20230619203954_v3")]
+    partial class v3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -24,29 +27,20 @@ namespace HRSystem.Migrations
 
             modelBuilder.Entity("HRSystem.Models.Attendance", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("EmpID")
+                    b.Property<int>("EmpId")
                         .HasColumnType("int");
 
-                    b.Property<TimeSpan>("TimeAttendance")
-                        .HasColumnType("time");
+                    b.HasKey("Id");
 
-                    b.Property<TimeSpan>("TimeLeave")
-                        .HasColumnType("time");
+                    b.HasIndex("EmpId");
 
-                    b.HasKey("ID");
-
-                    b.HasIndex("EmpID");
-
-                    b.ToTable("Attendances");
+                    b.ToTable("Attendance");
                 });
 
             modelBuilder.Entity("HRSystem.Models.Department", b =>
@@ -151,31 +145,11 @@ namespace HRSystem.Migrations
                     b.ToTable("GeneralSettings");
                 });
 
-            modelBuilder.Entity("HRSystem.Models.Holidays", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("id");
-
-                    b.ToTable("Holidays");
-                });
-
             modelBuilder.Entity("HRSystem.Models.Attendance", b =>
                 {
                     b.HasOne("HRSystem.Models.Employee", "employee")
                         .WithMany("Attendances")
-                        .HasForeignKey("EmpID")
+                        .HasForeignKey("EmpId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

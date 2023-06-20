@@ -4,7 +4,7 @@ namespace HRSystem.Repository
 {
     public interface IDepartmentRepository
     {
-        public List<Department> departments();
+        public List<Department> getAll();
         public Department getById(int id);
     }
 }

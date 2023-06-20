@@ -9,7 +9,7 @@ namespace HRSystem.Repository
         {
             this.HRdb = HRdb;
         }
-        public List<Department> departments()
+        public List<Department> getAll()
         {
             return HRdb.Departments.ToList();
         }
