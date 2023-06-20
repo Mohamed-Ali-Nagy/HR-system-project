@@ -17,38 +17,34 @@ namespace HRSystem.Repository
 
         public void delete(int id)
         {
-            throw new NotImplementedException();
+           Employee emp= HRdb.Employees.Find(id);
+            emp.IsDeleted= true;
         }
 
         public List<Employee> getAll()
         {
-            return HRdb.Employees.ToList();
+            return HRdb.Employees.Where(e=>e.IsDeleted==false).ToList();
         }
 
         public Employee getById(int id)
         {
-            return HRdb.Employees.FirstOrDefault(e => e.Id == id);
+            return HRdb.Employees.FirstOrDefault(e => e.Id == id&&e.IsDeleted==false);
 
         }
 
         public List<Employee> getByName(string name)
         {
-            return HRdb.Employees.Where(e => e.Name.Contains(name)).ToList();
+            return HRdb.Employees.Where(e => e.Name.Contains(name)&&e.IsDeleted==false).ToList();
         }
 
-        public Employee getByPhone(string phone)
-        {
-            return HRdb.Employees.FirstOrDefault(e => e.Phone == phone);
-        }
-
+   
         public void save()
         {
             HRdb.SaveChanges();
         }
 
-        public void update(Employee employee, int id)
+        public void update(Employee employee)
         {
-            //Employee employee1 = HRdb.Employees.FirstOrDefault(e=>e.Id == id);
          
             HRdb.Employees.Update(employee);
         }

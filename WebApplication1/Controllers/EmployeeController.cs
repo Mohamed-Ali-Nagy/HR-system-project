@@ -79,17 +79,24 @@ namespace HRSystem.Controllers
             return View(employee);
         }
         [HttpPost]
-        public IActionResult edit(Employee employee,int id)
+        public IActionResult edit(Employee employee)
         {
             if(ModelState.IsValid)
             {
-                employeeRepo.update(employee,id);
+                employeeRepo.update(employee);
                 employeeRepo.save();
                return RedirectToAction("Index");
             }
             ViewData["DepartmentList"]=departmentRepo.getAll();
             ViewData["EmpGender"] = new List<Gender>() { Gender.Male,Gender.Female };
             return View(employee);
+        }
+        //[HttpPost]
+        public IActionResult delete(int id)
+        {
+            employeeRepo.delete(id);
+            employeeRepo.save();
+            return RedirectToAction("Index");
         }
 
 
