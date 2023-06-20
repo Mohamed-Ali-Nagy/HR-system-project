@@ -70,6 +70,12 @@ namespace HRSystem.Controllers
             employeeRepo.save();
             return RedirectToAction("Index");
         }
+        //[HttpGet]
+        //public IActionResult edit()
+        //{
+
+        //    return View();
+        //}
 
 
     }
