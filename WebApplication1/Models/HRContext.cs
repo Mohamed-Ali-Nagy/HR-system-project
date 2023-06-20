@@ -18,7 +18,11 @@ namespace HRSystem.Models
 
         public DbSet<GeneralSettings> GeneralSettings { get; set; }
 
-
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=HRsystem;Integrated Security=True;TrustServerCertificate=True");
+        //    base.OnConfiguring(optionsBuilder);
+        //}
 
     }
 }

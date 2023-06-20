@@ -21,13 +21,13 @@
     {
         <tr>
             <td>@item.Name</td>
-            <td>@item.Date.ToString("dd-MM-yyyy")</td>
+            <td>@item.Date.ToString("dd/MM/yyyy")</td>
             <td>
                 @Html.ActionLink("Remove", "Remove", new { id = item.id } ,
             new { @class = "btn btn-danger",
             onclick = $"return confirm('Are you sure you want to delete {item.Name} form Holidays?')"
             })
-                <a class="btn btn-warning" href="/Holiday/Edit/@item.id">Edit</a>
+                <a class="btn btn-warning" href="/Holidays/Edit/@item.id">Edit</a>
             </td>
         </tr>
 
