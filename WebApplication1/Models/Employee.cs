@@ -31,6 +31,7 @@ namespace HRSystem.Models
 
 
         [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString ="0:yyyy/mm/dd")]
         [Display(Name = "Birth date")]
         [Required(ErrorMessage ="The birth date is required")]
         [BirthDateValidation]
@@ -44,6 +45,7 @@ namespace HRSystem.Models
 
         [DataType(DataType.Date)]
         [Display(Name = "Hire date")]
+        [DisplayFormat(DataFormatString = "0:yyyy/mm/dd")]
         [Required(ErrorMessage = "The Hiring date is required")]
         [HireDateValidation]
         public DateTime HireDate { get; set; }
