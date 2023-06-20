@@ -43,9 +43,9 @@ namespace HRSystem.Models
 
 
         [DataType(DataType.Date)]
-        [Display(Name = "Birth date")]
-       // [Range(typeof(DateTime), "1/1/2008", "",ErrorMessage ="The date between 1/1/2008 to now")]//$"{DateTime.Now.Month}/{DateTime.Now.Day}/{DateTime.Now.Year}")]
+        [Display(Name = "Hire date")]
         [Required(ErrorMessage = "The Hiring date is required")]
+        [HireDateValidation]
         public DateTime HireDate { get; set; }
 
 
