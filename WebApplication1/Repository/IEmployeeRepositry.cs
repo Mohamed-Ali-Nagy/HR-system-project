@@ -9,7 +9,7 @@ namespace HRSystem.Repository
         public Employee getByPhone(string phone);
         public void add(Employee employee);
 
-        public Employee update(Employee employee,int id);
+        public void update(Employee employee,int id);
         public void delete(int id);
         public void save();
 

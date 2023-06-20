@@ -5,6 +5,7 @@
 }
 
 <h1>Index</h1>
+<a asp-action="add">Add</a>
 <table class="table table-bordered">
     <thead>
         <tr>
@@ -32,7 +33,10 @@
                 <td>@e.AttendanceTime</td>
                 <td>@e.LeavingTime</td>
                 <td>
-                    <a class="btn btn-danger">delete</a>
+                    <a asp-controller="Employee" asp-action="edit" asp-route-Id="@e.Id" class="btn btn-primary">Edit</a>
+                    <a asp-controller="Employee" asp-action="getDetails" asp-route-Id="@e.Id" class="btn btn-primary">Edit</a>
+                    @*<a asp-controller="Employee" asp-action="delete" asp-route-data="@e.Id" class="btn btn-primary">Edit</a>*@
+
                 </td>
 
 

@@ -70,12 +70,27 @@ namespace HRSystem.Controllers
             employeeRepo.save();
             return RedirectToAction("Index");
         }
-        //[HttpGet]
-        //public IActionResult edit()
-        //{
-
-        //    return View();
-        //}
+        [HttpGet]
+        public IActionResult edit(int id)
+        {
+            Employee employee = employeeRepo.getById(id);
+            ViewData["DepartmentList"] = departmentRepo.getAll();
+            ViewData["EmpGender"] = new List<Gender>() { Gender.Male, Gender.Female };
+            return View(employee);
+        }
+        [HttpPost]
+        public IActionResult edit(Employee employee,int id)
+        {
+            if(ModelState.IsValid)
+            {
+                employeeRepo.update(employee,id);
+                employeeRepo.save();
+               return RedirectToAction("Index");
+            }
+            ViewData["DepartmentList"]=departmentRepo.getAll();
+            ViewData["EmpGender"] = new List<Gender>() { Gender.Male,Gender.Female };
+            return View(employee);
+        }
 
 
     }

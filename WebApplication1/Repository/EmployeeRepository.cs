@@ -46,9 +46,11 @@ namespace HRSystem.Repository
             HRdb.SaveChanges();
         }
 
-        public Employee update(Employee employee, int id)
+        public void update(Employee employee, int id)
         {
-            throw new NotImplementedException();
+            //Employee employee1 = HRdb.Employees.FirstOrDefault(e=>e.Id == id);
+         
+            HRdb.Employees.Update(employee);
         }
 
       
