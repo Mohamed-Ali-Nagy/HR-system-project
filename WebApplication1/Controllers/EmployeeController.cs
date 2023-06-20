@@ -91,12 +91,12 @@ namespace HRSystem.Controllers
             ViewData["EmpGender"] = new List<Gender>() { Gender.Male,Gender.Female };
             return View(employee);
         }
-        //[HttpPost]
+        [HttpPost]
         public IActionResult delete(int id)
         {
             employeeRepo.delete(id);
             employeeRepo.save();
-            return RedirectToAction("Index");
+            return RedirectToAction("index");
         }
 
 
