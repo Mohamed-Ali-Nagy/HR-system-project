@@ -1,0 +1,103 @@
+﻿@model Attendance
+@{
+    ViewData["Title"] = "ADD";
+
+    SelectList depatitem = new SelectList(ViewBag.departementlist, "Id", "Name", @Model?.employee?.department?.Id);
+    SelectList empList = new SelectList(ViewBag.empNameList, "Id", "Name");
+}
+
+<h1>ADD</h1>
+
+
+
+
+<style>
+    .form-container {
+        width: 90%;
+        margin: 0 auto;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        padding: 20px;
+    }
+</style>
+
+<div class="form-container">
+<form method="post">
+    <div class="form-group">
+        <label asp-for="TimeAttendance">Time Attendance:</label>
+        <input asp-for="TimeAttendance" class="form-control" type="time"  />
+        <span asp-validation-for="TimeAttendance" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="TimeLeave">Time Leave:</label>
+        <input asp-for="TimeLeave" class="form-control" type="time"  />
+        <span asp-validation-for="TimeLeave" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Date">Date:</label>
+        <input asp-for="Date" class="form-control" type="date"  />
+        <span asp-validation-for="Date" class="text-danger"></span>
+    </div>
+
+
+
+        <div>
+            <label >Department</label>
+
+            <select class="form-control" id="dept_id"  asp-items="depatitem" onchange="GetDepartementNames()" >
+                <option value="@Model?.employee?.department?.Id">Select Department</option>
+            </select>
+
+        </div>
+       
+
+        <div>
+            <label>Employee Names</label>
+
+
+            <select class="form-control" id="emp_name" asp-for="EmpID" asp-items="empList">
+                <option value="@Model?.EmpID">Select Employee</option>
+            </select>
+
+        </div>
+
+
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>
+</div>
+
+
+        
+@section Scripts{
+
+    <script src="/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+
+
+    <script>
+        function GetDepartementNames() {
+            var idvalue = document.getElementById("dept_id").value;
+
+
+
+            $.ajax({
+                url: "/Attendance/GetempNamesBydept",
+                data: { depid: idvalue },
+                success: function (result) {
+                    var Element = document.getElementById("emp_name");
+                    Element.innerHTML = "";
+                    for (let i of result) {
+                        var option = document.createElement("option");
+                        option.value = i.id;
+                        option.text = i.name;
+                        Element.appendChild(option);
+                    }
+                }
+            });
+           
+        }
+    </script>
+}

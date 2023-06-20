@@ -2,55 +2,159 @@
 using HRSystem.Repository;
 using Microsoft.AspNetCore.Mvc;
 using HRSystem.ViewModels;
+using Microsoft.EntityFrameworkCore;
 
 namespace HRSystem.Controllers
 {
     public class AttendanceController : Controller
     {
+
+        IEmployeeRepositry employeeRepo;
+        IDepartmentRepository departmentRepo;
         IAttendanceRepository AttendanceRepository;
         HRContext db;
-        public AttendanceController(IAttendanceRepository _attendanceRepository
+        public AttendanceController(
+            IAttendanceRepository _attendanceRepository,
+            IEmployeeRepositry _employeeRepo, 
+            IDepartmentRepository _departmentRepository,
 
-            , HRContext _db
+            HRContext _db
             )
         {
             AttendanceRepository = _attendanceRepository;
+            employeeRepo = _employeeRepo;
+            departmentRepo = _departmentRepository;
 
             db = _db;
+
+        }
+
+        public IActionResult GetempNamesBydept(int depid)
+        {
+            List<Employee> empnams = db.Employees.Where(n=>n.DeptID== depid).ToList();
+            return Json(empnams);
         }
         public IActionResult Index()
         {
             List<Attendance> attendanceModel = AttendanceRepository.GetAll();
-
             List<AttendanceViewModel> allViewModel = new List<AttendanceViewModel>();
 
             for (var i = 0; i < attendanceModel.Count; i++)
             {
                 AttendanceViewModel attvm = new AttendanceViewModel()
                 {
+                    ID = attendanceModel[i].ID,
                     TimeAttendance = attendanceModel[i].TimeAttendance,
                     TimeLeave = attendanceModel[i].TimeLeave,
                     Date = attendanceModel[i].Date
-
                 };
 
-                Employee emp = db.Employees.Where(n => n.Id == attendanceModel[i].EmpID).FirstOrDefault();
+                Employee emp = db.Employees.Include(e => e.department).FirstOrDefault(n => n.Id == attendanceModel[i].EmpID);
 
+                //  Employee emp = db.Employees.Include(e => e.department).Where(n => n.Id == attendanceModel[i].EmpID).FirstOrDefault();
 
-                attvm.EmployeeName = emp.Name;
+                if (emp != null)
+                {
+                    attvm.EmployeeName = emp.Name;
 
-                attvm.DepartmentName = emp.department.Name;
+                    if (emp.department != null)
+                    {
+                        attvm.DepartmentName = emp.department.Name;
+                    }
+                }
 
                 allViewModel.Add(attvm);
             }
+
             return View(allViewModel);
         }
 
 
 
+        public IActionResult ADD()
+
+        {
+            ViewData["empNameList"] = employeeRepo.getAll();
+            ViewData["departementlist"] = departmentRepo.departments();
+            return View();
+        }
+        [HttpPost]
+        public IActionResult ADD(Attendance newattendance)
+
+        {
 
 
 
+            if (newattendance !=null)
+            {
+                AttendanceRepository.insert(newattendance);
+                AttendanceRepository.save();
+
+                return RedirectToAction("Index");
+            }
+            ViewData["empNameList"] = employeeRepo.getAll();
+            ViewData["departementlist"] = departmentRepo.departments();
+
+            return View( newattendance);
+        }
+
+
+
+       
+        public IActionResult Edit(int id)
+        {
+            ViewData["empNameList"] = employeeRepo.getAll();
+            ViewData["departementlist"] = departmentRepo.departments();
+
+            Attendance attendance = AttendanceRepository.GetBYId(id);
+
+            return View("ADD", attendance);
+        }
+
+
+        [HttpPost]
+        public IActionResult Edit( int id ,Attendance attend)
+        {
+
+            if (ModelState.IsValid == true)
+            {
+
+                AttendanceRepository.update(id, attend);
+                AttendanceRepository.save();
+                return RedirectToAction("Index");
+
+
+
+            }
+            ViewData["empNameList"] = employeeRepo.getAll();
+            ViewData["departementlist"] = departmentRepo.departments();
+
+            return View("ADD", attend);
+
+
+        }
+
+
+
+
+        public IActionResult Delete(int id)
+        {
+            Attendance att = AttendanceRepository.GetBYId(id);
+           
+            if (att == null)
+            {
+                return Content("not found");
+            }
+            else
+            {
+                AttendanceRepository.delete(id);
+                AttendanceRepository.save();
+
+                return RedirectToAction("Index");
+            }
+
+
+        }
 
 
 

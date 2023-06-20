@@ -5,6 +5,7 @@ namespace HRSystem.Repository
     {
       
         double GetDeducateHourRate ();
+        double GetAddHourRate();
         void UpdateAddHourRate(double HourRate);
         void UpdateDeducateHourRate(double HourRate);
 
