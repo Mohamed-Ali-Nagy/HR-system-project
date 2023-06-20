@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HRSystem.Migrations
 {
     [DbContext(typeof(HRContext))]
-    [Migration("20230619163831_chek5")]
-    partial class chek5
+    [Migration("20230620175013_checkM")]
+    partial class checkM
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,20 +27,29 @@ namespace HRSystem.Migrations
 
             modelBuilder.Entity("HRSystem.Models.Attendance", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
-                    b.Property<int>("EmpId")
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("EmpID")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.Property<TimeSpan>("TimeAttendance")
+                        .HasColumnType("time");
 
-                    b.HasIndex("EmpId");
+                    b.Property<TimeSpan>("TimeLeave")
+                        .HasColumnType("time");
 
-                    b.ToTable("Attendance");
+                    b.HasKey("ID");
+
+                    b.HasIndex("EmpID");
+
+                    b.ToTable("Attendances");
                 });
 
             modelBuilder.Entity("HRSystem.Models.Department", b =>
@@ -109,8 +118,8 @@ namespace HRSystem.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("Salary")
-                        .HasColumnType("float");
+                    b.Property<decimal>("Salary")
+                        .HasColumnType("Money");
 
                     b.HasKey("Id");
 
@@ -145,11 +154,31 @@ namespace HRSystem.Migrations
                     b.ToTable("GeneralSettings");
                 });
 
+            modelBuilder.Entity("HRSystem.Models.Holidays", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("id");
+
+                    b.ToTable("Holidays");
+                });
+
             modelBuilder.Entity("HRSystem.Models.Attendance", b =>
                 {
                     b.HasOne("HRSystem.Models.Employee", "employee")
                         .WithMany("Attendances")
-                        .HasForeignKey("EmpId")
+                        .HasForeignKey("EmpID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
