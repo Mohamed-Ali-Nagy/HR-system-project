@@ -1,0 +1,107 @@
+﻿@model List<AttendanceViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+@{
+    var i = 0;
+}
+<style>
+    
+    .table-custom {
+        width: 90%;
+        font-size: 14px;
+        color: #333333;
+        border-collapse: collapse;
+    }
+
+        .table-custom thead th {
+            background-color: #f2f2f2;
+            border: 1px solid #dddddd;
+            padding: 8px;
+        }
+
+        .table-custom tbody td {
+            border: 1px solid #dddddd;
+            padding: 8px;
+        }
+
+        .table-custom tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .table-custom tbody tr:hover {
+            background-color: #eaeaea;
+        }
+</style>
+
+<table class="table-custom">
+    <thead>
+        <tr>
+            <th>
+                <h5>ID</h5>
+            </th>
+            <th>
+                <h5>TimeAttendance</h5>
+            </th>
+            <th>
+                <h5>TimeLeave</h5>
+            </th>
+            <th>
+                <h5>Date</h5>
+            </th>
+            <th>
+                <h5>EmployeeName</h5>
+            </th>
+            <th>
+                <h5>DepartmentName</h5>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @{
+                        i++;
+                    }
+                    @i
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TimeAttendance)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TimeLeave)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmployeeName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DepartmentName)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.ID }, new { @class = "btn btn-danger m-1" })
+                    @Html.ActionLink("Delete", "Delete", new { id = item.ID }, new { @class = "btn btn-danger m-1", onclick = "return confirm('Are you sure you want to delete this item?');" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-action="ADD"  class="btn btn-primary">ADD</a>
+
+
+
+
+
+
+
+
+

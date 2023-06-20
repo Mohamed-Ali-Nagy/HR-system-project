@@ -2,7 +2,7 @@
 
 namespace HRSystem.Repository
 {
-    public class EmployeeRepository : IEmployeeRepositry
+    public class EmployeeRepository:IEmployeeRepositry
     {
         HRContext HRdb;
         public EmployeeRepository(HRContext HRdb)
@@ -32,6 +32,8 @@ namespace HRSystem.Repository
 
         }
 
+       
+
         public List<Employee> getByName(string name)
         {
             return HRdb.Employees.Where(e => e.Name.Contains(name)&&e.IsDeleted==false).ToList();
@@ -49,6 +51,6 @@ namespace HRSystem.Repository
             HRdb.Employees.Update(employee);
         }
 
-      
+
     }
 }

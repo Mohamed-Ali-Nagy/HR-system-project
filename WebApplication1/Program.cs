@@ -17,7 +17,7 @@ namespace WebApplication1
             builder.Services.AddDbContext<HRContext>(options =>
                  options.UseSqlServer(builder.Configuration.GetConnectionString("cs"))
             );
-
+            builder.Services.AddScoped<IAttendanceRepository, AttendanceRepository>();
             builder.Services.AddScoped<IEmployeeRepositry,EmployeeRepository>();
             builder.Services.AddScoped<IGeneralSettingRepository,GeneralSettingRepository>();
             builder.Services.AddScoped<IDepartmentRepository,DepartmentRepository>();
