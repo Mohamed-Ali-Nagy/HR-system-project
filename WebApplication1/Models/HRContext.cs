@@ -14,7 +14,7 @@ namespace HRSystem.Models
        public virtual DbSet<Employee> Employees { get; set; }
         public virtual DbSet<Department> Departments { get; set; }
         // public DbSet<Attendance> Attendances { get; set; }
-        //public DbSet<Holidays> Holidays { get; set; }
+        public DbSet<Holidays> Holidays { get; set; }
 
         public DbSet<GeneralSettings> GeneralSettings { get; set; }
 

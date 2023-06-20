@@ -1,0 +1,20 @@
+﻿@model Holidays
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<form method="post">
+
+    <div>
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" />
+    </div>
+    <div>
+        <label asp-for="Date"></label>
+        <input asp-for="Date" class="form-control" />
+    </div>
+
+    <input type="submit" class="btn btn-warning" value="Save" />
+</form>
