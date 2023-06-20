@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using HRSystem.Repository;
+using System.ComponentModel.DataAnnotations;
 
 namespace HRSystem.Models.Validation
 {
@@ -8,18 +9,24 @@ namespace HRSystem.Models.Validation
         public UniquePhoneAttribute()
         {
             HRdb = new HRContext();
-            
+
         }
+
         protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
         {
-            Employee empFrom = validationContext.ObjectInstance as Employee;
-            string phone = value.ToString();
-            Employee empFromDatabase=HRdb.Employees.FirstOrDefault(e=>e.Phone == phone);
-            if (empFromDatabase != null||empFrom.Id==empFromDatabase.Id)
+            if (value != null)
             {
-                return ValidationResult.Success;
+                Employee empFrom = validationContext.ObjectInstance as Employee;
+                string phone = value.ToString();
+                Employee empFromDatabase = HRdb.Employees.FirstOrDefault(p=>p.Phone == phone);
+                if (empFromDatabase != null || empFrom.Id == empFromDatabase.Id)
+                {
+                    return ValidationResult.Success;
+                }
+                return new ValidationResult("This phone is already existed");
             }
-            return new ValidationResult("This phone is already existed");
+            return new ValidationResult("The phone number is required");
+           
         }
     }
 }

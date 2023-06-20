@@ -2,6 +2,8 @@
 
 @{
     ViewData["Title"] = "add";
+    SelectList departmentsList = new SelectList(ViewBag.DepartmentList, "Id", "Name");
+    SelectList GenderList = new SelectList(ViewBag.EmpGender);
 }
 
 <h1>add</h1>
@@ -18,6 +20,11 @@
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="BirthDate" class="control-label"></label>
+                <input asp-for="BirthDate" class="form-control" />
+                <span asp-validation-for="BirthDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="Address" class="control-label"></label>
                 <input asp-for="Address" class="form-control" />
                 <span asp-validation-for="Address" class="text-danger"></span>
@@ -29,7 +36,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="EmpGender" class="control-label"></label>
-                <select asp-for="EmpGender" class="form-control"></select>
+                <select asp-for="EmpGender" asp-items="GenderList" class="form-control"></select>
                 <span asp-validation-for="EmpGender" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -37,11 +44,7 @@
                 <input asp-for="Nationality" class="form-control" />
                 <span asp-validation-for="Nationality" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="BirthDate" class="control-label"></label>
-                <input asp-for="BirthDate" class="form-control" />
-                <span asp-validation-for="BirthDate" class="text-danger"></span>
-            </div>
+          
             <div class="form-group">
                 <label asp-for="NationalId" class="control-label"></label>
                 <input asp-for="NationalId" class="form-control" />
@@ -67,14 +70,10 @@
                 <input asp-for="LeavingTime" class="form-control" />
                 <span asp-validation-for="LeavingTime" class="text-danger"></span>
             </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsDeleted" /> @Html.DisplayNameFor(model => model.IsDeleted)
-                </label>
-            </div>
+         `
             <div class="form-group">
-                <label asp-for="DeptID" class="control-label"></label>
-                <select asp-for="DeptID" class ="form-control" asp-items="ViewBag.DeptID"></select>
+                <label asp-for="department" class="control-label"></label>
+                <select asp-for="DeptID" class ="form-control" asp-items="departmentsList"></select>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
@@ -86,7 +85,8 @@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
-<script>
-
-</script>
-
+@section Scripts{
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

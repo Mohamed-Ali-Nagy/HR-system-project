@@ -12,7 +12,7 @@ namespace HRSystem.Repository
 
         public void add(Employee employee)
         {
-            throw new NotImplementedException();
+            HRdb.Employees.Add(employee);
         }
 
         public void delete(int id)
@@ -34,6 +34,11 @@ namespace HRSystem.Repository
         public List<Employee> getByName(string name)
         {
             return HRdb.Employees.Where(e => e.Name.Contains(name)).ToList();
+        }
+
+        public Employee getByPhone(string phone)
+        {
+            return HRdb.Employees.FirstOrDefault(e => e.Phone == phone);
         }
 
         public void save()

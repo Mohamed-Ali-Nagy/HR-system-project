@@ -6,7 +6,7 @@ namespace HRSystem.Repository
         public Employee getById(int id);
         public List<Employee> getAll();
         public List<Employee> getByName(string name);
-
+        public Employee getByPhone(string phone);
         public void add(Employee employee);
 
         public Employee update(Employee employee,int id);
