@@ -4,6 +4,7 @@ namespace HRSystem.Repository
     public interface IEmployeeRepositry
     {
         public Employee getById(int id);
+        
         public List<Employee> getAll();
         public List<Employee> getByName(string name);
 

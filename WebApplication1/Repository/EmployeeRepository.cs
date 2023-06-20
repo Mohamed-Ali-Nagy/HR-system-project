@@ -31,6 +31,8 @@ namespace HRSystem.Repository
 
         }
 
+       
+
         public List<Employee> getByName(string name)
         {
             return HRdb.Employees.Where(e => e.Name.Contains(name)).ToList();

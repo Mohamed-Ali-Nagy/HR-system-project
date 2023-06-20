@@ -45,13 +45,14 @@ namespace HRSystem.Controllers
                 {
                     ID = attendanceModel[i].ID,
                     TimeAttendance = attendanceModel[i].TimeAttendance,
-                    TimeLeave = attendanceModel[i].TimeLeave,
+                    TimeLeave =attendanceModel[i].TimeLeave,
                     Date = attendanceModel[i].Date
                 };
 
-                Employee emp = db.Employees.Include(e => e.department).FirstOrDefault(n => n.Id == attendanceModel[i].EmpID);
-
-                //  Employee emp = db.Employees.Include(e => e.department).Where(n => n.Id == attendanceModel[i].EmpID).FirstOrDefault();
+                //Employee emp = employeeRepo.getById(attendanceModel[i].EmpID);
+               Employee emp = db.Employees.Include(n => n.department).FirstOrDefault(x => x.Id == attendanceModel[i].EmpID);
+              
+               
 
                 if (emp != null)
                 {
@@ -75,7 +76,7 @@ namespace HRSystem.Controllers
 
         {
             ViewData["empNameList"] = employeeRepo.getAll();
-            ViewData["departementlist"] = departmentRepo.departments();
+            ViewData["departementlist"] = departmentRepo.getAll();
             return View();
         }
         [HttpPost]
@@ -93,7 +94,7 @@ namespace HRSystem.Controllers
                 return RedirectToAction("Index");
             }
             ViewData["empNameList"] = employeeRepo.getAll();
-            ViewData["departementlist"] = departmentRepo.departments();
+            ViewData["departementlist"] = departmentRepo.getAll();
 
             return View( newattendance);
         }
@@ -104,7 +105,7 @@ namespace HRSystem.Controllers
         public IActionResult Edit(int id)
         {
             ViewData["empNameList"] = employeeRepo.getAll();
-            ViewData["departementlist"] = departmentRepo.departments();
+            ViewData["departementlist"] = departmentRepo.getAll();
 
             Attendance attendance = AttendanceRepository.GetBYId(id);
 
@@ -127,7 +128,7 @@ namespace HRSystem.Controllers
 
             }
             ViewData["empNameList"] = employeeRepo.getAll();
-            ViewData["departementlist"] = departmentRepo.departments();
+            ViewData["departementlist"] = departmentRepo.getAll();
 
             return View("ADD", attend);
 

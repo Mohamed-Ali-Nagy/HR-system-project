@@ -18,10 +18,8 @@ namespace HRSystem.Models
         [ForeignKey("employee")]
         public int EmpID { get; set; }
 
-      //  [ForeignKey("department")]
-      //  public int DeptID { get; set; }
         public virtual Employee? employee { get; set; }
-      //  public virtual Department? department { get; set; }
+    
 
     }
 }
