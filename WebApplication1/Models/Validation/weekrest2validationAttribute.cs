@@ -2,7 +2,7 @@
 using HRSystem.Repository;
 using System.ComponentModel.DataAnnotations;
 
-namespace HRSystem.Custom_Validation
+namespace HRSystem.Models.Validation
 {
     public class weekrest2validationAttribute : ValidationAttribute
     {
@@ -16,7 +16,7 @@ namespace HRSystem.Custom_Validation
         {
 
             var obj = generalSettingRepository.GetWeekRest1().ToString();
-            if(value != obj)
+            if (value != obj)
             {
                 return ValidationResult.Success;
             }
