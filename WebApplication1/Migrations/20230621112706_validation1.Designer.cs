@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HRSystem.Migrations
 {
     [DbContext(typeof(HRContext))]
-    [Migration("20230620175013_checkM")]
-    partial class checkM
+    [Migration("20230621112706_validation1")]
+    partial class validation1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -156,11 +156,11 @@ namespace HRSystem.Migrations
 
             modelBuilder.Entity("HRSystem.Models.Holidays", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int?>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("id"));
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");

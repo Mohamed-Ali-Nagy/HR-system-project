@@ -10,7 +10,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Save" asp-controller="GeneralSetting">
+        <form asp-action="Save" asp-controller="GeneralSetting" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Id" class="control-label"></label>
@@ -29,12 +29,31 @@
             </div>
             <div class="form-group">
                 <label asp-for="WeekRest1" class="control-label"></label>
-                <input asp-for="WeekRest1" class="form-control" />
+                <select asp-for="WeekRest1" class="form-control">
+                    <option value="Saturday">Saturday</option>
+                    <option value="Sunday">Sunday</option>
+                    <option value="Monday">Monday</option>
+                    <option value="Tuesday">Tuesday</option>
+                    <option value="Wednesday">Wednesday</option>
+                    <option value="Thursday">Thursday</option>
+                    <option value="Friday">Friday</option>
+                </select>
+                @*<input asp-for="WeekRest1" class="form-control" />*@
                 <span asp-validation-for="WeekRest1" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="WeekRest2" class="control-label"></label>
-                <input asp-for="WeekRest2" class="form-control" />
+                <label asp-for="WeekRest2" class="control-label"></label> 
+                <select asp-for="WeekRest2" class="form-control">
+                    <option value=" ">None</option>
+                    <option value="Saturday">Saturday</option>
+                    <option value="Sunday">Sunday</option>
+                    <option value="Monday">Monday</option>
+                    <option value="Tuesday">Tuesday</option>
+                    <option value="Wednesday">Wednesday</option>
+                    <option value="Thursday">Thursday</option>
+                    <option value="Friday">Friday</option>
+                </select>
+                @*<input asp-for="WeekRest2" class="form-control" />*@
                 <span asp-validation-for="WeekRest2" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -50,4 +69,7 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
 }

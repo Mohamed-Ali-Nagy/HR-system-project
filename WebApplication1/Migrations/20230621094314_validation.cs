@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace HRSystem.Migrations
 {
     /// <inheritdoc />
-    public partial class checkM : Migration
+    public partial class validation : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
