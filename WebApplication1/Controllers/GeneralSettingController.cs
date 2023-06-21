@@ -39,7 +39,7 @@ namespace HRSystem.Controllers
         {
             if(ModelState.IsValid)
             {
-                _toastNotification.AddSuccessToastMessage("Woo hoo - it works!");
+                
                 generalSettingRepository.UpdateAddHourRate(generalSettings.AddHourRate);
                 generalSettingRepository.UpdateDeducateHourRate(generalSettings.DeducateHourRate);
                 generalSettingRepository.UpdateWeekRest1(generalSettings.WeekRest1);
