@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using HRSystem.ViewModels;
 
 namespace HRSystem.Models
 {
@@ -17,6 +18,8 @@ namespace HRSystem.Models
         public DbSet<Holidays> Holidays { get; set; }
 
         public DbSet<GeneralSettings> GeneralSettings { get; set; }
+
+        public DbSet<HRSystem.ViewModels.EmployeeDepartmentVM> EmployeeDepartmentVM { get; set; } = default!;
 
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         //{

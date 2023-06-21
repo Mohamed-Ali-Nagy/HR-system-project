@@ -153,11 +153,11 @@ namespace HRSystem.Migrations
 
             modelBuilder.Entity("HRSystem.Models.Holidays", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int?>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("id"));
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
