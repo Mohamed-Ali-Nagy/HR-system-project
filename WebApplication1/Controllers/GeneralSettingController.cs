@@ -11,6 +11,7 @@ namespace HRSystem.Controllers
         {
             generalSettingRepository = _generalSettingRepository;
         }
+        
         public IActionResult Index()
         {
             GeneralSettings generalSettings = new GeneralSettings();
@@ -20,6 +21,7 @@ namespace HRSystem.Controllers
             generalSettings.DeducateHourRate=generalSettingRepository.GetDeducateHourRate();
             return View(generalSettings);
         }
+        
         public IActionResult Edit()
         {
             GeneralSettings generalSettings = new GeneralSettings();
@@ -29,15 +31,28 @@ namespace HRSystem.Controllers
             generalSettings.DeducateHourRate = generalSettingRepository.GetDeducateHourRate();
             return View(generalSettings);
         }
-
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Save(GeneralSettings generalSettings) 
         {
-            generalSettingRepository.UpdateAddHourRate(generalSettings.AddHourRate);
-            generalSettingRepository.UpdateDeducateHourRate(generalSettings.DeducateHourRate);
-            generalSettingRepository.UpdateWeekRest1(generalSettings.WeekRest1);
-            generalSettingRepository.UpdateWeekRest2(generalSettings.WeekRest2);
-            generalSettingRepository.Save();
-            return RedirectToAction("index", generalSettings);
+            if(ModelState.IsValid)
+            {
+                generalSettingRepository.UpdateAddHourRate(generalSettings.AddHourRate);
+                generalSettingRepository.UpdateDeducateHourRate(generalSettings.DeducateHourRate);
+                generalSettingRepository.UpdateWeekRest1(generalSettings.WeekRest1);
+                generalSettingRepository.UpdateWeekRest2(generalSettings.WeekRest2);
+                generalSettingRepository.Save();
+                return RedirectToAction("index", generalSettings);
+            }
+            return View(generalSettings);
+        }
+        public IActionResult Validation(string WeekRest2, string WeekRest1)
+        {
+            if (WeekRest2 != WeekRest1)
+            {
+                return Json(true);
+            }
+            return Json(false);
         }
     }
 }

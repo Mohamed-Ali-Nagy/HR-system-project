@@ -4,7 +4,7 @@ namespace HRSystem.Models
 {
     public class Holidays
     {
-        public int? id { get; set; }
+        public int id { get; set; }
         [Required(ErrorMessage = "Name REQUIRED")]
         [Uniquename]
         public String Name { get; set; }

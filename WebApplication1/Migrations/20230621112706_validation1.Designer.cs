@@ -12,13 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HRSystem.Migrations
 {
     [DbContext(typeof(HRContext))]
-<<<<<<<< HEAD:WebApplication1/Migrations/20230621085548_v1.Designer.cs
-    [Migration("20230621085548_v1")]
-    partial class v1
-========
-    [Migration("20230621094314_validation")]
-    partial class validation
->>>>>>>> e5919b74b9366145ae27b5b4855d9a051692d9e8:WebApplication1/Migrations/20230621094314_validation.Designer.cs
+    [Migration("20230621112706_validation1")]
+    partial class validation1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

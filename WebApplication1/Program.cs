@@ -22,6 +22,7 @@ namespace WebApplication1
             builder.Services.AddScoped<IGeneralSettingRepository,GeneralSettingRepository>();
             builder.Services.AddScoped<IDepartmentRepository,DepartmentRepository>();
             builder.Services.AddScoped<IHolidaysRepository, HolidaysRepository>();
+            builder.Services.AddScoped<HRContext, HRContext>();
 
 
             var app = builder.Build();
