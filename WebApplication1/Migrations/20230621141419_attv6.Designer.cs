@@ -12,13 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HRSystem.Migrations
 {
     [DbContext(typeof(HRContext))]
-<<<<<<<< HEAD:WebApplication1/Migrations/20230621085548_v1.Designer.cs
-    [Migration("20230621085548_v1")]
-    partial class v1
-========
-    [Migration("20230621094314_validation")]
-    partial class validation
->>>>>>>> e5919b74b9366145ae27b5b4855d9a051692d9e8:WebApplication1/Migrations/20230621094314_validation.Designer.cs
+    [Migration("20230621141419_attv6")]
+    partial class attv6
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -161,11 +156,11 @@ namespace HRSystem.Migrations
 
             modelBuilder.Entity("HRSystem.Models.Holidays", b =>
                 {
-                    b.Property<int?>("id")
+                    b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
@@ -177,6 +172,61 @@ namespace HRSystem.Migrations
                     b.HasKey("id");
 
                     b.ToTable("Holidays");
+                });
+
+            modelBuilder.Entity("HRSystem.ViewModels.EmployeeDepartmentVM", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("AttendanceTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("Birthdate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DeptName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Gender")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Hiredate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("LeavingTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Nationality")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NationalityId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Salary")
+                        .HasColumnType("float");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("EmployeeDepartmentVM");
                 });
 
             modelBuilder.Entity("HRSystem.Models.Attendance", b =>

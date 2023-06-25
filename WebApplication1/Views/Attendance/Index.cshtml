@@ -37,7 +37,7 @@
         }
 </style>
 
-<table class="table-custom">
+<table class="table-custom m-5">
     <thead>
         <tr>
             <th>
@@ -95,7 +95,9 @@
     </tbody>
 </table>
 
-<a asp-action="ADD"  class="btn btn-primary">ADD</a>
+<partial name="_pagination" model="new AttendanceViewModel()" />
+
+<a asp-action="ADD"  class="btn btn-primary m-2">ADD</a>
 
 
 
