@@ -6,7 +6,7 @@ namespace HRSystem.Models
     {
         public int id { get; set; }
         [Required(ErrorMessage = "Name REQUIRED")]
-        [Uniquename]
+     //   [Uniquename]
         public String Name { get; set; }
 
         [Required(ErrorMessage = "Date REQUIRED")]
