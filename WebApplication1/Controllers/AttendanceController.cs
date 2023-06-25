@@ -35,7 +35,7 @@ namespace HRSystem.Controllers
             List<Employee> empnams = db.Employees.Where(n=>n.DeptID== depid).ToList();
             return Json(empnams);
         }
-        public IActionResult Index(int currentPage = 1)
+        public IActionResult Index()
         {
             List<Attendance> attendanceModel = AttendanceRepository.GetAll();
             List<AttendanceViewModel> allViewModel = new List<AttendanceViewModel>();
@@ -48,8 +48,8 @@ namespace HRSystem.Controllers
                     TimeAttendance = attendance.TimeAttendance,
                     TimeLeave = attendance.TimeLeave,
                     Date = attendance.Date
-                    
-                   
+
+
                 };
 
                 Employee emp = db.Employees.Include(n => n.department).FirstOrDefault(x => x.Id == attendance.EmpID);
@@ -62,16 +62,13 @@ namespace HRSystem.Controllers
                     {
                         attvm.DepartmentName = emp.department.Name;
 
-                        
+
                     }
                 }
 
-               
+
                 allViewModel.Add(attvm);
             }
-
-       
-
             return View(allViewModel);
         }
 
