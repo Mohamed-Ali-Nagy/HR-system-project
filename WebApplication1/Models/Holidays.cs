@@ -6,11 +6,14 @@ namespace HRSystem.Models
     {
         public int id { get; set; }
         [Required(ErrorMessage = "Name REQUIRED")]
-        [Uniquename]
-        public String Name { get; set; }
+        
+        public string Name { get; set; }
 
         [Required(ErrorMessage = "Date REQUIRED")]
         [DataType(DataType.Date)]
+        [Uniquename(ErrorMessage = "Holiday date is Exist")]
         public DateTime Date { get; set; }
     }
+
+    
 }

@@ -84,7 +84,7 @@ namespace HRSystem.Controllers
             return View();
         }
         [HttpPost]
-        
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AddAdmin(Registreviewmodel newuser)
         {
             if (ModelState.IsValid)
