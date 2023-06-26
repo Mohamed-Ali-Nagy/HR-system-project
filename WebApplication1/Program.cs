@@ -1,13 +1,16 @@
 using HRSystem.Models;
 using HRSystem.Repository;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using NToastNotify;
+using System.Security.Principal;
+
 namespace WebApplication1
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static  void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -30,7 +33,30 @@ namespace WebApplication1
             builder.Services.AddScoped<HRContext, HRContext>();
 
 
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<HRContext>();
+               
+            builder.Services.AddControllersWithViews();
+
             var app = builder.Build();
+
+            using var scope = app.Services.CreateScope();
+            var services = scope.ServiceProvider;
+            var loggerfactory = services.GetRequiredService<ILoggerFactory>();
+            var logger = loggerfactory.CreateLogger("app");
+            try
+            {
+                var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+                var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+                HRSystem.Seeds.DefaultRole.seedRoleAsync(roleManager);
+                HRSystem.Seeds.DefaultUser.seedUser(userManager);
+
+                logger.LogInformation("data Seeded");
+                logger.LogInformation("Application started");
+            }
+            catch (Exception ex)
+            {
+                logger.LogWarning(ex, "An Error Occurred while seeding data");
+            }
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())

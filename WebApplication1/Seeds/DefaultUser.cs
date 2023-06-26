@@ -7,14 +7,18 @@ namespace HRSystem.Seeds
     {
         public static async Task seedUser(UserManager<ApplicationUser> userManager)
         {
-            ApplicationUser defaultUser=new ApplicationUser()
+            ApplicationUser defaultUser = new ApplicationUser()
             {
-                Email="nagy@admin.com",
-                UserName="nagy@admin",
-                PasswordHash="P@word"
+                Email = "nagy@admin.com",
+                UserName = "nagy@admin",
+                PasswordHash = "P@word"
             };
-            ApplicationUser user=userManager.Users.
-            await userManager.CreateAsync(defaultUser,defaultUser.PasswordHash);
+             //ApplicationUser user=await userManager.FindByEmailAsync(defaultUser.Email);
+            if (!userManager.Users.Any())
+            {
+                await userManager.CreateAsync(defaultUser, defaultUser.PasswordHash);
+                await userManager.AddToRoleAsync(defaultUser,"SuperAdmin");
+            }
 
         }
 
