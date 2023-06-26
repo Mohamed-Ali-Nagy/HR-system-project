@@ -1,9 +1,9 @@
-﻿using HRSystem.Custom_Validation;
+﻿using HRSystem.Models.Validation;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
 namespace HRSystem.Models
-{
+{ 
     public class GeneralSettings
     {
         public int Id {  get; set; }

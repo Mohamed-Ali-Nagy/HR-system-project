@@ -3,7 +3,6 @@ using HRSystem.Repository;
 using Microsoft.AspNetCore.Mvc;
 using HRSystem.ViewModels;
 using Microsoft.EntityFrameworkCore;
-using HRSystem.Migrations;
 
 namespace HRSystem.Controllers
 {

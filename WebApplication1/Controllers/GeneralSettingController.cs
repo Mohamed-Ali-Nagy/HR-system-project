@@ -1,6 +1,7 @@
 ﻿using HRSystem.Models;
 using HRSystem.Repository;
 using Microsoft.AspNetCore.Mvc;
+using NToastNotify;
 
 namespace HRSystem.Controllers
 {
@@ -14,6 +15,7 @@ namespace HRSystem.Controllers
         
         public IActionResult Index()
         {
+            ViewBag.Message = "";
             GeneralSettings generalSettings = new GeneralSettings();
             generalSettings.WeekRest1 = generalSettingRepository.GetWeekRest1();
             generalSettings.WeekRest2= generalSettingRepository.GetWeekRest2();
@@ -37,6 +39,7 @@ namespace HRSystem.Controllers
         {
             if(ModelState.IsValid)
             {
+                
                 generalSettingRepository.UpdateAddHourRate(generalSettings.AddHourRate);
                 generalSettingRepository.UpdateDeducateHourRate(generalSettings.DeducateHourRate);
                 generalSettingRepository.UpdateWeekRest1(generalSettings.WeekRest1);

@@ -2,7 +2,7 @@ using HRSystem.Models;
 using HRSystem.Repository;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-
+using NToastNotify;
 namespace WebApplication1
 {
     public class Program
@@ -17,6 +17,11 @@ namespace WebApplication1
             builder.Services.AddDbContext<HRContext>(options =>
                  options.UseSqlServer(builder.Configuration.GetConnectionString("cs"))
             );
+            builder.Services.AddRazorPages().AddNToastNotifyNoty(new NotyOptions
+            {
+                ProgressBar = true,
+                Timeout = 5000
+            });
             builder.Services.AddScoped<IAttendanceRepository, AttendanceRepository>();
             builder.Services.AddScoped<IEmployeeRepositry,EmployeeRepository>();
             builder.Services.AddScoped<IGeneralSettingRepository,GeneralSettingRepository>();
@@ -31,6 +36,12 @@ namespace WebApplication1
             if (!app.Environment.IsDevelopment())
             {
                 app.UseExceptionHandler("/Home/Error");
+                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                app.UseHsts();
+            }
+            if (!app.Environment.IsDevelopment())
+            {
+                app.UseExceptionHandler("/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
