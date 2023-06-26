@@ -6,7 +6,7 @@ namespace HRSystem.ViewModels
 {
     public class LoginUserVM
     {
-        public int Id { get; set; }
+       
         [Required]
         public string Email { get; set; }
         [DataType(DataType.Password)]

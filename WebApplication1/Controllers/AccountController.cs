@@ -42,5 +42,10 @@ namespace HRSystem.Controllers
             }
             return View(loginUser);
         }
+        public IActionResult Logout()
+        {
+            signInManager.SignOutAsync();
+            return RedirectToAction("Login");
+        }
     }
 }

@@ -6,8 +6,6 @@
         Attendance,
         GeneralSetting,
         Holidays,
-        Account,
-        Roles,
         
     }
 }
