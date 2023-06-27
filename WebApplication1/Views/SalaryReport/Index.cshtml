@@ -1,5 +1,7 @@
 ﻿@using HRSystem.ViewModels;
+@using HRSystem.Enums;
 @model List<SalaryReportViewModel>
+
 
 @{
     ViewData["Title"] = "Index";
@@ -11,32 +13,32 @@
     </div>
     <div class="col-3">
         <label>Employee Name</label>
-        <input class="form form-control" />
+        <input class="form form-control" name="name" />
         <span class="danger"></span>
     </div>
     <div class="row d-flex align-items-center">
         <div class="col-3">
             <label>Month</label>
-            <select placeholder="MM" class="form-control">
+            <select placeholder="MM" class="form-control" name="month">
                 <option name="" value="" style="display:none;">MM</option>
-                <option  value="January">January</option>
-                <option  value="February">February</option>
-                <option  value="Mar">March</option>
-                <option  value="April">April</option>
-                <option  value="May">May</option>
-                <option  value="June">June</option>
-                <option  value="July">July</option>
-                <option  value="August">August</option>
-                <option  value="September">September</option>
-                <option  value="October">October</option>
-                <option  value="November">November</option>
-                <option  value="December">December</option>
+                <option value="@Month.January">January</option>
+                <option value="@Month.February">February</option>
+                <option value="@Month.March">March</option>
+                <option value="@Month.April">April</option>
+                <option value="@Month.May">May</option>
+                <option value="@Month.June">June</option>
+                <option value="@Month.July">July</option>
+                <option value="@Month.August">August</option>
+                <option value="@Month.September">September</option>
+                <option value="@Month.October">October</option>
+                <option value="@Month.November">November</option>
+                <option value="@Month.December">December</option>
             </select>
             <span class="danger"></span>
         </div>
         <div class="col-3">
             <label>Year</label>
-            <input class="form form-control" type="number" min="2005" max="@DateTime.Now.Year" />
+            <input class="form form-control" type="number" name="yaer" min="2005" max="@DateTime.Now.Year"/>
             <span class="danger"></span>
         </div>
         <div class="col-1 m-1">

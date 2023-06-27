@@ -37,7 +37,7 @@ namespace HRSystem.Repository
 
         public List<Employee> getByName(string name)
         {
-            return HRdb.Employees.Where(e => e.Name.Contains(name)&&e.IsDeleted==false).ToList();
+            return HRdb.Employees.Include(x=>x.department).Where(e => e.Name.Contains(name)&&e.IsDeleted==false).ToList();
         }
 
    

@@ -83,7 +83,7 @@ namespace HRSystem.Controllers
             return View(salRebVMlst);
         }
         [HttpPost]
-        public IActionResult Index(string name ,Month month ,int yaer)
+        public IActionResult Index(string name,Month month ,int yaer)
         {
             //intialize lst of employess with thier salaries
             List<SalaryReportViewModel> salRebVMlst = new List<SalaryReportViewModel>();
@@ -91,8 +91,8 @@ namespace HRSystem.Controllers
             List<Employee> employees = employeeRepo.getByName(name);
             #region Current month() and year
             //Get Current month() and year 
-            Enums.Month ThisMonth = (Enums.Month)Enum.Parse(typeof(Enums.Month), DateTimeFormatInfo.CurrentInfo.GetMonthName(DateTime.Now.Month));
-            int thisYear = DateTime.Now.Year;
+            Enums.Month ThisMonth = month;
+            int thisYear = yaer;
             #endregion
             #region The the Default (AddHourRate&DeducateRate) From DB
             //Get The the Default (AddHourRate&DeducateRate) From DB
@@ -116,7 +116,7 @@ namespace HRSystem.Controllers
             }
             #endregion
             #region Get Holidays in this Month
-            int holidayOfMonth = holidaysRepository.GetCountOfHolidaysInMonths(DateTime.Now.Month);
+            int holidayOfMonth = holidaysRepository.GetCountOfHolidaysInMonths((int)month);
             #endregion
             // Get the days of atthendece for all emps and calculate thier salries
             foreach (Employee employee in employees)
