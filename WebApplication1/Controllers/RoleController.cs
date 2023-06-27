@@ -21,14 +21,18 @@ namespace HRSystem.Controllers
         public IActionResult add()
         {
             RolePermisionsVM roleVM = new RolePermisionsVM();
+            roleVM.Pages = Enum.GetNames(typeof(Constants.Models)).ToList(); 
             List<string> allPermissions=Permission.creatAllPirmissions();
             for(int i = 0;i<allPermissions.Count;i++)
             {
-                roleVM.AllPermissions[i].ClaimValue = allPermissions[i];
-                roleVM.AllPermissions[i].isSelected = false;
-            }
+                PermissionClaimVM permissionClaimVM = new PermissionClaimVM();
+                permissionClaimVM.ClaimValue = allPermissions[i];
+                permissionClaimVM.isSelected = false;
 
-          
+                roleVM.AllPermissions.Add(permissionClaimVM);
+               
+            }
+ 
             return View(roleVM);
         }
         [HttpPost]
@@ -63,27 +67,31 @@ namespace HRSystem.Controllers
             return View(newRole);
 
         }
-        public async Task <IActionResult> Index()
+        public async Task<IActionResult> Index()
         {
-            List<RoleUsersVM> rolesVM = new List<RoleUsersVM>();
+           // List<RoleUsersVM> rolesVM = new List<RoleUsersVM>();
+
             List<IdentityRole> roles = roleManager.Roles.ToList();
-            List<ApplicationUser> usersForEachModel = new List<ApplicationUser>();
-            for (int i = 0; i < roles.Count; i++)
+            foreach(var role in roles)
             {
-                rolesVM[i].RoleName = roles[i].Name;
-                //if (roles[i].Name!=null)
-                //{
-                usersForEachModel = (List<ApplicationUser>)await userManager.GetUsersInRoleAsync(roles[i].Name);
+                ViewData[$"{role.Name}Users"] =await userManager.GetUsersInRoleAsync(role.Name.ToString());
+                ViewData[$"{role.Name}Claims"] = await roleManager.GetClaimsAsync(role);
+            }          
+            //List<ApplicationUser> usersForEachModel = new List<ApplicationUser>();
+            //for (int i = 0; i < roles.Count; i++)
+            //{
+            //    rolesVM[i].RoleName = roles[i].Name;
+            //    //if (roles[i].Name!=null)
+            //    //{
+            //    usersForEachModel = (List<ApplicationUser>)await userManager.GetUsersInRoleAsync(roles[i].Name);
 
-                //}
-                for (int j = 0; j < usersForEachModel.Count; j++)
-                {
-                    rolesVM[i].UserEmail[j] = usersForEachModel[j].Email;
-                }
-
-
-            }
-            return View(rolesVM);
+            //    //}
+            //    for (int j = 0; j < usersForEachModel.Count; j++)
+            //    {
+            //        rolesVM[i].UserEmail[j] = usersForEachModel[j].Email;
+            //    }
+            //}
+            return View(roles);
 
         }
     }

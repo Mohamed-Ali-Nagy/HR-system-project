@@ -17,10 +17,10 @@
         public static List<string> creatAllPirmissions()
         {
             List<string> allPermissions = new List<string>();
-            var models = Enum.GetValues(typeof(Models));
+            var models = Enum.GetNames(typeof(Models));
             foreach (var model in models)
             {
-                allPermissions.AddRange(createPermissionsListForModel(model.ToString()));
+                allPermissions.AddRange(createPermissionsListForModel(model));
             }
             return allPermissions;
         }

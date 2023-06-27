@@ -3,9 +3,9 @@
     public enum Models
     {
         Employee,
-        Attendance,
         GeneralSetting,
         Holidays,
-        
+        Attendance,
+
     }
 }
