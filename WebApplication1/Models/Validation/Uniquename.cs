@@ -12,7 +12,7 @@ namespace HRSystem.Models.Validation
             if (value != null && value is DateTime date)
             {
                 var currentItem = validationContext.ObjectInstance as Holidays;
-                if (currentItem != null && dbContext.Holidays.Any(h => h.Date == date && h.id != currentItem.id))
+                if (currentItem != null && dbContext.Holidays.Any(h => h.Date == date ))
                 {
                     return new ValidationResult(ErrorMessage);
                 }

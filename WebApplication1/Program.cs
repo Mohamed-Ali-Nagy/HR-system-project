@@ -24,8 +24,7 @@ namespace WebApplication1
                 Timeout = 5000
             });
 
-            builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<HRContext>();
+           
 
             builder.Services.AddScoped<IAttendanceRepository, AttendanceRepository>();
             builder.Services.AddScoped<IEmployeeRepositry,EmployeeRepository>();
@@ -56,7 +55,7 @@ namespace WebApplication1
 
             app.UseRouting();
 
-            app.UseAuthorization();
+         
             app.UseAuthorization();
 
             app.MapControllerRoute(
