@@ -28,7 +28,7 @@ namespace HRSystem.Controllers
                 PermissionClaimVM permissionClaimVM = new PermissionClaimVM();
                 permissionClaimVM.ClaimValue = allPermissions[i];
                 permissionClaimVM.isSelected = false;
-
+              //  roleVM.AllPermissions.Enqueue(permissionClaimVM);
                 roleVM.AllPermissions.Add(permissionClaimVM);
                
             }
@@ -40,6 +40,7 @@ namespace HRSystem.Controllers
         {
             if(ModelState.IsValid)
             {
+                var all=newRole.AllPermissions;
                 if(await roleManager.FindByNameAsync(newRole.Name)==null)
                 {
                     bool permissionAdded=newRole.AllPermissions.Any(p=>p.isSelected==true);
@@ -54,44 +55,43 @@ namespace HRSystem.Controllers
                             if (permission.isSelected == true)
                             {
                                 await roleManager.AddClaimAsync(role,new Claim("Permission",permission.ClaimValue));
-                                return RedirectToAction("Index");
                             }
+
                         }
+                        return RedirectToAction("Index");
+
                     }
 
                     ModelState.AddModelError("", "You have to select the permission for the new role group");
                 }
+                else
+                {
+                    ModelState.AddModelError("", "Role name is already exist");
 
-                ModelState.AddModelError("", "Role name is already exist");
+                }
+                newRole.AllPermissions = all;
+
             }
+
             return View(newRole);
 
         }
         public async Task<IActionResult> Index()
         {
-           // List<RoleUsersVM> rolesVM = new List<RoleUsersVM>();
+            List<RoleUsersVM> rolesVM = new List<RoleUsersVM>();
 
             List<IdentityRole> roles = roleManager.Roles.ToList();
-            foreach(var role in roles)
+            for(int i=0; i < roles.Count;i++)
             {
-                ViewData[$"{role.Name}Users"] =await userManager.GetUsersInRoleAsync(role.Name.ToString());
-                ViewData[$"{role.Name}Claims"] = await roleManager.GetClaimsAsync(role);
-            }          
-            //List<ApplicationUser> usersForEachModel = new List<ApplicationUser>();
-            //for (int i = 0; i < roles.Count; i++)
-            //{
-            //    rolesVM[i].RoleName = roles[i].Name;
-            //    //if (roles[i].Name!=null)
-            //    //{
-            //    usersForEachModel = (List<ApplicationUser>)await userManager.GetUsersInRoleAsync(roles[i].Name);
+                RoleUsersVM roleUsersVM= new RoleUsersVM();
+                roleUsersVM.RoleName = roles[i].Name;
+                roleUsersVM.Users = (List<ApplicationUser>)await userManager.GetUsersInRoleAsync(roles[i].Name);
+                roleUsersVM.RoleClaims = (List<Claim>)await roleManager.GetClaimsAsync(roles[i]);
+                rolesVM.Add(roleUsersVM);
+            }
 
-            //    //}
-            //    for (int j = 0; j < usersForEachModel.Count; j++)
-            //    {
-            //        rolesVM[i].UserEmail[j] = usersForEachModel[j].Email;
-            //    }
-            //}
-            return View(roles);
+         
+            return View(rolesVM);
 
         }
     }

@@ -1,7 +1,8 @@
 ﻿@model RolePermisionsVM
 @{
     ViewData["Title"] = "add";
-    int j = 1;
+    int j = 0;
+
 }
 
 <h1>add</h1>
@@ -30,39 +31,30 @@
         <tbody>
             @for(int i=0;i<Model.Pages.Count;i++)
             {
-                
+                <input type="hidden" asp-for="@Model.Pages[i]">
+
                 <tr>
                     <th scope="row">@Model.Pages[i]</th>
-                    <td>
-                        <div class="form-check">
-                            <input class="form-check-input" asp-for="@Model.AllPermissions[i+j-1].isSelected">
-                        </div>
-                        <label asp-for="@Model.AllPermissions[i].ClaimValue">@Model.AllPermissions[i+j-1].ClaimValue</label>
+                    @for(int x = 0; x < 4; x++)
+                    {
+                        <td>
+                            <div class="form-check">
+                                <input class="form-check-input" asp-for="@Model.AllPermissions[j].isSelected">
+                                <input type="hidden" asp-for="@Model.AllPermissions[j].ClaimValue">
 
 
-                    </td>
-                    <td>
-                        <div class="form-check">
-                            <input class="form-check-input" asp-for="@Model.AllPermissions[i].isSelected">
+                            </div>
+                            @*<label asp-for="@Model.AllPermissions">@Model.AllPermissions[j].ClaimValue</label>*@
 
-                        </div>
-                       
 
-                    </td>
-                    <td>
-                        <div class="form-check">
-                            <input class="form-check-input" asp-for="@Model.AllPermissions[i].isSelected">
-                        </div>
-                    </td>
-                    <td>
-                        <div class="form-check">
-                            <input class="form-check-input" asp-for="@Model.AllPermissions[i].isSelected">
-                        </div>
-                    </td>
+                        </td>
+                        j++;
 
+                    }
+                   
+                  
                 </tr>
-                j=i + j + 1;
-            }
+          }
            
            
         </tbody>

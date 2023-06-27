@@ -1,0 +1,47 @@
+﻿@model List<RoleUsersVM>
+@{
+    ViewData["Title"] = "Index";
+    int i = 0;
+
+}
+
+<h1>Index</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Role Name</th>
+            <th scope="col">Users</th>
+            <th scope="col">Permissions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var role in Model)
+        {
+            <tr>
+                <th scope="row">@i++</th>
+                <td>@role.RoleName</td>
+                <td>
+                    <ul>
+                        @foreach(var user in role.Users)
+                        {
+                            <li>@user.UserName</li>
+                        }
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        @foreach (var claim in role.RoleClaims)
+                        {
+                            <li>@claim.Value</li>
+                        }
+                    </ul>
+                </td>
+
+            </tr>
+        }
+     
+       
+    </tbody>
+</table>
