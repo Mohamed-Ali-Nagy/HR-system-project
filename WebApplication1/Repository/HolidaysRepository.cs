@@ -39,5 +39,12 @@ namespace HRSystem.Repository
             HModel.Name = holiday.Name;
             HModel.Date = holiday.Date;
         }
+
+        public int GetCountOfHolidaysInMonths(int months)
+        {
+            int CountOfHolidaysInMonths=context.Holidays.Where(x=>x.Date.Month==months).Count();
+            return CountOfHolidaysInMonths;
+        }
+
     }
 }

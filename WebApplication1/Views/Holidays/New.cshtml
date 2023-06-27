@@ -6,7 +6,6 @@
 <h1 class="text-center">Add New Holiday</h1>
 
 <form method="post" action="\Holidays\AddNewHoliday">
-
     <div>
         <label asp-for="Name"></label>
         <input asp-for="Name" class="form-control" />
@@ -22,9 +21,7 @@
         <input type="submit" class="btn btn-success" value="Add" />
     </div>
 </form>
-@section Scripts{
-
+@section newscript{
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
-
 }
