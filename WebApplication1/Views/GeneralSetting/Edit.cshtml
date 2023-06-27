@@ -4,7 +4,6 @@
     ViewData["Title"] = "Edit";
    
 }
-
 <h1>Edit</h1>
 
 <h4>GeneralSettings</h4>
@@ -67,11 +66,9 @@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
-
-@section Scripts {
+@section newscript {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script src="~/lib/jquery/dist/jquery.js"></script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
-    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>>
-
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>  
 }
