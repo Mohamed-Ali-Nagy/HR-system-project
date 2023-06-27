@@ -1,9 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using HRSystem.ViewModels;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace HRSystem.Models
 {
-    public class HRContext:DbContext
+    public class HRContext: IdentityDbContext<ApplicationUser>
     {
 
         public HRContext(DbContextOptions options):base(options) 

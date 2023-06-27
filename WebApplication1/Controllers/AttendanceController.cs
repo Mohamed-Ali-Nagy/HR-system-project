@@ -39,20 +39,19 @@ namespace HRSystem.Controllers
             List<Attendance> attendanceModel = AttendanceRepository.GetAll();
             List<AttendanceViewModel> allViewModel = new List<AttendanceViewModel>();
 
-            for (var i = 0; i < attendanceModel.Count; i++)
+            foreach (var attendance in attendanceModel)
             {
                 AttendanceViewModel attvm = new AttendanceViewModel()
                 {
-                    ID = attendanceModel[i].ID,
-                    TimeAttendance = attendanceModel[i].TimeAttendance,
-                    TimeLeave =attendanceModel[i].TimeLeave,
-                    Date = attendanceModel[i].Date
+                    ID = attendance.ID,
+                    TimeAttendance = attendance.TimeAttendance,
+                    TimeLeave = attendance.TimeLeave,
+                    Date = attendance.Date
+
+
                 };
 
-                //Employee emp = employeeRepo.getById(attendanceModel[i].EmpID);
-               Employee emp = db.Employees.Include(n => n.department).FirstOrDefault(x => x.Id == attendanceModel[i].EmpID);
-              
-               
+                Employee emp = db.Employees.Include(n => n.department).FirstOrDefault(x => x.Id == attendance.EmpID);
 
                 if (emp != null)
                 {
@@ -61,14 +60,17 @@ namespace HRSystem.Controllers
                     if (emp.department != null)
                     {
                         attvm.DepartmentName = emp.department.Name;
+
+
                     }
                 }
 
+
                 allViewModel.Add(attvm);
             }
-
             return View(allViewModel);
         }
+
 
 
 
