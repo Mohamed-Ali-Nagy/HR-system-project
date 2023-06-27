@@ -6,8 +6,8 @@ namespace HRSystem.ViewModels
     public class AttendanceViewModel
     {
         public int ID { get; set; }
-        public TimeSpan TimeAttendance { get; set; }
-        public TimeSpan TimeLeave { get; set; }
+        public DateTime TimeAttendance { get; set; }
+        public DateTime TimeLeave { get; set; }
 
 
         [DataType(DataType.Date)]

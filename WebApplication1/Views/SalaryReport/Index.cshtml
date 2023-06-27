@@ -1,0 +1,88 @@
+﻿@using HRSystem.ViewModels;
+@model List<SalaryReportViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Salary Report </h1>
+<form asp-controller="SalaryReport" asp-action="Index" method="post">
+    <div asp-validation-summary="All">
+    </div>
+    <div class="col-3">
+        <label>Employee Name</label>
+        <input class="form form-control" />
+        <span class="danger"></span>
+    </div>
+    <div class="row d-flex align-items-center">
+        <div class="col-3">
+            <label>Month</label>
+            <select placeholder="MM" class="form-control">
+                <option name="" value="" style="display:none;">MM</option>
+                <option name="January" value="January">January</option>
+                <option name="February" value="February">February</option>
+                <option name="March" value="Mar">March</option>
+                <option name="April" value="April">April</option>
+                <option name="May" value="May">May</option>
+                <option name="June" value="June">June</option>
+                <option name="July" value="July">July</option>
+                <option name="August" value="August">August</option>
+                <option name="September" value="September">September</option>
+                <option name="October" value="October">October</option>
+                <option name="November" value="November">November</option>
+                <option name="December" value="December">December</option>
+            </select>
+            <span class="danger"></span>
+        </div>
+        <div class="col-3">
+            <label>Year</label>
+            <input class="form form-control" type="number" min="2005" max="@DateTime.Now.Year" />
+            <span class="danger"></span>
+        </div>
+        <div class="col-1 m-1">
+            <input type="submit" value="Search" class="  btn btn-primary m-2" />
+        </div>
+    </div>
+</form>
+@*<p>
+    <a asp-action="Create">Create New</a>
+</p>*@
+<table class="table" style="text-align:center">
+    <thead style="font-size:13px">
+        <tr>
+            <td>Employee Name</td>
+            <td>Department Name</td>
+            <td>Salary</td>
+            <td>Attendance Days</td>
+            <td>Absence Days</td>
+            <td>Add Hours</td>
+            <td>Dedacated Hours</td>
+            <td>Total Add</td>
+            <td>Total Dedacated</td>
+            <td>Total Due</td>
+            <td>Operation</td>
+        </tr>
+    </thead>
+    <tbody style="font-size:13px" >
+        @foreach (var item in Model) 
+        {
+        <tr>
+            <td>@item.EmpNme</td>
+            <td>@item.DeptName</td>
+            <td>@item.BasicSalary</td>
+            <td>@item.Attendancedays</td>
+            <td>@item.AbsenceDays</td>
+            <td>@item.AddHours</td>
+            <td>@item.DedacatedHours</td>
+            <td>@item.TotalAdd</td>
+            <td>@item.TotalDedacated</td>
+            <td>@item.TotalDue</td>
+            <td class="row">
+                    <a class="mx-1 col btn btn-primary" href="/SalaryReport/Details/@item.Id">Print</a>
+                <a class=" col btn btn-warning">Edit</a>
+            </td> 
+        </tr>
+        }
+    </tbody>
+</table>
+

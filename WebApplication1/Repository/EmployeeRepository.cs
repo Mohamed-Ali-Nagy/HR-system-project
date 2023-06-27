@@ -1,4 +1,5 @@
 ﻿using HRSystem.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace HRSystem.Repository
 {
@@ -23,12 +24,12 @@ namespace HRSystem.Repository
 
         public List<Employee> getAll()
         {
-            return HRdb.Employees.Where(e=>e.IsDeleted==false).ToList();
+            return HRdb.Employees.Include(x=>x.department).Where(e=>e.IsDeleted==false).ToList();
         }
 
         public Employee getById(int id)
         {
-            return HRdb.Employees.FirstOrDefault(e => e.Id == id&&e.IsDeleted==false);
+            return HRdb.Employees.Include(x => x.department).FirstOrDefault(e => e.Id == id&&e.IsDeleted==false);
 
         }
 
