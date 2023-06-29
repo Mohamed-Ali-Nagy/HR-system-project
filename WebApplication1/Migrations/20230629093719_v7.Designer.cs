@@ -4,6 +4,7 @@ using HRSystem.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HRSystem.Migrations
 {
     [DbContext(typeof(HRContext))]
-    partial class HRContextModelSnapshot : ModelSnapshot
+    [Migration("20230629093719_v7")]
+    partial class v7
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -242,8 +245,11 @@ namespace HRSystem.Migrations
 
             modelBuilder.Entity("HRSystem.ViewModels.ApplicationUserGroupVM", b =>
                 {
-                    b.Property<string>("UserName")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ConfirmPassword")
                         .IsRequired()
@@ -265,7 +271,11 @@ namespace HRSystem.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("UserName");
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
 
                     b.ToTable("ApplicationUserGroupVM");
                 });
@@ -275,8 +285,8 @@ namespace HRSystem.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("ApplicationUserGroupVMUserName")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int?>("ApplicationUserGroupVMId")
+                        .HasColumnType("int");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -292,7 +302,7 @@ namespace HRSystem.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ApplicationUserGroupVMUserName");
+                    b.HasIndex("ApplicationUserGroupVMId");
 
                     b.HasIndex("NormalizedName")
                         .IsUnique()
@@ -432,7 +442,7 @@ namespace HRSystem.Migrations
                 {
                     b.HasOne("HRSystem.ViewModels.ApplicationUserGroupVM", null)
                         .WithMany("Groups")
-                        .HasForeignKey("ApplicationUserGroupVMUserName");
+                        .HasForeignKey("ApplicationUserGroupVMId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
