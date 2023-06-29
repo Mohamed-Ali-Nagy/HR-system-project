@@ -32,10 +32,10 @@
                 <td>@user.Email</td>
                 <td>@user.Password</td>
                 <td>@user.RoleName</td>
-        @*    <td>
-                <a asp-action="Edit" asp-route-id="@user.Id">Edit</a> |
-                <a asp-action="Delete" asp-route-id="@user.Id">Delete</a>
-            </td>*@
+            <td>
+                <a asp-action="Delete" onclick="return confirm('By deleting the role all users inside it will be deleted')" asp-route-IdentityRole="@user.RoleName">Edit</a> |
+                @*<a asp-action="Delete" asp-route-id="@user.Id">Delete</a>*@
+            </td>
         </tr>
 }
     </tbody>

@@ -20,7 +20,7 @@ namespace HRSystem.Models
         public DbSet<Holidays> Holidays { get; set; }
         public DbSet<GeneralSettings> GeneralSettings { get; set; }
 
-        public DbSet<HRSystem.ViewModels.ApplicationUserGroupVM> ApplicationUserGroupVM { get; set; } = default!;
+      //  public DbSet<HRSystem.ViewModels.ApplicationUserGroupVM> ApplicationUserGroupVM { get; set; } = default!;
 
       //  public DbSet<HRSystem.ViewModels.EmployeeDepartmentVM> EmployeeDepartmentVM { get; set; } = default!;
 

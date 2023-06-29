@@ -6,6 +6,7 @@
         GeneralSetting,
         Holidays,
         Attendance,
+        SalaryReport,
 
     }
 }

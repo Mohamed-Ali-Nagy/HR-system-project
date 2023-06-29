@@ -73,6 +73,89 @@ namespace HRSystem.Controllers
             return View(newRole);
 
         }
+        [HttpGet]
+        public async Task<IActionResult> edit(string roleName)
+        {
+            IdentityRole role = await roleManager.FindByNameAsync(roleName);
+            
+            var claimList = await roleManager.GetClaimsAsync(role);
+            List<string> allClaims = Permission.creatAllPirmissions();
+            List<PermissionClaimVM> allPermissions=allClaims.Select(c=>new PermissionClaimVM { ClaimValue=c}).ToList();
+
+            foreach (var permission in allPermissions)
+            {
+                if(claimList.Any(c=>c.Value == permission.ClaimValue))
+                {
+                    permission.isSelected = true;
+                }
+            }
+
+            RolePermisionsVM roleVM = new RolePermisionsVM()
+            {
+                Name = role.Name,
+                Pages = Enum.GetNames(typeof(Constants.Models)).ToList(),
+                AllPermissions=allPermissions,
+
+            };
+            return View(roleVM);
+
+
+
+        }
+        [HttpPost]
+        public async Task<IActionResult> edit(RolePermisionsVM roleVM)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(roleVM);
+            }
+            IdentityRole role= await roleManager.FindByNameAsync(roleVM.Name);
+            if (role != null)
+            {
+                ModelState.AddModelError("Name", "The name is already existed");
+                return View(roleVM);
+            }
+            bool permissionAdded = roleVM.AllPermissions.Any(p => p.isSelected == true);
+            if(permissionAdded)
+            {
+               var roleClaims=await roleManager.GetClaimsAsync(role);
+                foreach (var claim in roleClaims)
+                {
+                   await roleManager.RemoveClaimAsync(role,claim);
+                }
+                var newClaims=roleVM.AllPermissions.Where(p => p.isSelected).ToList();
+                foreach(var claim in newClaims)
+                {
+                    await roleManager.AddClaimAsync(role, new Claim("Permission", claim.ClaimValue));
+                }
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                ModelState.AddModelError("", "You have to select any permission");
+                return View(roleVM);        
+            }
+
+        }
+        public async Task<IActionResult> delete(string roleName)
+        {
+            var role=await roleManager.FindByNameAsync(roleName);
+            var users =await userManager.GetUsersInRoleAsync(role.Name);
+            if (users != null)
+            {
+                foreach (var user in users)
+                {
+                   await userManager.RemoveFromRoleAsync(user, role.Name);
+                   await userManager.DeleteAsync(user);
+
+                }
+
+            }
+            
+            await roleManager.DeleteAsync(role);
+            return RedirectToAction("index");
+        }
+
         public async Task<IActionResult> Index()
         {
             List<RoleUsersVM> rolesVM = new List<RoleUsersVM>();
