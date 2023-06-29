@@ -40,7 +40,6 @@ namespace HRSystem.Controllers
         {
             if(ModelState.IsValid)
             {
-               // var all=newRole.AllPermissions;
                 if(await roleManager.FindByNameAsync(newRole.Name)==null)
                 {
                     bool permissionAdded=newRole.AllPermissions.Any(p=>p.isSelected==true);
@@ -69,8 +68,6 @@ namespace HRSystem.Controllers
                     ModelState.AddModelError("", "Role name is already exist");
 
                 }
-               // newRole.AllPermissions = all;
-
             }
 
             return View(newRole);
@@ -89,8 +86,7 @@ namespace HRSystem.Controllers
                 roleUsersVM.RoleClaims = (List<Claim>)await roleManager.GetClaimsAsync(roles[i]);
                 rolesVM.Add(roleUsersVM);
             }
-
-         
+            
             return View(rolesVM);
 
         }
