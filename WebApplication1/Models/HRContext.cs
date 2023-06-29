@@ -2,6 +2,7 @@
 using HRSystem.ViewModels;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
+
 namespace HRSystem.Models
 {
     public class HRContext:IdentityDbContext<ApplicationUser>
@@ -13,11 +14,10 @@ namespace HRSystem.Models
         }
         public HRContext() : base() { }
        
-       public virtual DbSet<Employee> Employees { get; set; }
+        public virtual DbSet<Employee> Employees { get; set; }
         public virtual DbSet<Department> Departments { get; set; }
-         public DbSet<Attendance> Attendances { get; set; }
+        public DbSet<Attendance> Attendances { get; set; }
         public DbSet<Holidays> Holidays { get; set; }
-
         public DbSet<GeneralSettings> GeneralSettings { get; set; }
 
         public DbSet<HRSystem.ViewModels.ApplicationUserGroupVM> ApplicationUserGroupVM { get; set; } = default!;

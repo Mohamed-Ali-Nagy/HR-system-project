@@ -1,4 +1,5 @@
-﻿using HRSystem.Models;
+﻿using HRSystem.Enums;
+using HRSystem.Models;
 
 namespace HRSystem.Repository
 {
@@ -11,5 +12,11 @@ namespace HRSystem.Repository
         void update(int id, Attendance Atten);
         void delete(int id);
         void save();
+        #region For Salary
+        int GetCountOfDaysOfAttendenceOfEmp(int id, Month month, int year);
+        int GetEmpAddHours(int id, Month month);
+        int GetEmpDeducateHours(int id, Month month);
+        int GetCountOfDaysOfMonth(Month month);
+        #endregion
     }
 }

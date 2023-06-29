@@ -24,12 +24,12 @@ namespace HRSystem.Repository
 
         public List<Employee> getAll()
         {
-            return HRdb.Employees.Include(d=>d.department).Where(e=>e.IsDeleted==false).ToList();
+            return HRdb.Employees.Include(x=>x.department).Where(e=>e.IsDeleted==false).ToList();
         }
 
         public Employee getById(int id)
         {
-            return HRdb.Employees.FirstOrDefault(e => e.Id == id&&e.IsDeleted==false);
+            return HRdb.Employees.Include(x => x.department).FirstOrDefault(e => e.Id == id&&e.IsDeleted==false);
 
         }
 
@@ -37,7 +37,7 @@ namespace HRSystem.Repository
 
         public List<Employee> getByName(string name)
         {
-            return HRdb.Employees.Where(e => e.Name.Contains(name)&&e.IsDeleted==false).ToList();
+            return HRdb.Employees.Include(x=>x.department).Where(e => e.Name.Contains(name)&&e.IsDeleted==false).ToList();
         }
 
    

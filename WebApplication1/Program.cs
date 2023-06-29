@@ -25,6 +25,9 @@ namespace WebApplication1
                 ProgressBar = true,
                 Timeout = 5000
             });
+
+           
+
             builder.Services.AddScoped<IAttendanceRepository, AttendanceRepository>();
             builder.Services.AddScoped<IEmployeeRepositry,EmployeeRepository>();
             builder.Services.AddScoped<IGeneralSettingRepository,GeneralSettingRepository>();
@@ -77,6 +80,7 @@ namespace WebApplication1
 
             app.UseRouting();
 
+         
             app.UseAuthorization();
 
             app.MapControllerRoute(
