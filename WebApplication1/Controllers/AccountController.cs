@@ -30,28 +30,26 @@ namespace HRSystem.Controllers
             }
 
             ApplicationUser user = await userManager.FindByEmailAsync(loginUser.Email);
-                if ( user!= null)
-                {
-                    bool validPassword =await userManager.CheckPasswordAsync(user,loginUser.Password);
-                    if (validPassword)
-                    {
-                        await signInManager.SignInAsync(user,loginUser.RememberMe);
-                      return  RedirectToAction("Index", "Home");
+            if ( user== null)
+            {
+                ModelState.AddModelError("Email", "Wrong Email");
+                return View(loginUser);
+              
+            }
 
-                    }
-                    else
-                    {
-                        ModelState.AddModelError("Password", "Wrong Password");
-                        return View(loginUser);
+            bool validPassword = await userManager.CheckPasswordAsync(user, loginUser.Password);
+            if (validPassword)
+            {
+                await signInManager.SignInAsync(user, loginUser.RememberMe);
+                return RedirectToAction("Index", "Home");
 
-                    }
-                }
-                else
-                {
-                    ModelState.AddModelError("Email", "Wrong Email");
-                    return View(loginUser);
+            }
+            else
+            {
+                ModelState.AddModelError("Password", "Wrong Password");
+                return View(loginUser);
 
-                }
+            }
 
         }
         public IActionResult Logout()
