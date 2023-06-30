@@ -4,7 +4,8 @@ namespace HRSystem.ViewModels
 {
     public class RolePermisionsVM
     {
-       
+
+        //public string? Id { get; set; }
         [Required]
         public string Name { get; set; }
         public List<string>? Pages { get; set; }=new List<string>();

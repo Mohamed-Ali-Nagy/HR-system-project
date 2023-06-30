@@ -1,6 +1,7 @@
 ﻿using HRSystem.Models;
 using HRSystem.Repository;
 using HRSystem.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HRSystem.Controllers
@@ -14,6 +15,7 @@ namespace HRSystem.Controllers
             this.employeeRepo = employeeRepo;
             this.departmentRepo = departmentRepository;
         }
+        [Authorize(Roles = "admin4")]
 
         public IActionResult Index()
         {

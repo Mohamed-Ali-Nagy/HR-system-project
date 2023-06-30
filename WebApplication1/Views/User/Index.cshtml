@@ -17,8 +17,8 @@
             <th scope="col">Name</th>
             <th scope="col">UserName</th>
             <th scope="col">Email</th>
-            <th scope="col">Password</th>
-            <th scope="col">Role</th>
+            @*<th scope="col">Password</th>*@
+            @*<th scope="col">Role</th>*@
             
         </tr>
     </thead>
@@ -33,7 +33,7 @@
                 <td>@user.Password</td>
                 <td>@user.RoleName</td>
             <td>
-                <a asp-action="Delete" onclick="return confirm('By deleting the role all users inside it will be deleted')" asp-route-IdentityRole="@user.RoleName">Edit</a> |
+                    <a asp-controller="User" asp-action="Delete" asp-route-Email="@user.Email" onclick="return confirm('Are you sure you want to delete this user ?')">Delete</a> |
                 @*<a asp-action="Delete" asp-route-id="@user.Id">Delete</a>*@
             </td>
         </tr>

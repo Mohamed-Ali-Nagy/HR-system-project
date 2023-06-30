@@ -12,7 +12,7 @@ namespace HRSystem.Controllers
         public AccountController(UserManager<ApplicationUser> _userManager, SignInManager<ApplicationUser> _signInManager)
         {
             userManager = _userManager;
-            signInManager = signInManager;
+            signInManager = _signInManager;
         }
         [HttpGet]
         public IActionResult login()
@@ -23,24 +23,36 @@ namespace HRSystem.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> login(LoginUserVM loginUser)
         {
-            if(ModelState.IsValid)
+            if(!ModelState.IsValid)
             {
-                ApplicationUser user= await userManager.FindByEmailAsync(loginUser.Email);
+                return View(loginUser);
+
+            }
+
+            ApplicationUser user = await userManager.FindByEmailAsync(loginUser.Email);
                 if ( user!= null)
                 {
                     bool validPassword =await userManager.CheckPasswordAsync(user,loginUser.Password);
                     if (validPassword)
                     {
-                        await signInManager.SignInAsync(user, loginUser.RememberMe);
-                        RedirectToAction("Index", "Home");
+                        await signInManager.SignInAsync(user,loginUser.RememberMe);
+                      return  RedirectToAction("Index", "Home");
 
                     }
-                    ModelState.AddModelError("Password", "Wrong Password");
+                    else
+                    {
+                        ModelState.AddModelError("Password", "Wrong Password");
+                        return View(loginUser);
+
+                    }
                 }
-                ModelState.AddModelError("Email", "Wrong Email");
-                
-            }
-            return View(loginUser);
+                else
+                {
+                    ModelState.AddModelError("Email", "Wrong Email");
+                    return View(loginUser);
+
+                }
+
         }
         public IActionResult Logout()
         {

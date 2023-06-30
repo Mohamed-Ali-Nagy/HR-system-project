@@ -20,19 +20,15 @@ namespace HRSystem.Controllers
         [HttpGet]
         public IActionResult add()
         {
-            RolePermisionsVM roleVM = new RolePermisionsVM();
-            roleVM.Pages = Enum.GetNames(typeof(Constants.Models)).ToList(); 
             List<string> allPermissions=Permission.creatAllPirmissions();
-            for(int i = 0;i<allPermissions.Count;i++)
+            List<PermissionClaimVM> allClaims = allPermissions.Select(c=>new PermissionClaimVM { ClaimValue=c,isSelected=false}).ToList();
+            RolePermisionsVM roleVM = new RolePermisionsVM()
             {
-                PermissionClaimVM permissionClaimVM = new PermissionClaimVM();
-                permissionClaimVM.ClaimValue = allPermissions[i];
-                permissionClaimVM.isSelected = false;
-             
-                roleVM.AllPermissions.Add(permissionClaimVM);
-               
-            }
- 
+                Pages = Enum.GetNames(typeof(Constants.Models)).ToList(),
+                AllPermissions = allClaims,
+
+            };
+
             return View(roleVM);
         }
         [HttpPost]
@@ -92,6 +88,7 @@ namespace HRSystem.Controllers
 
             RolePermisionsVM roleVM = new RolePermisionsVM()
             {
+                //Id=role.Id,
                 Name = role.Name,
                 Pages = Enum.GetNames(typeof(Constants.Models)).ToList(),
                 AllPermissions=allPermissions,
@@ -110,11 +107,11 @@ namespace HRSystem.Controllers
                 return View(roleVM);
             }
             IdentityRole role= await roleManager.FindByNameAsync(roleVM.Name);
-            if (role != null)
-            {
-                ModelState.AddModelError("Name", "The name is already existed");
-                return View(roleVM);
-            }
+            //if (role != null)
+            //{
+            //    ModelState.AddModelError("Name", "The name is already existed");
+            //    return View(roleVM);
+            //}
             bool permissionAdded = roleVM.AllPermissions.Any(p => p.isSelected == true);
             if(permissionAdded)
             {

@@ -22,7 +22,7 @@
         @foreach(var role in Model)
         {
             <tr>
-                <th scope="row">@i++</th>
+                <th scope="row">@(i++)</th>
                 <td>@role.RoleName</td>
                 <td>
                     <ul>
@@ -42,6 +42,7 @@
                 </td>
                 <td>
                     <a asp-controller="Role" asp-action="edit" asp-route-RoleName="@role.RoleName" class="btn btn-primary">Edit</a>
+                    <a asp-controller="Role" asp-action="delete" asp-route-RoleName="@role.RoleName" onclick="return confirm('by deleting all users in the group will be deleted')" class="btn btn-primary">Delete</a>
 
                 </td>
 

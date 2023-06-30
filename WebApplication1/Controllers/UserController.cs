@@ -16,6 +16,7 @@ namespace HRSystem.Controllers
             roleManager=_roleManager;
             
         }
+        #region Index
         public async Task<IActionResult> Index()
         {
 
@@ -26,12 +27,15 @@ namespace HRSystem.Controllers
                                                     Name = u.Name,
                                                     UserName = u.UserName,
                                                     Email = u.Email,
-                                                    Password = u.PasswordHash,
+                                                   // Password = u.PasswordHash,
                                                     
                                                 }).ToList();
           
             return View(users);
         }
+        #endregion
+
+        #region Add 
         [HttpGet]
         public IActionResult add()
         {
@@ -47,7 +51,7 @@ namespace HRSystem.Controllers
             {
                 return View(newUser);
             }
-            if (await userManager.FindByEmailAsync(newUser.Email) == null)
+            if (await userManager.FindByEmailAsync(newUser.Email) == null&& await userManager.FindByNameAsync(newUser.UserName) == null)
             {
                 ApplicationUser user = new ApplicationUser()
                 {
@@ -72,18 +76,45 @@ namespace HRSystem.Controllers
                     }
                 }
             }
-            else if(await userManager.FindByNameAsync(newUser.UserName) != null)
-            {
-                ModelState.AddModelError("UserName", "User name is already exist");
-
-            }
+         
             else
             {
-                ModelState.AddModelError("Email", "Email or user name is already exist");
+                ModelState.AddModelError("", "Email or user name is already exist");
             }
             return View(newUser);
 
         }
+        #endregion
+
+        #region delete
+        public async Task<IActionResult> delete(string email)
+        {
+           ApplicationUser user= await userManager.FindByEmailAsync(email);
+            if (user != null)
+            {
+                string role = userManager.GetRolesAsync(user).Result.FirstOrDefault();
+                await userManager.RemoveFromRoleAsync(user, role);
+                await userManager.DeleteAsync(user);
+
+            }
+           return RedirectToAction("Index");
+        }
+        #endregion
+
+        #region Edit
+        //[HttpGet]
+        //public async Task< IActionResult> edit(string email)
+        //{
+        //    ApplicationUser user =await userManager.FindByEmailAsync (email);
+        //    ApplicationUserGroupVM groupVM = new ApplicationUserGroupVM();
+        //    return View();
+        //}
+        #endregion
+
+
+
+
+
 
     }
 }
