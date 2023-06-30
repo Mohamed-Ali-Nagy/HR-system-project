@@ -23,7 +23,7 @@ namespace HRSystem.Controllers
             List<ApplicationUserGroupVM> users =  userManager.Users
                                                 .Select( u => new ApplicationUserGroupVM 
                                                 {
-                                                    
+                                                    Id = u.Id,
                                                     Name = u.Name,
                                                     UserName = u.UserName,
                                                     Email = u.Email,
@@ -55,7 +55,7 @@ namespace HRSystem.Controllers
             {
                 ApplicationUser user = new ApplicationUser()
                 {
-                    //Id= newUser.Id,
+                 
                     Name = newUser.Name,
                     Email = newUser.Email,
                     UserName = newUser.UserName,
@@ -87,9 +87,9 @@ namespace HRSystem.Controllers
         #endregion
 
         #region delete
-        public async Task<IActionResult> delete(string email)
+        public async Task<IActionResult> delete(string id)
         {
-           ApplicationUser user= await userManager.FindByEmailAsync(email);
+           ApplicationUser user= await userManager.FindByIdAsync(id);
             if (user != null)
             {
                 string role = userManager.GetRolesAsync(user).Result.FirstOrDefault();
@@ -102,13 +102,62 @@ namespace HRSystem.Controllers
         #endregion
 
         #region Edit
-        //[HttpGet]
-        //public async Task< IActionResult> edit(string email)
-        //{
-        //    ApplicationUser user =await userManager.FindByEmailAsync (email);
-        //    ApplicationUserGroupVM groupVM = new ApplicationUserGroupVM();
-        //    return View();
-        //}
+        [HttpGet]
+        public async Task<IActionResult> edit(string id)
+        {
+            ApplicationUser user = await userManager.FindByIdAsync(id);
+            ApplicationUserGroupVM userVM = new ApplicationUserGroupVM()
+            {
+                Id = user.Id,
+                Name = user.Name,
+                Email = user.Email,
+                UserName = user.UserName,
+                Password = user.PasswordHash,
+                ConfirmPassword = user.PasswordHash,
+                Groups = roleManager.Roles.ToList(),
+            };
+            return View(userVM);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> edit(ApplicationUserGroupVM userVM)
+        {
+            userVM.Groups = roleManager.Roles.ToList();
+
+            if (!ModelState.IsValid)
+            {
+                return View(userVM);
+            }
+            ApplicationUser user = await userManager.FindByIdAsync(userVM.Id);
+            if(await userManager.FindByEmailAsync(userVM.Email)!=null&&userVM.Email!=user.Email)
+            {
+                ModelState.AddModelError("Email", "email already existed");
+                return View(userVM);
+            }
+           
+          
+            if (await userManager.FindByNameAsync(userVM.UserName) != null && userVM.UserName != user.UserName)
+            {
+                ModelState.AddModelError("userName", "UserName already existed");
+                return View(userVM);
+            }
+        
+            string token =await userManager.GeneratePasswordResetTokenAsync(user);
+            IdentityResult result= await userManager.ResetPasswordAsync(user, token, userVM.Password);
+            if (!result.Succeeded)
+            {
+                foreach(var error in result.Errors)
+                {
+                    ModelState.AddModelError("Password",error.Description);
+                }
+                return View(userVM);
+            }
+
+            user.Name = userVM.Name;
+            await userManager.AddToRoleAsync(user, userVM.RoleName);
+
+            return RedirectToAction("Index");
+        }
         #endregion
 
 

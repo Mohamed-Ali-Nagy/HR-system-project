@@ -5,7 +5,7 @@ namespace HRSystem.ViewModels
 {
     public class ApplicationUserGroupVM
     {
-        //public string Id { get; set; }
+        public string? Id { get; set; }
         [Required(ErrorMessage = "The name is Required")]
         [RegularExpression(@"^[A-Za-z]+(\s[A-Za-z]+)$", ErrorMessage = "The full name must be at least 2 names and contains only char")]
         public string Name { get; set; }

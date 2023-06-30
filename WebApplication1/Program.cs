@@ -36,7 +36,7 @@ namespace WebApplication1
             builder.Services.AddScoped<HRContext, HRContext>();
 
 
-            builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<HRContext>();
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<HRContext>().AddDefaultTokenProviders(); ;
                
             builder.Services.AddControllersWithViews();
 

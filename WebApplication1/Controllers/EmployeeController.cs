@@ -15,7 +15,7 @@ namespace HRSystem.Controllers
             this.employeeRepo = employeeRepo;
             this.departmentRepo = departmentRepository;
         }
-        [Authorize(Roles = "admin4")]
+        
 
         public IActionResult Index()
         {
