@@ -1,15 +1,16 @@
 ﻿@model LoginUserVM
 @{
+    Layout  = "_loginLayout";
     ViewData["Title"] = "login";
 }
 
-<h1>login</h1>
+@*<h1>login</h1>
 <h4>LoginUserViewModel</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Login">
-            @*<div asp-validation-summary="All" class="text-danger"></div>*@
+        
             <div class="form-group">
                 <label asp-for="Email" class="control-label"></label>
                 <input asp-for="Email" class="form-control" />
@@ -30,8 +31,138 @@
             </div>
         </form>
     </div>
-</div>
+</div>*@
 
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    html,
+    body {
+        height: 100%;
+    }
+
+    html {
+        background: linear-gradient(to right bottom, #fbdb89, #f48982);
+        background-repeat: no-repeat;
+        background-size: cover;
+        width: 100%;
+        height: 100%;
+        background-attachment: fixed;
+    }
+
+    body {
+        font-family: sans-serif;
+        line-height: 1.4;
+        display: flex;
+    }
+
+    .container {
+        width: 400px;
+        margin: auto;
+        padding: 36px 48px 48px 48px;
+        background-color: #f2efee;
+        border-radius: 11px;
+        box-shadow: 0 2.4rem 4.8rem rgba(0, 0, 0, 0.15);
+    }
+
+    .login-title {
+        padding: 15px;
+        font-size: 22px;
+        font-weight: 600;
+        text-align: center;
+    }
+
+    .login-form {
+        display: grid;
+        grid-template-columns: 1fr;
+        row-gap: 16px;
+    }
+
+        .login-form label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .login-form input {
+            width: 100%;
+            padding: 1.2rem;
+            border-radius: 9px;
+            border: none;
+        }
+
+   #RememberMe
+   {
+        width:0.3%;
+        padding:  0.3 rem;
+        border: none;
+
+   }
+
+            .login-form input:focus {
+                outline: none;
+                box-shadow: 0 0 0 4px rgba(253, 242, 233, 0.5);
+            }
+
+    .btn--form {
+        background-color: #f48982;
+        color: #fdf2e9;
+        align-self: end;
+        padding: 8px;
+    }
+
+    .btn,
+    .btn:link,
+    .btn:visited {
+        display: inline-block;
+        text-decoration: none;
+        font-size: 20px;
+        font-weight: 600;
+        border-radius: 9px;
+        border: none;
+        cursor: pointer;
+        font-family: inherit;
+        transition: all 0.3s;
+    }
+
+    button {
+        outline: 1px solid #f48982;
+    }
+
+    .btn--form:hover {
+        background-color: #fdf2e9;
+        color: #f48982;
+    }
+
+</style>
+<div class="container">
+    <h2 class="login-title">Log in</h2>
+
+    <form class="login-form" asp-action="Login">
+        <div>
+            <label asp-for="Email"> </label>
+            <input asp-for="Email" placeholder="Email" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+
+        </div>
+        <div>
+            <label asp-for="Password">Password </label>
+            <input asp-for="Password" placeholder="password" />
+            <span asp-validation-for="Password" class="text-danger"></span>
+
+        </div>
+        <div class="form-check">
+            <label class="form-check-label" type="checkbox" asp-for="RememberMe"></label>
+            <input class="form-check-input" type="checkbox" asp-for="RememberMe" />
+
+        </div>
+        <input type="submit" value="Login" class="btn btn--form" />
+           
+    </form>
+</div>
 @*
 @section Scripts {
     @{
