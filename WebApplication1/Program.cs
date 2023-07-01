@@ -12,7 +12,7 @@ namespace WebApplication1
 {
     public class Program
     {
-        public static  void Main(string[] args)
+        public static  async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -39,7 +39,7 @@ namespace WebApplication1
             builder.Services.AddScoped<HRContext, HRContext>();
 
 
-            builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<HRContext>().AddDefaultTokenProviders(); ;
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<HRContext>().AddDefaultTokenProviders();
                
             builder.Services.AddControllersWithViews();
 
@@ -52,9 +52,11 @@ namespace WebApplication1
             try
             {
                 var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+
                 var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
-                HRSystem.Seeds.DefaultRole.seedRoleAsync(roleManager);
-                HRSystem.Seeds.DefaultUser.seedUser(userManager);
+              await  HRSystem.Seeds.DefaultRole.seedRoleAsync(roleManager);
+
+               await HRSystem.Seeds.DefaultUser.seedUser(userManager,roleManager);
 
                 logger.LogInformation("data Seeded");
                 logger.LogInformation("Application started");
