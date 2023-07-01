@@ -1,5 +1,6 @@
 ﻿using HRSystem.Models;
 using HRSystem.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,10 +16,15 @@ namespace HRSystem.Controllers
             signInManager = _signInManager;
         }
         [HttpGet]
+        
+        [AllowAnonymous]
+
         public IActionResult login()
         {
             return View();
         }
+        [AllowAnonymous]
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> login(LoginUserVM loginUser)

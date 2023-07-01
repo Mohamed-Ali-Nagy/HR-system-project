@@ -3,7 +3,8 @@ using HRSystem.Repository;
 using HRSystem.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
+using System.Security.Permissions;
+using HRSystem.Constants;
 namespace HRSystem.Controllers
 {
     public class EmployeeController : Controller
@@ -15,13 +16,15 @@ namespace HRSystem.Controllers
             this.employeeRepo = employeeRepo;
             this.departmentRepo = departmentRepository;
         }
-        
 
+        [Authorize(Permission.Employee.View)]
         public IActionResult Index()
         {
            List<Employee> employees = employeeRepo.getAll();
             return View("Index",employees);
         }
+        [Authorize(Permission.Employee.View)]
+
         public IActionResult getDetails(int id)
         {
 
@@ -51,6 +54,8 @@ namespace HRSystem.Controllers
             return View("getDetails", employeeDepartmentVM);
         }
 
+        [Authorize(Permission.Employee.Create)]
+
         [HttpGet]
         public IActionResult add()
         {
@@ -58,6 +63,8 @@ namespace HRSystem.Controllers
             ViewData["EmpGender"]=new List<Gender>() { Gender.Male,Gender.Female};
             return View();
         }
+        //[Authorize(Permission.Employee.Create)]
+
         [HttpPost]
         public IActionResult add(Employee employee)
         {
@@ -72,6 +79,8 @@ namespace HRSystem.Controllers
             employeeRepo.save();
             return RedirectToAction("Index");
         }
+        [Authorize(Permission.Employee.Edit)]
+
         [HttpGet]
         public IActionResult edit(int id)
         {
@@ -93,7 +102,9 @@ namespace HRSystem.Controllers
             ViewData["EmpGender"] = new List<Gender>() { Gender.Male,Gender.Female };
             return View(employee);
         }
-       // [HttpPost]
+        // [HttpPost]
+        [Authorize(Permission.Employee.Delete)]
+
         public IActionResult delete(int id)
         {
             employeeRepo.delete(id);

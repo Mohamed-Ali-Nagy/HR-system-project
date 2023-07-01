@@ -7,7 +7,7 @@
             return new List<string>()
             {
                   $"Permission.{model}.View",
-                  $"Permission.{model}.Add",
+                  $"Permission.{model}.Create",
                   $"Permission.{model}.Edit",
                   $"Permission.{model}.Delete",
 
@@ -24,9 +24,22 @@
             }
             return allPermissions;
         }
-        //public static class Employee
-        //{
 
-        //}
+        public static class Employee
+        {
+            public const string View = "Permission.Employee.View";
+            public const string Create = "Permission.Employee.Create";
+            public const string Edit = "Permission.Employee.Edit";
+            public const string Delete = "Permission.Employee.Delete";
+        }
+        public static class Attendance
+        {
+            public const string View = "Permission.Attendance.View";
+            public const string Create = "Permission.Attendance.Create";
+            public const string Edit = "Permission.Attendance.Edit";
+            public const string Delete = "Permission.Attendance.Delete";
+        }
+
+
     }
 }
