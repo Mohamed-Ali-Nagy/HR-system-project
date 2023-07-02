@@ -1,11 +1,15 @@
 ﻿using HRSystem.Models;
 using HRSystem.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
 
 namespace HRSystem.Controllers
 {
+    [Authorize(Roles = "SuperAdmin")]
+
     public class UserController : Controller
     {
         UserManager<ApplicationUser> userManager;

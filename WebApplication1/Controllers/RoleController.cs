@@ -4,8 +4,13 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using HRSystem.Models;
+using Microsoft.AspNetCore.Authorization;
+using System.Data;
+
 namespace HRSystem.Controllers
 {
+    [Authorize(Roles = "SuperAdmin")]
+
     public class RoleController : Controller
 
     {
