@@ -1,4 +1,4 @@
-﻿using HRSystem.Models;
+﻿ using HRSystem.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace HRSystem.ViewModels

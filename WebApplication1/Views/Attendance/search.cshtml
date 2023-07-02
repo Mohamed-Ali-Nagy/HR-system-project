@@ -1,15 +1,15 @@
 ﻿@model List<AttendanceViewModel>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "search";
 }
 
-<h1>Index</h1>
+<h1>search</h1>
 @{
     var i = 0;
 }
 <style>
-    
+
     .table-custom {
         width: 90%;
         font-size: 14px;
@@ -36,23 +36,6 @@
             background-color: #eaeaea;
         }
 </style>
-
-<form method="post" action="/attendance/search/">
-    <div class="row p-2">
-
-        <div class="col-lg-5"> <input type="text" name="Name" class="form-control" placeholder="enter the employee name or depatment name" required />
-        </div>
-        <div class="col-lg-5">
-            <input type="datetime" name="fromdate" class="form-control" placeholder="From date"   min="1/1/2008"/>
-        </div>
-
-        <div class="col-lg-5"> <input type="datetime" name="todate" class="form-control" placeholder="To date" max=@DateTime.Now /></div>
-
-        <div class="col-lg-5"> <input type="submit" class="btn btn-success" value="search" /></div>
-
-    </div>
-
-</form>
 
 <table class="table-custom">
     <thead>
@@ -111,14 +94,3 @@
         }
     </tbody>
 </table>
-
-<a asp-action="ADD"  class="btn btn-primary">ADD</a>
-
-
-
-
-
-
-
-
-
