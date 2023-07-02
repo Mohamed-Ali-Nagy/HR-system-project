@@ -28,5 +28,16 @@ namespace WebApplication1.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+        public IActionResult AccessDenied()
+        {
+            //if (statusCode == "403")
+            //{
+                return View("AccessDenied");
+            ////}
+            //else
+            //{
+            //    return RedirectToAction("Index", "Home");
+            //}
+        }
     }
 }

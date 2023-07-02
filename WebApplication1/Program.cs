@@ -38,7 +38,6 @@ namespace WebApplication1
             builder.Services.AddScoped<IHolidaysRepository, HolidaysRepository>();
             builder.Services.AddScoped<HRContext, HRContext>();
 
-
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<HRContext>().AddDefaultTokenProviders();
                
             builder.Services.AddControllersWithViews();
@@ -65,6 +64,7 @@ namespace WebApplication1
             {
                 logger.LogWarning(ex, "An Error Occurred while seeding data");
             }
+            app.UseStatusCodePagesWithReExecute("/Home/AccessDenied");
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
