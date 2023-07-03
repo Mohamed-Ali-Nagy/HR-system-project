@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace HRSystem.Migrations
 {
     /// <inheritdoc />
-    public partial class attnewv2 : Migration
+    public partial class test : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -32,12 +32,26 @@ namespace HRSystem.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     AddHourRate = table.Column<double>(type: "float", nullable: false),
                     DeducateHourRate = table.Column<double>(type: "float", nullable: false),
-                    WeekRest1 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    WeekRest1 = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     WeekRest2 = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_GeneralSettings", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Holidays",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Holidays", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -54,7 +68,7 @@ namespace HRSystem.Migrations
                     BirthDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     NationalId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     HireDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Salary = table.Column<double>(type: "float", nullable: false),
+                    Salary = table.Column<decimal>(type: "Money", nullable: false),
                     AttendanceTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LeavingTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
@@ -79,18 +93,11 @@ namespace HRSystem.Migrations
                     TimeAttendance = table.Column<TimeSpan>(type: "time", nullable: false),
                     TimeLeave = table.Column<TimeSpan>(type: "time", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EmpID = table.Column<int>(type: "int", nullable: false),
-                    DeptID = table.Column<int>(type: "int", nullable: false)
+                    EmpID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Attendances", x => x.ID);
-                    table.ForeignKey(
-                        name: "FK_Attendances_Departments_DeptID",
-                        column: x => x.DeptID,
-                        principalTable: "Departments",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_Attendances_Employees_EmpID",
                         column: x => x.EmpID,
@@ -98,11 +105,6 @@ namespace HRSystem.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.NoAction);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Attendances_DeptID",
-                table: "Attendances",
-                column: "DeptID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Attendances_EmpID",
@@ -123,6 +125,9 @@ namespace HRSystem.Migrations
 
             migrationBuilder.DropTable(
                 name: "GeneralSettings");
+
+            migrationBuilder.DropTable(
+                name: "Holidays");
 
             migrationBuilder.DropTable(
                 name: "Employees");
