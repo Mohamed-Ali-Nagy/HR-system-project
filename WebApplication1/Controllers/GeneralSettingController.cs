@@ -1,6 +1,9 @@
-﻿using HRSystem.Models;
+﻿using HRSystem.Constants;
+using HRSystem.Models;
 using HRSystem.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using NToastNotify;
 
 namespace HRSystem.Controllers
 {
@@ -11,8 +14,11 @@ namespace HRSystem.Controllers
         {
             generalSettingRepository = _generalSettingRepository;
         }
+        [Authorize(Permission.GeneralSetting.View)]
+
         public IActionResult Index()
         {
+            ViewBag.Message = "";
             GeneralSettings generalSettings = new GeneralSettings();
             generalSettings.WeekRest1 = generalSettingRepository.GetWeekRest1();
             generalSettings.WeekRest2= generalSettingRepository.GetWeekRest2();
@@ -20,6 +26,9 @@ namespace HRSystem.Controllers
             generalSettings.DeducateHourRate=generalSettingRepository.GetDeducateHourRate();
             return View(generalSettings);
         }
+
+        [Authorize(Permission.GeneralSetting.Edit)]
+
         public IActionResult Edit()
         {
             GeneralSettings generalSettings = new GeneralSettings();
@@ -29,15 +38,31 @@ namespace HRSystem.Controllers
             generalSettings.DeducateHourRate = generalSettingRepository.GetDeducateHourRate();
             return View(generalSettings);
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Permission.GeneralSetting.Edit)]
 
         public IActionResult Save(GeneralSettings generalSettings) 
         {
-            generalSettingRepository.UpdateAddHourRate(generalSettings.AddHourRate);
-            generalSettingRepository.UpdateDeducateHourRate(generalSettings.DeducateHourRate);
-            generalSettingRepository.UpdateWeekRest1(generalSettings.WeekRest1);
-            generalSettingRepository.UpdateWeekRest2(generalSettings.WeekRest2);
-            generalSettingRepository.Save();
-            return RedirectToAction("index", generalSettings);
+            if(ModelState.IsValid)
+            {
+                
+                generalSettingRepository.UpdateAddHourRate(generalSettings.AddHourRate);
+                generalSettingRepository.UpdateDeducateHourRate(generalSettings.DeducateHourRate);
+                generalSettingRepository.UpdateWeekRest1(generalSettings.WeekRest1);
+                generalSettingRepository.UpdateWeekRest2(generalSettings.WeekRest2);
+                generalSettingRepository.Save();
+                return RedirectToAction("index", generalSettings);
+            }
+            return View(generalSettings);
+        }
+        public IActionResult Validation(string WeekRest2, string WeekRest1)
+        {
+            if (WeekRest2 != WeekRest1)
+            {
+                return Json(true);
+            }
+            return Json(false);
         }
     }
 }

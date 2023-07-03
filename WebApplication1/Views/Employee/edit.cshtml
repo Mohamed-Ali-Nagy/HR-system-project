@@ -1,0 +1,100 @@
+﻿@model Employee
+
+@{
+    ViewData["Title"] = "edit";
+    SelectList departmentsList = new SelectList(ViewBag.DepartmentList, "Id", "Name");
+    SelectList GenderList = new SelectList(ViewBag.EmpGender);
+}
+
+<h1>edit</h1>
+
+<h4>Employee</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="edit">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Address" class="control-label"></label>
+                <input asp-for="Address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Phone" class="control-label"></label>
+                <input asp-for="Phone" class="form-control" />
+                <span asp-validation-for="Phone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EmpGender" class="control-label"></label>
+                <select asp-for="EmpGender" asp-items="GenderList" class="form-control"></select>
+                <span asp-validation-for="EmpGender"  class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Nationality" class="control-label"></label>
+                <input asp-for="Nationality" class="form-control" />
+                <span asp-validation-for="Nationality" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BirthDate" class="control-label"></label>
+                <input asp-for="BirthDate" class="form-control" />
+                <span asp-validation-for="BirthDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NationalId" class="control-label"></label>
+                <input asp-for="NationalId" class="form-control" />
+                <span asp-validation-for="NationalId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="HireDate" class="control-label"></label>
+                <input asp-for="HireDate" class="form-control" />
+                <span asp-validation-for="HireDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Salary" class="control-label"></label>
+                <input asp-for="Salary" class="form-control" />
+                <span asp-validation-for="Salary" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AttendanceTime" class="control-label"></label>
+                <input asp-for="AttendanceTime" class="form-control" />
+                <span asp-validation-for="AttendanceTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LeavingTime" class="control-label"></label>
+                <input asp-for="LeavingTime" class="form-control" />
+                <span asp-validation-for="LeavingTime" class="text-danger"></span>
+            </div>
+        
+            <div class="form-group">
+                <label asp-for="department" class="control-label"></label>
+                <select asp-for="DeptID" class="form-control" asp-items="departmentsList"></select>
+                <span asp-validation-for="DeptID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Update" onclick="return confirm('Are you sure you want to update this employee?');" class="btn btn-primary" />
+              
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+@*<script>
+    function ConfirmUpdate(id){
+        confirm("Do you want to update the employee")
+    }
+</script>*@
+@section Scripts{
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}
+

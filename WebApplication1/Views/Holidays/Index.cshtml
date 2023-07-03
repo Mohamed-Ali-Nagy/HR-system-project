@@ -5,8 +5,7 @@
 
 <h1 class="text-center">Holidays</h1>
 <div class="text-center">
-    <a class="btn btn-success" href="/Holidays/New">Add</a>
-
+    <a class="btn btn-success" asp-action="New">Add</a>
 </div>
 <br />
 <table class="table table-bordered text-center">
@@ -21,19 +20,19 @@
     {
         <tr>
             <td>@item.Name</td>
-            <td>@item.Date.ToString("dd-MM-yyyy")</td>
+            <td>@item.Date.ToString("dd/MM/yyyy"), @item.Date.ToString("dddd")</td>
             <td>
                 @Html.ActionLink("Remove", "Remove", new { id = item.id } ,
             new { @class = "btn btn-danger",
             onclick = $"return confirm('Are you sure you want to delete {item.Name} form Holidays?')"
             })
-                <a class="btn btn-warning" href="/Holiday/Edit/@item.id">Edit</a>
+                
+                <a asp-action="Edit" asp-route-Id="@item.id" class="btn btn-warning">Edit</a>
+               
+
             </td>
         </tr>
-
-
     }
-
 </table>
 
 

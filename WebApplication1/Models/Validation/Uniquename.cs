@@ -1,27 +1,24 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace HRSystem.Models.Validation
 {
-    public class Uniquename : ValidationAttribute
+    public class UniquenameAttribute : ValidationAttribute
     {
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
+            var dbContext = validationContext.GetService<HRContext>();
 
-
-            string n = value.ToString();
-
-
-            HRContext hc = new HRContext();
-            Holidays h = hc.Holidays.FirstOrDefault(e => e.Name == n);
-
-            if (h == null)
+            if (value != null && value is DateTime date)
             {
-                return ValidationResult.Success;
-
+                var currentItem = validationContext.ObjectInstance as Holidays;
+                if (currentItem != null && dbContext.Holidays.Any(h => h.Date == date ))
+                {
+                    return new ValidationResult(ErrorMessage);
+                }
             }
 
-            return new ValidationResult("Holiday Exist.");
-
+            return ValidationResult.Success;
         }
     }
 }

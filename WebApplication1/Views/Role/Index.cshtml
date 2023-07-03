@@ -1,0 +1,54 @@
+﻿@model List<RoleUsersVM>
+@{
+    ViewData["Title"] = "Index";
+    int i = 1;
+
+}
+
+<h1>Index</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Role Name</th>
+            <th scope="col">Users</th>
+            <th scope="col">Permissions</th>
+            <th scope="col">Options</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var role in Model)
+        {
+            <tr>
+                <th scope="row">@(i++)</th>
+                <td>@role.RoleName</td>
+                <td>
+                    <ul>
+                        @foreach(var user in role.Users)
+                        {
+                            <li>@user.UserName</li>
+                        }
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        @foreach (var claim in role.RoleClaims)
+                        {
+                            <li>@claim.Value</li>
+                        }
+                    </ul>
+                </td>
+                <td>
+                    <a asp-controller="Role" asp-action="edit" asp-route-RoleName="@role.RoleName" class="btn btn-primary">Edit</a>
+                    <a asp-controller="Role" asp-action="delete" asp-route-RoleName="@role.RoleName" onclick="return confirm('by deleting all users in the group will be deleted')" class="btn btn-primary">Delete</a>
+
+                </td>
+
+            </tr>
+        }
+     
+       
+    </tbody>
+</table>

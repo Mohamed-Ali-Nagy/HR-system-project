@@ -11,6 +11,9 @@ namespace HRSystem.Models
 
         [Required(ErrorMessage = "Date REQUIRED")]
         [DataType(DataType.Date)]
+        [Uniquename(ErrorMessage = "Holiday date is Exist")]
         public DateTime Date { get; set; }
     }
+
+    
 }

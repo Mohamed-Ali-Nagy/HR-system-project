@@ -1,8 +1,10 @@
 ﻿using HRSystem.Models;
 using HRSystem.Repository;
 using HRSystem.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
+using System.Security.Permissions;
+using HRSystem.Constants;
 namespace HRSystem.Controllers
 {
     public class EmployeeController : Controller
@@ -15,11 +17,14 @@ namespace HRSystem.Controllers
             this.departmentRepo = departmentRepository;
         }
 
+        [Authorize(Permission.Employee.View)]
         public IActionResult Index()
         {
            List<Employee> employees = employeeRepo.getAll();
             return View("Index",employees);
         }
+        [Authorize(Permission.Employee.View)]
+
         public IActionResult getDetails(int id)
         {
 
@@ -49,6 +54,8 @@ namespace HRSystem.Controllers
             return View("getDetails", employeeDepartmentVM);
         }
 
+        [Authorize(Permission.Employee.Create)]
+
         [HttpGet]
         public IActionResult add()
         {
@@ -56,6 +63,8 @@ namespace HRSystem.Controllers
             ViewData["EmpGender"]=new List<Gender>() { Gender.Male,Gender.Female};
             return View();
         }
+        //[Authorize(Permission.Employee.Create)]
+
         [HttpPost]
         public IActionResult add(Employee employee)
         {
@@ -70,12 +79,38 @@ namespace HRSystem.Controllers
             employeeRepo.save();
             return RedirectToAction("Index");
         }
-        //[HttpGet]
-        //public IActionResult edit()
-        //{
+        [Authorize(Permission.Employee.Edit)]
 
-        //    return View();
-        //}
+        [HttpGet]
+        public IActionResult edit(int id)
+        {
+            Employee employee = employeeRepo.getById(id);
+            ViewData["DepartmentList"] = departmentRepo.getAll();
+            ViewData["EmpGender"] = new List<Gender>() { Gender.Male, Gender.Female };
+            return View(employee);
+        }
+        [HttpPost]
+        public IActionResult edit(Employee employee)
+        {
+            if(ModelState.IsValid)
+            {
+                employeeRepo.update(employee);
+                employeeRepo.save();
+               return RedirectToAction("Index");
+            }
+            ViewData["DepartmentList"]=departmentRepo.getAll();
+            ViewData["EmpGender"] = new List<Gender>() { Gender.Male,Gender.Female };
+            return View(employee);
+        }
+        // [HttpPost]
+        [Authorize(Permission.Employee.Delete)]
+
+        public IActionResult delete(int id)
+        {
+            employeeRepo.delete(id);
+            employeeRepo.save();
+            return RedirectToAction("index");
+        }
 
 
     }
