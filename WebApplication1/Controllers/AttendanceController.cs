@@ -41,7 +41,7 @@ namespace HRSystem.Controllers
             
             List<AttendanceViewModel> allViewModel = new List<AttendanceViewModel>();
 
-            for (var i = 0; i < attendanceModel.Count; i++)
+            foreach (var attendance in attendanceModel)
             {
                 AttendanceViewModel attvm = new AttendanceViewModel()
                 {
@@ -52,9 +52,9 @@ namespace HRSystem.Controllers
                 };
 
                 //Employee emp = employeeRepo.getById(attendanceModel[i].EmpID);
-                Employee emp = db.Employees.Include(n => n.department).FirstOrDefault(x => x.Id == attendanceModel[i].EmpID);
-
-
+               Employee emp = db.Employees.Include(n => n.department).FirstOrDefault(x => x.Id == attendanceModel[i].EmpID);
+              
+               
 
                 if (emp != null)
                 {
@@ -63,14 +63,17 @@ namespace HRSystem.Controllers
                     if (emp.department != null)
                     {
                         attvm.DepartmentName = emp.department.Name;
+
+
                     }
                 }
 
+
                 allViewModel.Add(attvm);
             }
-
             return View(allViewModel);
         }
+
 
 
 

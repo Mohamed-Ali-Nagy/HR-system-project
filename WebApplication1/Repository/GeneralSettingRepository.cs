@@ -15,7 +15,7 @@ namespace HRSystem.Repository
             return _context.GeneralSettings.FirstOrDefault().AddHourRate;
         }
 
-        double IGeneralSettingRepository.GetDeducateHourRate()
+        public double GetDeducateHourRate()
         {
             return _context.GeneralSettings.FirstOrDefault().DeducateHourRate;
         }

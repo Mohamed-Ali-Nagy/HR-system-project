@@ -10,5 +10,6 @@ namespace HRSystem.Repository
         void Update(int id, Holidays h);
         void Delete(int id);
         void Save();
+       int GetCountOfHolidaysInMonths(int months);
     }
 }

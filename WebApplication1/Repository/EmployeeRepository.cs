@@ -1,4 +1,5 @@
 ﻿using HRSystem.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace HRSystem.Repository
 {
@@ -17,17 +18,18 @@ namespace HRSystem.Repository
 
         public void delete(int id)
         {
-            throw new NotImplementedException();
+           Employee emp= HRdb.Employees.Find(id);
+            emp.IsDeleted= true;
         }
 
         public List<Employee> getAll()
         {
-            return HRdb.Employees.ToList();
+            return HRdb.Employees.Include(x=>x.department).Where(e=>e.IsDeleted==false).ToList();
         }
 
         public Employee getById(int id)
         {
-            return HRdb.Employees.FirstOrDefault(e => e.Id == id);
+            return HRdb.Employees.Include(x => x.department).FirstOrDefault(e => e.Id == id&&e.IsDeleted==false);
 
         }
 
@@ -35,22 +37,19 @@ namespace HRSystem.Repository
 
         public List<Employee> getByName(string name)
         {
-            return HRdb.Employees.Where(e => e.Name.Contains(name)).ToList();
+            return HRdb.Employees.Include(x=>x.department).Where(e => e.Name.Contains(name)&&e.IsDeleted==false).ToList();
         }
 
-        public Employee getByPhone(string phone)
-        {
-            return HRdb.Employees.FirstOrDefault(e => e.Phone == phone);
-        }
-
+   
         public void save()
         {
             HRdb.SaveChanges();
         }
 
-        public Employee update(Employee employee, int id)
+        public void update(Employee employee)
         {
-            throw new NotImplementedException();
+         
+            HRdb.Employees.Update(employee);
         }
 
 
