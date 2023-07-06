@@ -1,6 +1,8 @@
 ﻿using HRSystem.Models;
 using Microsoft.AspNetCore.Mvc;
 using HRSystem.Repository;
+using HRSystem.Constants;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HRSystem.Controllers
 {
@@ -11,25 +13,32 @@ namespace HRSystem.Controllers
         {
             this.holidayRepository = holidayRepository;
         }
+        [Authorize(Permission.Holidays.View)]
+
         public IActionResult Index()
         {
 
             return View(holidayRepository.GetAll());
         }
+        [Authorize(Permission.Holidays.Create)]
 
         public IActionResult New()
         {
             return View();
         }
+        [Authorize(Permission.Holidays.Edit)]
+
         public IActionResult Edit(int id)
         {
             var hModel = holidayRepository.GetById(id);
             return View(hModel);
         }
         [HttpPost]
+        
+
         public IActionResult Edit(int id, Holidays h)
         {
-            if (ModelState != null)
+            if (ModelState.IsValid)
             {
                 holidayRepository.Update(id, h);
                 holidayRepository.Save();
@@ -37,6 +46,8 @@ namespace HRSystem.Controllers
             }
             return View(h);
         }
+        [Authorize(Permission.Holidays.Create)]
+
         public IActionResult AddNewHoliday(Holidays h)
         {
             if (ModelState.IsValid)
@@ -47,6 +58,7 @@ namespace HRSystem.Controllers
             }
             return View("New", h);
         }
+        [Authorize(Permission.Holidays.Delete)]
 
         public IActionResult Remove(int id)
         {

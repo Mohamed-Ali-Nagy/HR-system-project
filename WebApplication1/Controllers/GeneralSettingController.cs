@@ -1,5 +1,7 @@
-﻿using HRSystem.Models;
+﻿using HRSystem.Constants;
+using HRSystem.Models;
 using HRSystem.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NToastNotify;
 
@@ -12,7 +14,8 @@ namespace HRSystem.Controllers
         {
             generalSettingRepository = _generalSettingRepository;
         }
-        
+        [Authorize(Permission.GeneralSetting.View)]
+
         public IActionResult Index()
         {
             ViewBag.Message = "";
@@ -23,7 +26,9 @@ namespace HRSystem.Controllers
             generalSettings.DeducateHourRate=generalSettingRepository.GetDeducateHourRate();
             return View(generalSettings);
         }
-        
+
+        [Authorize(Permission.GeneralSetting.Edit)]
+
         public IActionResult Edit()
         {
             GeneralSettings generalSettings = new GeneralSettings();
@@ -35,6 +40,8 @@ namespace HRSystem.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Permission.GeneralSetting.Edit)]
+
         public IActionResult Save(GeneralSettings generalSettings) 
         {
             if(ModelState.IsValid)
