@@ -37,24 +37,22 @@ namespace HRSystem.Controllers
         }
         public IActionResult Index()
         {
-            List<Attendance> attendanceModel = AttendanceRepository.GetAll();   
-            
+            List<Attendance> attendanceModel = AttendanceRepository.GetAll();
             List<AttendanceViewModel> allViewModel = new List<AttendanceViewModel>();
 
             foreach (var attendance in attendanceModel)
             {
                 AttendanceViewModel attvm = new AttendanceViewModel()
                 {
-                    ID = attendanceModel[i].ID,
-                    TimeAttendance = attendanceModel[i].TimeAttendance,
-                    TimeLeave = attendanceModel[i].TimeLeave,
-                    Date = attendanceModel[i].Date
+                    ID = attendance.ID,
+                    TimeAttendance = attendance.TimeAttendance,
+                    TimeLeave = attendance.TimeLeave,
+                    Date = attendance.Date
+
+
                 };
 
-                //Employee emp = employeeRepo.getById(attendanceModel[i].EmpID);
-               Employee emp = db.Employees.Include(n => n.department).FirstOrDefault(x => x.Id == attendanceModel[i].EmpID);
-              
-               
+                Employee emp = db.Employees.Include(n => n.department).FirstOrDefault(x => x.Id == attendance.EmpID);
 
                 if (emp != null)
                 {
@@ -71,7 +69,10 @@ namespace HRSystem.Controllers
 
                 allViewModel.Add(attvm);
             }
-            return View(allViewModel);
+            ViewBag.AttendanceList = allViewModel;
+
+            return View();
+        
         }
 
 
@@ -88,20 +89,23 @@ namespace HRSystem.Controllers
         public IActionResult ADD(Attendance newattendance)
 
         {
-
-
-
-            if (newattendance != null)
+            if (ModelState.IsValid == true)
             {
-                AttendanceRepository.insert(newattendance);
-                AttendanceRepository.save();
+                if (newattendance != null)
+                {
+                    AttendanceRepository.insert(newattendance);
+                    AttendanceRepository.save();
 
-                return RedirectToAction("Index");
+                    return RedirectToAction("Index");
+                }
+                ViewData["empNameList"] = employeeRepo.getAll();
+                ViewData["departementlist"] = departmentRepo.getAll();
+
+                return View(newattendance);
             }
-            ViewData["empNameList"] = employeeRepo.getAll();
-            ViewData["departementlist"] = departmentRepo.getAll();
-
-            return View(newattendance);
+            return View();
+            
+            
         }
 
 
@@ -198,9 +202,10 @@ namespace HRSystem.Controllers
                         }
 
                         allViewModel.Add(attvm);
+                        ViewBag.AttendanceList = allViewModel;
+
                     }
-                    // return RedirectToAction("index");
-                    return View("index", allViewModel);
+                    return View("index");
                 }
                 else if (attdep.Count > 0)
                 {
@@ -226,9 +231,10 @@ namespace HRSystem.Controllers
                         }
 
                         allViewModel.Add(attvm);
+                        ViewBag.AttendanceList = allViewModel;
                     }
-                    // return RedirectToAction("index");
-                    return View("Index", allViewModel);
+                    
+                    return View("Index");
                 }
 
 
@@ -352,7 +358,7 @@ namespace HRSystem.Controllers
 
                 return Json(false); }
         }*/
-      public IActionResult Testdate (DateTime todate, DateTime fromdate )
+      public IActionResult Testenddate (DateTime todate, DateTime fromdate )
         {
             if(todate>=fromdate)
             {
@@ -362,6 +368,22 @@ namespace HRSystem.Controllers
             else
             { return Json(false); }
 
+        }
+        public IActionResult Testdate (DateTime date)
+        {
+            if(date >= new DateTime(2008, 1, 1, 00, 00, 0))
+            {
+                return Json(true);
+            }
+            else
+                return Json(false);
+        }
+        public IActionResult Testtime(DateTime leavetime, DateTime attendancetime)
+        {
+            if(leavetime >= attendancetime)
+                return Json(true);
+            else
+                return Json(false);
         }
 
     }

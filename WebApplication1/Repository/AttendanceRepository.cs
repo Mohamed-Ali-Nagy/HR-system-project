@@ -1,7 +1,10 @@
-﻿using HRSystem.Enums;
-using HRSystem.Models;
+﻿using HRSystem.Models;
 using Microsoft.EntityFrameworkCore;
+using  HRSystem.ViewModels;
+using System.Linq;
+﻿using HRSystem.Enums;
 using System.Globalization;
+
 
 namespace HRSystem.Repository
 {
@@ -94,6 +97,8 @@ namespace HRSystem.Repository
             oldattendance.Date = Atten.Date;
             oldattendance.EmpID = Atten.EmpID;
         }
+//<<<<<<< HEAD
+        
         public int GetCountOfDaysOfAttendenceOfEmp(int id,Month month,int year)
         {
             var monthNumber=Convert.ToInt32(month);
