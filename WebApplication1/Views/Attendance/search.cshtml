@@ -72,19 +72,19 @@
                     @i
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.TimeAttendance)
+                    @item.TimeAttendance.ToString("hh:mm:ss")
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.TimeLeave)
+                    @item.TimeLeave.ToString("hh:mm:ss")
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Date)
+                    @item.Date.ToString("d")
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.EmployeeName)
+                    @Html.DisplayFor(modelItem => item.Employee)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.DepartmentName)
+                    @Html.DisplayFor(modelItem => item.Department)
                 </td>
                 <td>
                     @Html.ActionLink("Edit", "Edit", new { id = item.ID }, new { @class = "btn btn-danger m-1" })
