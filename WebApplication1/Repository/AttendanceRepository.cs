@@ -104,13 +104,13 @@ namespace HRSystem.Repository
             int days = db.Attendances.Include(n => n.employee).Where(x=>x.employee.Id == id & x.Date.Month == monthNumber & x.Date.Year == year).Count();
             return days;
         }
-        public int GetEmpAddHours(int id,Month month) 
+        public int GetEmpAddHours(int id,Month month, int year) 
         {
             int AddHours = 0;
             var monthNumber = Convert.ToInt32(month);
             var DefaultAttendeceTime =db.Employees.FirstOrDefault(x=>x.Id==id).AttendanceTime.Hour;
             var DefaultLeavingTime =db.Employees.FirstOrDefault(x=>x.Id==id).LeavingTime.Hour;
-            List<Attendance> attendances=db.Attendances.Where(x=>x.EmpID==id&x.Date.Month== monthNumber).ToList();
+            List<Attendance> attendances=db.Attendances.Where(x=>x.EmpID==id&x.Date.Month== monthNumber &x.Date.Year==year).ToList();
             foreach (var item in attendances)
             {
                if(item.TimeAttendance.Hour<DefaultAttendeceTime)
@@ -124,7 +124,7 @@ namespace HRSystem.Repository
             }
             return AddHours;
         }
-        public int GetEmpDeducateHours(int id, Month month)
+        public int GetEmpDeducateHours(int id, Month month, int year)
         {
             int DeducateHours = 0;
             var monthNumber = Convert.ToInt32(month);
