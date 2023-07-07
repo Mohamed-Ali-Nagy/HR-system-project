@@ -40,8 +40,7 @@ namespace HRSystem.Controllers
             double DefaultAddHourRate = generalSettingRepo.GetAddHourRate();
             double DefaultDeducateRate = generalSettingRepo.GetDeducateHourRate();
             #endregion
-            #region days of current Months
-            //Get Thhe days of current Months 
+            #region days of current Months 
             int DaysOfMonth = attendanceRepo.GetCountOfDaysOfMonth(ThisMonth);
             #endregion     
             #region count of WeekRest Days in this Months
@@ -68,8 +67,8 @@ namespace HRSystem.Controllers
                 salRebVM.DeptName = employee.department.Name;
                 salRebVM.BasicSalary = employee.Salary;
                 salRebVM.Attendancedays = attendanceRepo.GetCountOfDaysOfAttendenceOfEmp(employee.Id, ThisMonth, thisYear);
-                salRebVM.AbsenceDays = (DaysOfMonth-(salRebVM.Attendancedays + countOfweekRestOfMonth+ holidayOfMonth));
-                salRebVM.AddHours = attendanceRepo.GetEmpAddHours(employee.Id, ThisMonth);
+                salRebVM.AbsenceDays = DaysOfMonth-(salRebVM.Attendancedays+countOfweekRestOfMonth+holidayOfMonth);
+                salRebVM.AddHours = attendanceRepo.GetEmpAddHours(employee.Id,ThisMonth);
                 salRebVM.DedacatedHours = attendanceRepo.GetEmpDeducateHours(employee.Id, ThisMonth);
                 salRebVM.TotalAdd = salRebVM.AddHours * DefaultAddHourRate;
                 salRebVM.TotalDedacated = salRebVM.DedacatedHours * DefaultDeducateRate;

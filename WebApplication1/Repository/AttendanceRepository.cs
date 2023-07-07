@@ -97,15 +97,13 @@ namespace HRSystem.Repository
             oldattendance.Date = Atten.Date;
             oldattendance.EmpID = Atten.EmpID;
         }
-//<<<<<<< HEAD
-        
         public int GetCountOfDaysOfAttendenceOfEmp(int id,Month month,int year)
         {
-            var monthNumber=Convert.ToInt32(month);
-            int days = db.Attendances.Include(n=>n.employee).Where(x=>x.employee.Id==id).Where(x=>x.Date.Month==monthNumber&x.Date.Year==year).Count();
+            //..Where(x => ).
+            var monthNumber =Convert.ToInt32(month);
+            int days = db.Attendances.Include(n => n.employee).Where(x=>x.employee.Id == id & x.Date.Month == monthNumber & x.Date.Year == year).Count();
             return days;
         }
-
         public int GetEmpAddHours(int id,Month month) 
         {
             int AddHours = 0;
