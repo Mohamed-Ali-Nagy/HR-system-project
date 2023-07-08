@@ -30,9 +30,15 @@ namespace HRSystem.Controllers
             List<SalaryReportViewModel> salRebVMlst = new List<SalaryReportViewModel>();
             //get all employess from DB
             List<Employee> employees = employeeRepo.getAll();
+            #region Data for pagination
+            int count= employees.Count;
+            ViewBag.Result = count;
+            int recordsPerPages = count / 10;
+            ViewBag.recordsPerPages = recordsPerPages;
+            #endregion
             #region Current month() and year
             //Get Current month() and year 
-            Enums.Month ThisMonth = (Enums.Month)Enum.Parse(typeof(Enums.Month), DateTimeFormatInfo.CurrentInfo.GetMonthName(DateTime.Now.Month));
+           Enums.Month ThisMonth = (Enums.Month)Enum.Parse(typeof(Enums.Month), DateTimeFormatInfo.CurrentInfo.GetMonthName(DateTime.Now.Month));
             int thisYear = DateTime.Now.Year;
             #endregion
             #region The the Default (AddHourRate&DeducateRate) From DB
