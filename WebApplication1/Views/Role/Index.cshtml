@@ -4,51 +4,60 @@
     int i = 1;
 
 }
+<div class="container">
+    <h1 class="my-5">All Groups</h1>
+    <a asp-controller="Role" asp-action="add" >Add new group</a>
 
-<h1>Index</h1>
-
-<table class="table">
-    <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Role Name</th>
-            <th scope="col">Users</th>
-            <th scope="col">Permissions</th>
-            <th scope="col">Options</th>
-
-        </tr>
-    </thead>
-    <tbody>
-        @foreach(var role in Model)
-        {
+    <table class="table">
+        <thead>
             <tr>
-                <th scope="row">@(i++)</th>
-                <td>@role.RoleName</td>
-                <td>
-                    <ul>
-                        @foreach(var user in role.Users)
-                        {
-                            <li>@user.UserName</li>
-                        }
-                    </ul>
-                </td>
-                <td>
-                    <ul>
-                        @foreach (var claim in role.RoleClaims)
-                        {
-                            <li>@claim.Value</li>
-                        }
-                    </ul>
-                </td>
-                <td>
-                    <a asp-controller="Role" asp-action="edit" asp-route-RoleName="@role.RoleName" class="btn btn-primary">Edit</a>
-                    <a asp-controller="Role" asp-action="delete" asp-route-RoleName="@role.RoleName" onclick="return confirm('by deleting all users in the group will be deleted')" class="btn btn-primary">Delete</a>
-
-                </td>
+                <th scope="col">#</th>
+                <th scope="col">Role Name</th>
+                <th scope="col">Users</th>
+                <th scope="col">Permissions</th>
+                <th scope="col">Options</th>
 
             </tr>
-        }
-     
-       
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var role in Model)
+            {
+                <tr>
+                    <th scope="row">@(i++)</th>
+                    <td>@role.RoleName</td>
+                    <td>
+                        <ul>
+                            @foreach (var user in role.Users)
+                            {
+                                <li>@user</li>
+                            }
+                        </ul>
+                    </td>
+                    <td>
+                        <ol class="overflow-auto" style="height:7rem;width:18rem; overflow:auto;">
+
+                            @foreach (var claim in role.RoleClaims)
+                            {
+                                <li>@claim</li>
+                            }
+                        </ol>
+
+
+                    </td>
+
+                    <td>
+                        @if(role.RoleName!="SuperAdmin"){
+                            <a asp-controller="Role" asp-action="edit" asp-route-Id="@role.Id">Edit | </a>
+                            <a asp-controller="Role" asp-action="delete" asp-route-Id="@role.Id" onclick="return confirm('By deleting all users in the group will be deleted')">Delete</a>
+                        }
+                        
+
+                    </td>
+
+                </tr>
+            }
+
+
+        </tbody>
+    </table>
+</div>

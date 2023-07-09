@@ -19,7 +19,7 @@ namespace HRSystem.Models.Validation
                 Employee empFrom = validationContext.ObjectInstance as Employee;
                 string phone = value.ToString();
                 Employee empFromDatabase = HRdb.Employees.FirstOrDefault(p=>p.Phone == phone);
-                if (empFromDatabase != null || empFrom.Id == empFromDatabase.Id)
+                if (empFromDatabase == null || empFrom.Id == empFromDatabase.Id)
                 {
                     return ValidationResult.Success;
                 }

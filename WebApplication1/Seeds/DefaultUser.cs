@@ -15,8 +15,8 @@ namespace HRSystem.Seeds
                 UserName = "mamn1111997@gmail.com",
                 PasswordHash = "P@ssword1"
             };
-            ApplicationUser user=await userManager.FindByEmailAsync(defaultUser.Email);
-            if (user==null)//!userManager.Users.Any())
+            //ApplicationUser user=await userManager.FindByEmailAsync(defaultUser.Email);
+            if (!userManager.Users.Any())
             {
                 await userManager.CreateAsync(defaultUser, "P@ssword1");
                 await userManager.AddToRoleAsync(defaultUser,"SuperAdmin");

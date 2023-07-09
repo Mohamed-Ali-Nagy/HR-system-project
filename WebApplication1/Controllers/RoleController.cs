@@ -6,11 +6,11 @@ using System.Security.Claims;
 using HRSystem.Models;
 using Microsoft.AspNetCore.Authorization;
 using System.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace HRSystem.Controllers
 {
     [Authorize(Roles = "SuperAdmin")]
-
     public class RoleController : Controller
 
     {
@@ -37,47 +37,54 @@ namespace HRSystem.Controllers
             return View(roleVM);
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
+
         public async Task< IActionResult> add(RolePermisionsVM newRole)
         {
-            if(ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                if(await roleManager.FindByNameAsync(newRole.Name)==null)
-                {
-                    bool permissionAdded=newRole.AllPermissions.Any(p=>p.isSelected==true);
-                    if(permissionAdded)
-                    {
-                        IdentityRole role=new IdentityRole();
-                        role.Name=newRole.Name;
+                return View(newRole);
 
-                        await roleManager.CreateAsync(role);
-                        foreach(var permission in newRole.AllPermissions)
-                        {
-                            if (permission.isSelected == true)
-                            {
-                                await roleManager.AddClaimAsync(role,new Claim("Permission",permission.ClaimValue));
-                            }
+            }
+            if (await roleManager.FindByNameAsync(newRole.Name)!=null)
+            {
+                ModelState.AddModelError("", "Role name is already exist");
+                return View(newRole);
 
-                        }
-                        return RedirectToAction("Index");
-
-                    }
-
-                    ModelState.AddModelError("", "You have to select the permission for the new role group");
-                }
-                else
-                {
-                    ModelState.AddModelError("", "Role name is already exist");
-
-                }
             }
 
-            return View(newRole);
+
+            bool permissionAdded =newRole.AllPermissions.Any(p=>p.isSelected==true);
+            if(permissionAdded)
+            {
+                IdentityRole role=new IdentityRole();
+                role.Name=newRole.Name;
+
+                await roleManager.CreateAsync(role);
+                foreach(var permission in newRole.AllPermissions)
+                {
+                   if (permission.isSelected == true)
+                   {
+                     await roleManager.AddClaimAsync(role,new Claim("Permission",permission.ClaimValue));
+                   }
+
+                }
+                 return RedirectToAction("Index");
+
+            }
+            else
+            {
+                ModelState.AddModelError("", "You have to select the permission for the new role group");
+                return View(newRole);
+
+            }
+
 
         }
         [HttpGet]
-        public async Task<IActionResult> edit(string roleName)
+        public async Task<IActionResult> edit(string id)
         {
-            IdentityRole role = await roleManager.FindByNameAsync(roleName);
+            IdentityRole role = await roleManager.FindByIdAsync(id);
             
             var claimList = await roleManager.GetClaimsAsync(role);
             List<string> allClaims = Permission.creatAllPirmissions();
@@ -93,30 +100,37 @@ namespace HRSystem.Controllers
 
             RolePermisionsVM roleVM = new RolePermisionsVM()
             {
-                //Id=role.Id,
+                Id=role.Id,
                 Name = role.Name,
                 Pages = Enum.GetNames(typeof(Constants.Models)).ToList(),
                 AllPermissions=allPermissions,
 
             };
             return View(roleVM);
-
-
-
         }
+
+
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> edit(RolePermisionsVM roleVM)
         {
             if (!ModelState.IsValid)
             {
                 return View(roleVM);
             }
-            IdentityRole role= await roleManager.FindByNameAsync(roleVM.Name);
-            //if (role != null)
-            //{
-            //    ModelState.AddModelError("Name", "The name is already existed");
-            //    return View(roleVM);
-            //}
+
+            IdentityRole role= await roleManager.FindByIdAsync(roleVM.Id);
+            IdentityRole roleByName=await roleManager.FindByNameAsync(roleVM.Name);
+            if (roleByName != null && roleByName.Id!=role.Id)
+            {
+                ModelState.AddModelError("Name", "The name is already existed");
+                return View(roleVM);
+            }
+            else
+            {
+                role.Name = roleVM.Name;
+            }
+
             bool permissionAdded = roleVM.AllPermissions.Any(p => p.isSelected == true);
             if(permissionAdded)
             {
@@ -139,9 +153,9 @@ namespace HRSystem.Controllers
             }
 
         }
-        public async Task<IActionResult> delete(string roleName)
+        public async Task<IActionResult> delete(string id)
         {
-            var role=await roleManager.FindByNameAsync(roleName);
+            var role=await roleManager.FindByIdAsync(id);
             var users =await userManager.GetUsersInRoleAsync(role.Name);
             if (users != null)
             {
@@ -163,15 +177,21 @@ namespace HRSystem.Controllers
             List<RoleUsersVM> rolesVM = new List<RoleUsersVM>();
 
             List<IdentityRole> roles = roleManager.Roles.ToList();
-            for(int i=0; i < roles.Count;i++)
+            for (int i = 0; i < roles.Count; i++)
             {
-                RoleUsersVM roleUsersVM= new RoleUsersVM();
-                roleUsersVM.RoleName = roles[i].Name;
-                roleUsersVM.Users = (List<ApplicationUser>)await userManager.GetUsersInRoleAsync(roles[i].Name);
-                roleUsersVM.RoleClaims = (List<Claim>)await roleManager.GetClaimsAsync(roles[i]);
+                RoleUsersVM roleUsersVM = new RoleUsersVM()
+                {
+                    Id = roles[i].Id,
+                    RoleName= roles[i].Name,
+                    Users = (await userManager.GetUsersInRoleAsync(roles[i].Name)).Select(u=>u.UserName).ToList(),
+                    RoleClaims = (await roleManager.GetClaimsAsync(roles[i])).Select(c => c.Value).ToList(),
+                };
+              
                 rolesVM.Add(roleUsersVM);
             }
-            
+
+          
+
             return View(rolesVM);
 
         }
