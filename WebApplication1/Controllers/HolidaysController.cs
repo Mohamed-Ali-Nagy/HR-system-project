@@ -38,7 +38,7 @@ namespace HRSystem.Controllers
 
         public IActionResult Edit(int id, Holidays h)
         {
-            if (ModelState != null)
+            if (ModelState.IsValid)
             {
                 holidayRepository.Update(id, h);
                 holidayRepository.Save();

@@ -30,9 +30,15 @@ namespace HRSystem.Controllers
             List<SalaryReportViewModel> salRebVMlst = new List<SalaryReportViewModel>();
             //get all employess from DB
             List<Employee> employees = employeeRepo.getAll();
+            #region Data for pagination
+            int count= employees.Count;
+            ViewBag.Result = count;
+            int recordsPerPages = count / 10;
+            ViewBag.recordsPerPages = recordsPerPages;
+            #endregion
             #region Current month() and year
             //Get Current month() and year 
-            Enums.Month ThisMonth = (Enums.Month)Enum.Parse(typeof(Enums.Month), DateTimeFormatInfo.CurrentInfo.GetMonthName(DateTime.Now.Month));
+           Enums.Month ThisMonth = (Enums.Month)Enum.Parse(typeof(Enums.Month), DateTimeFormatInfo.CurrentInfo.GetMonthName(DateTime.Now.Month));
             int thisYear = DateTime.Now.Year;
             #endregion
             #region The the Default (AddHourRate&DeducateRate) From DB
@@ -40,8 +46,7 @@ namespace HRSystem.Controllers
             double DefaultAddHourRate = generalSettingRepo.GetAddHourRate();
             double DefaultDeducateRate = generalSettingRepo.GetDeducateHourRate();
             #endregion
-            #region days of current Months
-            //Get Thhe days of current Months 
+            #region days of current Months 
             int DaysOfMonth = attendanceRepo.GetCountOfDaysOfMonth(ThisMonth);
             #endregion     
             #region count of WeekRest Days in this Months
@@ -68,9 +73,9 @@ namespace HRSystem.Controllers
                 salRebVM.DeptName = employee.department.Name;
                 salRebVM.BasicSalary = employee.Salary;
                 salRebVM.Attendancedays = attendanceRepo.GetCountOfDaysOfAttendenceOfEmp(employee.Id, ThisMonth, thisYear);
-                salRebVM.AbsenceDays = (DaysOfMonth-(salRebVM.Attendancedays + countOfweekRestOfMonth+ holidayOfMonth));
-                salRebVM.AddHours = attendanceRepo.GetEmpAddHours(employee.Id, ThisMonth);
-                salRebVM.DedacatedHours = attendanceRepo.GetEmpDeducateHours(employee.Id, ThisMonth);
+                salRebVM.AbsenceDays = DaysOfMonth-(salRebVM.Attendancedays+countOfweekRestOfMonth+holidayOfMonth);
+                salRebVM.AddHours = attendanceRepo.GetEmpAddHours(employee.Id,ThisMonth, thisYear);
+                salRebVM.DedacatedHours = attendanceRepo.GetEmpDeducateHours(employee.Id, ThisMonth,thisYear);
                 salRebVM.TotalAdd = salRebVM.AddHours * DefaultAddHourRate;
                 salRebVM.TotalDedacated = salRebVM.DedacatedHours * DefaultDeducateRate;
                 //Calculation Of Daily And hour Rate
@@ -128,8 +133,8 @@ namespace HRSystem.Controllers
                 salRebVM.BasicSalary = employee.Salary;
                 salRebVM.Attendancedays = attendanceRepo.GetCountOfDaysOfAttendenceOfEmp(employee.Id, ThisMonth, thisYear);
                 salRebVM.AbsenceDays = (DaysOfMonth-(salRebVM.Attendancedays + countOfweekRestOfMonth+ holidayOfMonth));
-                salRebVM.AddHours = attendanceRepo.GetEmpAddHours(employee.Id, ThisMonth);
-                salRebVM.DedacatedHours = attendanceRepo.GetEmpDeducateHours(employee.Id, ThisMonth);
+                salRebVM.AddHours = attendanceRepo.GetEmpAddHours(employee.Id, ThisMonth,thisYear);
+                salRebVM.DedacatedHours = attendanceRepo.GetEmpDeducateHours(employee.Id, ThisMonth, thisYear);
                 salRebVM.TotalAdd = salRebVM.AddHours * DefaultAddHourRate;
                 salRebVM.TotalDedacated = salRebVM.DedacatedHours * DefaultDeducateRate;
                 //Calculation Of Daily And hour Rate
@@ -187,8 +192,8 @@ namespace HRSystem.Controllers
                 Month = ThisMonth,
                 Attendancedays = attendanceRepo.GetCountOfDaysOfAttendenceOfEmp(employee.Id, ThisMonth, thisYear),
                 //AbsenceDays = (DaysOfMonth - (Attendancedays + countOfweekRestOfMonth)),
-                AddHours = attendanceRepo.GetEmpAddHours(employee.Id, ThisMonth),
-                DedacatedHours = attendanceRepo.GetEmpDeducateHours(employee.Id, ThisMonth),
+                AddHours = attendanceRepo.GetEmpAddHours(employee.Id, ThisMonth,thisYear),
+                DedacatedHours = attendanceRepo.GetEmpDeducateHours(employee.Id, ThisMonth, thisYear),
                 //TotalAdd = AddHours * DefaultAddHourRate,
                 //TotalDedacated = DedacatedHours * DefaultDeducateRate
                 //salRebVM.TotalDue=

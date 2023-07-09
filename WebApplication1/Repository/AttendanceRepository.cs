@@ -1,11 +1,14 @@
-﻿using HRSystem.Enums;
-using HRSystem.Models;
+﻿using HRSystem.Models;
 using Microsoft.EntityFrameworkCore;
+using  HRSystem.ViewModels;
+using System.Linq;
+﻿using HRSystem.Enums;
 using System.Globalization;
+
 
 namespace HRSystem.Repository
 {
-    public class AttendanceRepository :IAttendanceRepository
+    public class AttendanceRepository : IAttendanceRepository
     {
 
         HRContext db;
@@ -25,8 +28,47 @@ namespace HRSystem.Repository
         {
             return db.Attendances.ToList();
         }
+        
+        public List<Attendance> Getbyempname(searchattendanceViewModel searchmodel)
+        {
+           
+            List<Employee> emp1 = db.Employees.Where(e => e.Name.Contains(searchmodel.Name)).ToList();
+            List<Attendance> atttendance1 = new List<Attendance>();
 
+            foreach (Employee item in emp1)
+            {
+                Attendance search = db.Attendances.Where(n=>n.Date>= searchmodel.fromdate && n.Date<= searchmodel.todate && n.EmpID== item.Id).FirstOrDefault();
+                if (search != null)
+                    atttendance1.Add(search);
+            }
+            return atttendance1;
+        }
+        public List<Attendance> getbydepname(searchattendanceViewModel searchmodel) 
+        {
+            List<Department> dep = db.Departments.Where(n => n.Name.Contains(searchmodel.Name)).ToList();
+            List<Attendance> att = new List<Attendance>();
+            foreach (Department item in dep)
+            {
+                List<Employee> emp = db.Employees.Where(n => n.DeptID == item.Id ).ToList();
+                foreach (Employee item2 in emp)
+                {
+                   
+                    Attendance search = db.Attendances.FirstOrDefault(n => n.EmpID == item2.Id && n.Date >= searchmodel.fromdate && n.Date<= searchmodel.todate);
+                    if(search!=null)
+                    att.Add(search);
 
+                }
+
+            }
+            return att;
+        
+        }
+        public List<Attendance> getbydate(DateTime fromdate ,DateTime todate)
+        {
+            List<Attendance> att=db.Attendances.Where(n=>n.Date>=fromdate &&n.Date<=todate).ToList();
+            return att;
+
+          }
 
         public Attendance GetBYId(int id)
         {
@@ -57,18 +99,18 @@ namespace HRSystem.Repository
         }
         public int GetCountOfDaysOfAttendenceOfEmp(int id,Month month,int year)
         {
-            var monthNumber=Convert.ToInt32(month);
-            int days = db.Attendances.Include(n=>n.employee).Where(x=>x.employee.Id==id).Where(x=>x.Date.Month==monthNumber&x.Date.Year==year).Count();
+            //..Where(x => ).
+            var monthNumber =Convert.ToInt32(month);
+            int days = db.Attendances.Include(n => n.employee).Where(x=>x.employee.Id == id & x.Date.Month == monthNumber & x.Date.Year == year).Count();
             return days;
         }
-
-        public int GetEmpAddHours(int id,Month month) 
+        public int GetEmpAddHours(int id,Month month, int year) 
         {
             int AddHours = 0;
             var monthNumber = Convert.ToInt32(month);
             var DefaultAttendeceTime =db.Employees.FirstOrDefault(x=>x.Id==id).AttendanceTime.Hour;
             var DefaultLeavingTime =db.Employees.FirstOrDefault(x=>x.Id==id).LeavingTime.Hour;
-            List<Attendance> attendances=db.Attendances.Where(x=>x.EmpID==id&x.Date.Month== monthNumber).ToList();
+            List<Attendance> attendances=db.Attendances.Where(x=>x.EmpID==id&x.Date.Month== monthNumber &x.Date.Year==year).ToList();
             foreach (var item in attendances)
             {
                if(item.TimeAttendance.Hour<DefaultAttendeceTime)
@@ -82,7 +124,7 @@ namespace HRSystem.Repository
             }
             return AddHours;
         }
-        public int GetEmpDeducateHours(int id, Month month)
+        public int GetEmpDeducateHours(int id, Month month, int year)
         {
             int DeducateHours = 0;
             var monthNumber = Convert.ToInt32(month);

@@ -769,7 +769,7 @@
   }
 
   function detectSvgConflicts(currentScript) {
-    var scripts = Array.from(DOCUMENT.scripts).filter(function (t) {
+    var newscript = Array.from(DOCUMENT.scripts).filter(function (t) {
       return !t.hasAttribute(detectionIgnoreAttr) && t !== currentScript;
     });
     var scriptsByMD5 = {};
