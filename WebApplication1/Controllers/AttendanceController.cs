@@ -68,7 +68,8 @@ namespace HRSystem.Controllers
 
 
                 allViewModel.Add(attvm);
-            }
+                allViewModel=allViewModel.OrderByDescending(a=>a.Date).ToList();    
+                    }
             ViewBag.AttendanceList = allViewModel;
 
             return View();
@@ -378,9 +379,9 @@ namespace HRSystem.Controllers
             else
                 return Json(false);
         }
-        public IActionResult Testtime(DateTime leavetime, DateTime attendancetime)
+        public IActionResult Testtime(TimeOnly leavetime, TimeOnly attendancetime)
         {
-            if(leavetime >= attendancetime)
+            if(leavetime.Hour > attendancetime.Hour)
                 return Json(true);
             else
                 return Json(false);
