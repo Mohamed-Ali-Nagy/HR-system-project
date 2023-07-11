@@ -1,41 +1,46 @@
 ﻿@model searchattendanceViewModel
 
 @{
-    
-  
     ViewData["Title"] = "Index";
-}
-
-<h1>Index</h1>
-@{
     var i = 0;
 }
 
-<form class="container-fluid" method="post" asp-action="search" asp-controller="Attendance" >
+<h1 class="mx-auto my-auto text-center   text-danger">Index</h1>
+
+<style>
+    .form-container {
+        width: 90%;
+        margin: 0 auto;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        padding: 20px;
+    }
+</style>
+
+<form class="container-fluid  m-5" method="post" asp-action="search" asp-controller="Attendance" >
     <div class="form-group col-4 ">
        <label asp-for="Name"></label>
-        <input class="form-control" asp-for=Name type="text" name="name" placeholder="Enter employee name or dep name" />
+        <input class="form-control w-100" asp-for=Name type="text" name="name" placeholder="Enter employee name or dep name" />
         <span asp-validation-for=Name class="text-danger"></span>
     </div>
 <div>
         <div class="form-group col-3">
             <label asp-for="fromdate" >From date</label>
-        <input  class="form-control" asp-for=fromdate type="date" name="fromdate" placeholder="fromdate" />
+        <input  class="form-control  w-100" asp-for=fromdate type="date" name="fromdate" placeholder="fromdate" />
             <span asp-validation-for=fromdate class="text-danger"></span>
     </div>
 
         <div class="form-group col-3">
             <label asp-for="todate">To date</label>
-            <input class="form-control" asp-for=todate type="date" name="todate" placeholder="todate" />
+            <input class="form-control w-100" asp-for=todate type="date" name="todate" placeholder="todate" />
         <span asp-validation-for=todate  class="text-danger"></span>
     </div>
 
-        <button type="submit" class="btn btn-primary col-1">Search</button>
+        <button type="submit" class="btn btn-primary col-4">Search</button>
     </div>
 </form>
 
 
-<table>
+<table class="m-5">
 <thead>
     <tr>
         <th>ID</th>
