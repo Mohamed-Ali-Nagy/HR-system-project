@@ -81,6 +81,48 @@
     @*@Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |*@
     <a class="btn btn-primary" asp-action="Index">Back to List</a>
     <button class="btn btn-primary" id="download-btn"> Download PDF </button>
+    
 </div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.debug.js"></script>
 <script>
+    document.getElementById('download-btn').addEventListener('click', function () {
+        // Create a new PDF document
+        var doc = new jsPDF();
+
+        // Set the initial y position for the content
+        var y = 20;
+
+        // Set the header text
+        var headerTitle = 'Salary Report';
+
+        // Set the header
+        doc.setFontSize(18);
+        doc.text(headerTitle, 10, y);
+        y += 10;
+
+        // Iterate through the dl elements and add them to the PDF document
+        var dlElements = document.getElementsByTagName('dl');
+        if (dlElements.length > 0) {
+            var dl = dlElements[0];
+            var dtElements = dl.getElementsByTagName('dt');
+            var ddElements = dl.getElementsByTagName('dd');
+
+            for (var i = 0; i < dtElements.length; i++) {
+                var dt = dtElements[i];
+                var dd = ddElements[i];
+
+                doc.setFontSize(12);
+                doc.text(dt.innerText, 10, y);
+                doc.setFontSize(10);
+                doc.text(dd.innerText, 30, y);
+
+                y += 10;
+            }
+        }
+
+        // Save the PDF document
+        doc.save('salary_report.pdf');
+    });
 </script>

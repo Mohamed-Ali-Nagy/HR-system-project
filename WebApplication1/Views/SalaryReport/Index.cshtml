@@ -46,6 +46,7 @@
         </div>
     </div>
 </form>
+@*
 @*<p>
     <a asp-action="Create">Create New</a>
 </p>*@
@@ -96,12 +97,42 @@
             <td class="row">
                     <a class="mx-1 col btn btn-primary" href="/SalaryReport/Details/@item.Id">Print</a>
                 <a class=" col btn btn-warning">Edit</a>
-            </td> 
+            </td>               
         </tr>
         }
     </tbody>
 </table>
+<script>
+    function exportToExcel() {
+        var data = [];
+        // Iterate through each table row and collect the data
+        $('#salarytable tbody tr').each(function () {
+            var row = $(this);
+            var item = {
+                EmpName: row.find('td:nth-child(1)').text().trim(),
+                DeptName: row.find('td:nth-child(2)').text().trim(),
+                BasicSalary: row.find('td:nth-child(3)').text().trim(),
+                // Add more properties as needed
+            };
 
+            data.push(item);
+        });
+        // Create a form to send the data to the DownloadExcel action
+        var form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '/SalaryReport/DownloadExcel';
+        // Create an input field to hold the serialized JSON data
+        var input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'salaryReportData';
+        input.value = JSON.stringify(data);
+        // Append the input field to the form
+        form.appendChild(input);
+        // Append the form to the document and submit it
+        document.body.appendChild(form);
+        form.submit();
+    }
+</script>
 @section newscript{
 
 }
