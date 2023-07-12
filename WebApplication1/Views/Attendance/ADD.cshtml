@@ -6,15 +6,12 @@
     SelectList empList = new SelectList(ViewBag.empNameList, "Id", "Name");
 }
 
-<h1>ADD</h1>
 
-
-<hr />
 
 
 @if (TempData["Message"] != null)
 {
-    <div class="alert alert-danger w-50 mx-auto my-auto text-center">@TempData["Message"]</div>
+    <div class="alert alert-danger w-50 mx-auto my-auto text-center mt-5">@TempData["Message"]</div>
 }
    
 
@@ -28,7 +25,7 @@
     }
 </style>
 
-<div class="form-container">
+<div class="form-container m-5">
 <form method="post">
     <div class="form-group">
         <label asp-for="TimeAttendance">Time Attendance:</label>

@@ -20,7 +20,7 @@
     {
         <tr>
             <td>@item.Name</td>
-            <td>@item.Date.ToString("dd/MM/yyyy"), @item.Date.ToString("dddd")</td>
+            <td>@item.Date.ToString("MM/dd/yyyy"), @item.Date.ToString("dddd")</td>
             <td>
                 @Html.ActionLink("Remove", "Remove", new { id = item.id } ,
             new { @class = "btn btn-danger",

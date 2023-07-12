@@ -1,9 +1,14 @@
-﻿using HRSystem.Enums;
+﻿using ClosedXML.Excel;
+using HRSystem.Enums;
 using HRSystem.Models;
 using HRSystem.Repository;
 using HRSystem.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using OfficeOpenXml;
 using Rotativa.AspNetCore;
+using System.ComponentModel;
+using System.Data;
 using System.Globalization;
 
 
@@ -202,10 +207,54 @@ namespace HRSystem.Controllers
             salaryReportViewModel.TotalAdd = salaryReportViewModel.AddHours * DefaultAddHourRate;
             salaryReportViewModel.TotalDedacated = salaryReportViewModel.DedacatedHours * DefaultDeducateRate;
             salaryReportViewModel.TotalDue = Math.Round((double)(employee.Salary + HourRate * (salaryReportViewModel.TotalAdd - salaryReportViewModel.TotalDedacated) - (salaryReportViewModel.AbsenceDays * dailyRate)), 2);
-
+            ViewBag.year = thisYear;
             return View(salaryReportViewModel);
         }
 
+        [HttpPost]
+        public IActionResult DownloadExcel(string tabelData)
+        {
+            // Prepare your data (example)
+            //var data = 
+            List<List<string>> data = JsonConvert.DeserializeObject<List<List<string>>>(tabelData);
 
+            using (var workbook = new XLWorkbook())
+            {
+                DataTable dataTable = this.GetDataTable_Exporter(data);
+                if (dataTable.Rows.Count > 0)
+                {
+                    dataTable.TableName = "SalaryReport";
+                    workbook.Worksheets.Add(dataTable);
+                    using (var stream = new MemoryStream())
+                    {
+                        workbook.SaveAs(stream);
+                        return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Litigation_Exporter.xlsx");
+                    }
+                }
+            }
+            return null;
+           
+        }
+
+        [HttpGet]
+        [Route("GetDataTable_Exporter")]
+        public DataTable GetDataTable_Exporter(List<List<string>> data)
+        {
+
+            PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(data);
+            DataTable table = new DataTable();
+            foreach (PropertyDescriptor prop in properties)
+                table.Columns.Add(prop.Name, Nullable.GetUnderlyingType(prop.PropertyType) ?? prop.PropertyType);
+            foreach (var item in data)
+            {
+                DataRow row = table.NewRow();
+                foreach (PropertyDescriptor prop in properties)
+                    row[prop.Name] = prop.GetValue(item) ?? DBNull.Value;
+                table.Rows.Add(row);
+            }
+
+            return table;
+        }
     }
 }
+

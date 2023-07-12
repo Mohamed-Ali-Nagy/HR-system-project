@@ -31,8 +31,7 @@ namespace HRSystem.Controllers
                                                     Name = u.Name,
                                                     UserName = u.UserName,
                                                     Email = u.Email,
-                                                   // Password = u.PasswordHash,
-                                                    
+                                              
                                                 }).ToList();
           
             return View(users);
@@ -49,42 +48,44 @@ namespace HRSystem.Controllers
 
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> add(ApplicationUserGroupVM newUser)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                return View(newUser);
-            }
-            if (await userManager.FindByEmailAsync(newUser.Email) == null&& await userManager.FindByNameAsync(newUser.UserName) == null)
-            {
-                ApplicationUser user = new ApplicationUser()
+                if (await userManager.FindByEmailAsync(newUser.Email) == null && await userManager.FindByNameAsync(newUser.UserName) == null)
                 {
-                 
-                    Name = newUser.Name,
-                    Email = newUser.Email,
-                    UserName = newUser.UserName,
-
-                };
-
-                IdentityResult isCreated=await userManager.CreateAsync(user,newUser.Password);
-                if(isCreated.Succeeded)
-                {
-                   await userManager.AddToRoleAsync(user, newUser.RoleName);
-                    return RedirectToAction("Index");
-                }
-                else
-                {
-                    foreach (var error in isCreated.Errors)
+                    ApplicationUser user = new ApplicationUser()
                     {
-                       ModelState.AddModelError("Password",error.Description);
+
+                        Name = newUser.Name,
+                        Email = newUser.Email,
+                        UserName = newUser.UserName,
+
+                    };
+
+                    IdentityResult isCreated = await userManager.CreateAsync(user, newUser.Password);
+                    if (isCreated.Succeeded)
+                    {
+                        await userManager.AddToRoleAsync(user, newUser.RoleName);
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        foreach (var error in isCreated.Errors)
+                        {
+                            ModelState.AddModelError("Password", error.Description);
+                        }
                     }
                 }
+
+                else
+                {
+                    ModelState.AddModelError("", "Email or user name is already exist");
+                }
+
             }
-         
-            else
-            {
-                ModelState.AddModelError("", "Email or user name is already exist");
-            }
+            newUser.Groups=roleManager.Roles.ToList();
             return View(newUser);
 
         }
@@ -126,41 +127,41 @@ namespace HRSystem.Controllers
         [HttpPost]
         public async Task<IActionResult> edit(ApplicationUserGroupVM userVM)
         {
-            userVM.Groups = roleManager.Roles.ToList();
 
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                return View(userVM);
-            }
-            ApplicationUser user = await userManager.FindByIdAsync(userVM.Id);
-            if(await userManager.FindByEmailAsync(userVM.Email)!=null&&userVM.Email!=user.Email)
-            {
-                ModelState.AddModelError("Email", "email already existed");
-                return View(userVM);
-            }
-           
-          
-            if (await userManager.FindByNameAsync(userVM.UserName) != null && userVM.UserName != user.UserName)
-            {
-                ModelState.AddModelError("userName", "UserName already existed");
-                return View(userVM);
-            }
-        
-            string token =await userManager.GeneratePasswordResetTokenAsync(user);
-            IdentityResult result= await userManager.ResetPasswordAsync(user, token, userVM.Password);
-            if (!result.Succeeded)
-            {
-                foreach(var error in result.Errors)
+                ApplicationUser user = await userManager.FindByIdAsync(userVM.Id);
+                if (await userManager.FindByEmailAsync(userVM.Email) != null && userVM.Email != user.Email)
                 {
-                    ModelState.AddModelError("Password",error.Description);
+                    ModelState.AddModelError("Email", "email already existed");
+                    return View(userVM);
                 }
-                return View(userVM);
+
+
+                if (await userManager.FindByNameAsync(userVM.UserName) != null && userVM.UserName != user.UserName)
+                {
+                    ModelState.AddModelError("userName", "UserName already existed");
+                    return View(userVM);
+                }
+
+                user.Name = userVM.Name;
+                user.Email = userVM.Email;
+                user.UserName = userVM.UserName;
+                await userManager.UpdateAsync(user);
+                var oldRole = (await userManager.GetRolesAsync(user)).ToList().FirstOrDefault();
+                await userManager.RemoveFromRoleAsync(user, oldRole);
+
+                await userManager.AddToRoleAsync(user, userVM.RoleName);
+
+                return RedirectToAction("Index");
             }
 
-            user.Name = userVM.Name;
-            await userManager.AddToRoleAsync(user, userVM.RoleName);
+            else
+            {
+                userVM.Groups = roleManager.Roles.ToList();
+                return View(userVM);
 
-            return RedirectToAction("Index");
+            }
         }
         #endregion
 

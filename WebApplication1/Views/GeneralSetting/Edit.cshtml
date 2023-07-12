@@ -4,11 +4,9 @@
     ViewData["Title"] = "Edit";
    
 }
-<h1>Edit</h1>
-
-<h4>GeneralSettings</h4>
+<h1 class="m-2">Edit of GeneralSettings</h1>
 <hr />
-<div class="row">
+<div class="row container">
     <div class="col-md-4">
         <form asp-action="Save" asp-controller="GeneralSetting" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -63,7 +61,7 @@
     </div>
 </div>
 
-<div>
+<div class="m-3">
     <a asp-action="Index">Back to List</a>
 </div>
 @section newscript {
@@ -76,8 +74,7 @@
             $("#confirm-button").click(function () {
                 if (!confirm("Are you sure you want to Edit")) {
                     event.preventDefault();
-                }
-                
+                }  
             });
         });
     </script>

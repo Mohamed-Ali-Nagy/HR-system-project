@@ -7,101 +7,134 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Salary Report </h1>
-<form asp-controller="SalaryReport" asp-action="Index" method="post">
-    <div asp-validation-summary="All">
-    </div>
-    <div class="col-3">
-        <label>Employee Name</label>
-        <input class="form form-control" name="name" />
-        <span class="danger"></span>
-    </div>
-    <div class="row mx-1 d-flex align-items-center">
+<div class="m-1">
+    <h1>Salary Report </h1>
+    <form asp-controller="SalaryReport" asp-action="Index" method="post">
+@*        <div asp-validation-summary="All">
+        </div>*@
         <div class="col-3">
-            <label>Month</label>
-            <select placeholder="MM" class="form-control" name="month">
-                <option name="" value="" style="display:none;">MM</option>
-                <option value="@Month.January">January</option>
-                <option value="@Month.February">February</option>
-                <option value="@Month.March">March</option>
-                <option value="@Month.April">April</option>
-                <option value="@Month.May">May</option>
-                <option value="@Month.June">June</option>
-                <option value="@Month.July">July</option>
-                <option value="@Month.August">August</option>
-                <option value="@Month.September">September</option>
-                <option value="@Month.October">October</option>
-                <option value="@Month.November">November</option>
-                <option value="@Month.December">December</option>
-            </select>
+            <label>Employee Name</label>
+            <input class="form form-control" name="name" />
             <span class="danger"></span>
         </div>
-        <div class="col-3">
-            <label>Year</label>
-            <input class="form form-control" type="number" name="yaer" min="2005" max="@DateTime.Now.Year"/>
-            <span class="danger"></span>
+        <div class="row mx-1 d-flex align-items-center">
+            <div class="col-3">
+                <label>Month</label>
+                <select placeholder="MM" class="form-control" name="month">
+                    <option name="" value="" style="display:none;">MM</option>
+                    <option value="@Month.January">January</option>
+                    <option value="@Month.February">February</option>
+                    <option value="@Month.March">March</option>
+                    <option value="@Month.April">April</option>
+                    <option value="@Month.May">May</option>
+                    <option value="@Month.June">June</option>
+                    <option value="@Month.July">July</option>
+                    <option value="@Month.August">August</option>
+                    <option value="@Month.September">September</option>
+                    <option value="@Month.October">October</option>
+                    <option value="@Month.November">November</option>
+                    <option value="@Month.December">December</option>
+                </select>
+                <span class="danger"></span>
+            </div>
+            <div class="col-3">
+                <label>Year</label>
+                <input class="form form-control" type="number" name="yaer" min="2005" max="@DateTime.Now.Year" />
+                <span class="danger"></span>
+            </div>
+            <div class="col-1 m-1">
+                <input type="submit" value="Search" class="  btn btn-primary m-2" />
+            </div>
         </div>
-        <div class="col-1 m-1">
-            <input type="submit" value="Search" class="  btn btn-primary m-2" />
-        </div>
-    </div>
-</form>
-@*<p>
+    </form>
+    @*
+    @*<p>
     <a asp-action="Create">Create New</a>
-</p>*@
-@*<div class="row d-flex align-items-center mx-1">
+    </p>*@
+    @*<div class="row d-flex align-items-center mx-1">
     <p class="col-1"> Results: @ViewBag.Result</p>
     <button class="btn btn-secondary  "> Previous</button>
     <button class="btn btn-secondary mx-1"> Next</button>
     <div class="form-group col-4" >
-        <label for="exampleFormControlSelect1">Page Number</label>
-        <select class="form-control col-3" id="exampleFormControlSelect1" name="pagnum">
-            @for (int i = 1; i < ViewBag.recordsPerPages;i++)
-            {
-                <option value="i">i</option>
-            }
-        </select>
+    <label for="exampleFormControlSelect1">Page Number</label>
+    <select class="form-control col-3" id="exampleFormControlSelect1" name="pagnum">
+    @for (int i = 1; i < ViewBag.recordsPerPages;i++)
+    {
+    <option value="i">i</option>
+    }
+    </select>
     </div>
-</div>*@
-<table class="table" style="text-align:center" id="salarytable">
-    <thead style="font-size:13px">
-        <tr>
-            <td>Employee Name</td>
-            <td>Department Name</td>
-            <td>Salary</td>
-            <td>Attendance Days</td>
-            <td>Absence Days</td>
-            <td>Add Hours</td>
-            <td>Dedacated Hours</td>
-            <td>Total Add</td>
-            <td>Total Dedacated</td>
-            <td>Total Due</td>
-            <td>Operation</td>
-        </tr>
-    </thead>
-    <tbody style="font-size:13px" >
-        @foreach (var item in Model) 
-        {
-        <tr>
-            <td>@item.EmpNme</td>
-            <td>@item.DeptName</td>
-            <td>@item.BasicSalary</td>
-            <td>@item.Attendancedays</td>
-            <td>@item.AbsenceDays</td>
-            <td>@item.AddHours</td>
-            <td>@item.DedacatedHours</td>
-            <td>@item.TotalAdd</td>
-            <td>@item.TotalDedacated</td>
-            <td>@item.TotalDue</td>
-            <td class="row">
-                    <a class="mx-1 col btn btn-primary" href="/SalaryReport/Details/@item.Id">Print</a>
-                <a class=" col btn btn-warning">Edit</a>
-            </td> 
-        </tr>
-        }
-    </tbody>
-</table>
+    </div>*@
+    <table class="table m-1" style="text-align:center " id="salarytable">
+        <thead style="font-size:13px">
+            <tr>
+                <td>Employee Name</td>
+                <td>Department Name</td>
+                <td>Salary</td>
+                <td>Attendance Days</td>
+                <td>Absence Days</td>
+                <td>Add Hours</td>
+                <td>Dedacated Hours</td>
+                <td>Total Add</td>
+                <td>Total Dedacated</td>
+                <td>Total Due</td>
+                <td>Operation</td>
+            </tr>
+        </thead>
+        <tbody style="font-size:13px">
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.EmpNme</td>
+                    <td>@item.DeptName</td>
+                    <td>@item.BasicSalary</td>
+                    <td>@item.Attendancedays</td>
+                    <td>@item.AbsenceDays</td>
+                    <td>@item.AddHours</td>
+                    <td>@item.DedacatedHours</td>
+                    <td>@item.TotalAdd</td>
+                    <td>@item.TotalDedacated</td>
+                    <td>@item.TotalDue</td>
+                    <td class="row">
+                        <a class="mx-1 col btn btn-primary" href="/SalaryReport/Details/@item.Id">Print</a>
+                        <a class=" col btn btn-warning">Edit</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<script>
+    function exportToExcel() {
+        var data = [];
+        // Iterate through each table row and collect the data
+        $('#salarytable tbody tr').each(function () {
+            var row = $(this);
+            var item = {
+                EmpName: row.find('td:nth-child(1)').text().trim(),
+                DeptName: row.find('td:nth-child(2)').text().trim(),
+                BasicSalary: row.find('td:nth-child(3)').text().trim(),
+                // Add more properties as needed
+            };
 
+            data.push(item);
+        });
+        // Create a form to send the data to the DownloadExcel action
+        var form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '/SalaryReport/DownloadExcel';
+        // Create an input field to hold the serialized JSON data
+        var input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'salaryReportData';
+        input.value = JSON.stringify(data);
+        // Append the input field to the form
+        form.appendChild(input);
+        // Append the form to the document and submit it
+        document.body.appendChild(form);
+        form.submit();
+    }
+</script>
 @section newscript{
 
 }

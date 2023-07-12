@@ -4,9 +4,9 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Salary Report</h1>
-<div>
-    <h4> For @Html.DisplayFor(model => model.EmpNme) for  @Html.DisplayFor(model => model.Month)   </h4>
+<h1 class="m-2">Salary Report</h1>
+<div class="m-5">
+    <h4> For @Html.DisplayFor(model => model.EmpNme) for  @Html.DisplayFor(model => model.Month)@ViewBag.year   </h4>
     <hr />
     <dl class="row">
 @*        <dt class = "col-sm-2">
@@ -77,10 +77,44 @@
         </dd>
     </dl>
 </div>
-<div>
+<div class="m-3">
     @*@Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |*@
     <a class="btn btn-primary" asp-action="Index">Back to List</a>
     <button class="btn btn-primary" id="download-btn"> Download PDF </button>
+    
 </div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.debug.js"></script>
 <script>
+    document.getElementById('download-btn').addEventListener('click', function () {
+        // Create a new PDF document
+        var doc = new jsPDF();
+        // Set the initial y position for the content
+        var y = 20;
+        // Set the header text
+        var headerTitle = 'Salary Report For @Html.DisplayFor(model => model.EmpNme) for  @Html.DisplayFor(model => model.Month)@ViewBag.year  ';
+        // Set the header
+        doc.setFontSize(18);
+        doc.text(headerTitle, 10, y);
+        y += 10;
+        // Iterate through the dl elements and add them to the PDF document
+        var dlElements = document.getElementsByTagName('dl');
+        if (dlElements.length > 0) {
+            var dl = dlElements[0];
+            var dtElements = dl.getElementsByTagName('dt');
+            var ddElements = dl.getElementsByTagName('dd');
+            for (var i = 0; i < dtElements.length; i++) {
+                var dt = dtElements[i];
+                var dd = ddElements[i];
+                doc.setFontSize(14);
+                doc.text(dt.innerText, 15, y);
+                doc.setFontSize(14);
+                doc.text(dd.innerText, 60, y);
+                y += 10;
+            }
+        }
+        // Save the PDF document
+        doc.save('salary_report.pdf');
+    });
 </script>

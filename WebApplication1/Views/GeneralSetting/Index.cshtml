@@ -3,10 +3,7 @@
 @{
     ViewData["Title"] = "Index";
 }
-
-<h1>Index</h1>
-
-<div>
+<div class="container m-5">
     <h4>GeneralSettings</h4>
     <hr />
     <dl class="row">
@@ -42,7 +39,7 @@
         </dd>
     </dl>
 </div>
-<div>
+<div class="m-5">
     @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
     <a asp-action="Index">Back to List</a>
 </div>
