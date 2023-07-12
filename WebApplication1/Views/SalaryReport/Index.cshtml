@@ -7,11 +7,11 @@
     ViewData["Title"] = "Index";
 }
 
-<div class="container">
+<div class="m-1">
     <h1>Salary Report </h1>
     <form asp-controller="SalaryReport" asp-action="Index" method="post">
-        <div asp-validation-summary="All">
-        </div>
+@*        <div asp-validation-summary="All">
+        </div>*@
         <div class="col-3">
             <label>Employee Name</label>
             <input class="form form-control" name="name" />
@@ -65,7 +65,7 @@
     </select>
     </div>
     </div>*@
-    <table class="table m-3" style="text-align:center " id="salarytable">
+    <table class="table m-1" style="text-align:center " id="salarytable">
         <thead style="font-size:13px">
             <tr>
                 <td>Employee Name</td>
