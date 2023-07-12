@@ -21,7 +21,7 @@ namespace HRSystem.Models
 
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = true)]
-        [Remote("Testdate", "Attendance", ErrorMessage = " date must be after 1/1/2008")]
+        [Remote("Testdate", "Attendance", ErrorMessage = " date must be after 1/1/2008 and before or equal today")]
         public DateTime Date { get; set; }
         
         [ForeignKey("employee")]

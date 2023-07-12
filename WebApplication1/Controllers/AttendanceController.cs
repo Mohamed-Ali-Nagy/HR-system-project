@@ -1,4 +1,6 @@
 ﻿using HRSystem.Models;
+using X.PagedList;
+using X.PagedList.Mvc;
 using HRSystem.Repository;
 using Microsoft.AspNetCore.Mvc;
 using HRSystem.ViewModels;
@@ -36,8 +38,11 @@ namespace HRSystem.Controllers
             List<Employee> empnams = db.Employees.Where(n => n.DeptID == depid).ToList();
             return Json(empnams);
         }
-        public IActionResult Index()
+        
+        public IActionResult Index( int  page=1)
         {
+          
+         var pgsize=employeeRepo.getAll().Count();
             List<Attendance> attendanceModel = AttendanceRepository.GetAll();
             List<AttendanceViewModel> allViewModel = new List<AttendanceViewModel>();
 
@@ -71,15 +76,14 @@ namespace HRSystem.Controllers
                 allViewModel.Add(attvm);
                 allViewModel=allViewModel.OrderByDescending(a=>a.Date).ToList();    
                     }
-            ViewBag.AttendanceList = allViewModel;
+            //ViewBag.AttendanceList = allViewModel;
+            ViewBag.AttendanceList = allViewModel.ToPagedList(page, pgsize);
+
 
             return View();
         
         }
-
-
-
-
+ 
         public IActionResult ADD()
 
         {
@@ -127,9 +131,6 @@ namespace HRSystem.Controllers
             
             
         }
-
-
-
 
         public IActionResult Edit(int id)
         {
@@ -179,9 +180,6 @@ namespace HRSystem.Controllers
 
         }
 
-
-
-
         public IActionResult Delete(int id)
         {
             Attendance att = AttendanceRepository.GetBYId(id);
@@ -202,9 +200,10 @@ namespace HRSystem.Controllers
         }
 
 
-        [HttpPost]
-        public IActionResult search( searchattendanceViewModel search)
+       [HttpPost]
+        public IActionResult search( searchattendanceViewModel search,int page1=1)
         {
+            int pgsize;
             if (ModelState.IsValid == true)
             {
 
@@ -215,6 +214,8 @@ namespace HRSystem.Controllers
 
                 if (attemp.Count > 0)
                 {
+                    pgsize = (search.todate - search.fromdate).Days;
+
                     for (var i = 0; i < attemp.Count; i++)
                     {
                         AttendanceViewModel attvm = new AttendanceViewModel()
@@ -237,13 +238,18 @@ namespace HRSystem.Controllers
                         }
 
                         allViewModel.Add(attvm);
-                        ViewBag.AttendanceList = allViewModel;
+                      
 
                     }
+                    allViewModel = allViewModel.OrderByDescending(x => x.Date).ToList();
+                    ViewBag.AttendanceList = allViewModel.ToPagedList(page1, pgsize);
                     return View("index");
                 }
                 else if (attdep.Count > 0)
                 {
+                    
+                    pgsize = attdep.Count;
+
                     for (var i = 0; i < attdep.Count; i++)
                     {
                         AttendanceViewModel attvm = new AttendanceViewModel()
@@ -266,7 +272,9 @@ namespace HRSystem.Controllers
                         }
 
                         allViewModel.Add(attvm);
-                        ViewBag.AttendanceList = allViewModel;
+                        allViewModel = allViewModel.OrderByDescending(x => x.Date).ToList();
+
+                        ViewBag.AttendanceList = allViewModel.ToPagedList(page1, pgsize);
                     }
                     
                     return View("Index");
@@ -274,125 +282,14 @@ namespace HRSystem.Controllers
 
 
                 else
-                { return Json(false); }
+                {
+                    return Json("Index");
+                }
             }
             else
                 return RedirectToAction("Index");
         }
-      /*  public IActionResult Searchbydate(DateTime fromdate ,DateTime todate)
-        {
-            List<Attendance> attdate=AttendanceRepository.getbydate(fromdate , todate);
-            List<AttendanceViewModel> allViewModel = new List<AttendanceViewModel>();
-
-            for (var i = 0; i < attdate.Count; i++)
-            {
-                AttendanceViewModel attvm = new AttendanceViewModel()
-                {
-                    ID = attdate[i].ID,
-                    TimeAttendance = attdate[i].TimeAttendance,
-                    TimeLeave = attdate[i].TimeLeave,
-                    Date = attdate[i].Date
-                };
-
-                Employee emp = db.Employees.Include(n => n.department).FirstOrDefault(x => x.Id == attdate[i].EmpID);
-                if (emp != null)
-                {
-                    attvm.EmployeeName = emp.Name;
-
-                    if (emp.department != null)
-                    {
-                        attvm.DepartmentName = emp.department.Name;
-                    }
-                }
-
-                allViewModel.Add(attvm);
-            }
-                return View("index", allViewModel);
-        }
-
-
-        static DateTime fromdatemethod()
-        {
-            return new DateTime(1997, 6, 2, 00, 00, 0);
-        }
-        static DateTime todatemethod()
-        {
-            return  DateTime.Now;
-        }
-        [HttpPost]
-        public IActionResult search (string name , DateTime? fromdate , DateTime?  todate )
-        {
-           
-
-            if (todate == null) { todate = todatemethod(); }
-            if (fromdate == null) { fromdate =fromdatemethod(); }
-
-            List<Attendance> attemp = AttendanceRepository.Getbyempname(name,fromdate,todate);
-            List<Attendance> attdep = AttendanceRepository.getbydepname(name, fromdate, todate);
-            List<AttendanceViewModel> allViewModel = new List<AttendanceViewModel>();
-
-            if (attemp.Count > 0)
-            {
-                for (var i = 0; i < attemp.Count; i++)
-                {
-                    AttendanceViewModel attvm = new AttendanceViewModel()
-                    {
-                        ID = attemp[i].ID,
-                        TimeAttendance = attemp[i].TimeAttendance,
-                        TimeLeave = attemp[i].TimeLeave,
-                        Date = attemp[i].Date
-                    };
-                    Employee emp = db.Employees.Include(n => n.department).FirstOrDefault(x => x.Id == attemp[i].EmpID);
-
-                    if (emp != null)
-                    {
-                        attvm.EmployeeName = emp.Name;
-
-                        if (emp.department != null)
-                        {
-                            attvm.DepartmentName = emp.department.Name;
-                        }
-                    }
-
-                    allViewModel.Add(attvm);
-                }
-                return View("index", allViewModel);
-            }
-            else if (attdep.Count > 0)
-            {
-                for (var i = 0; i < attdep.Count; i++)
-                {
-                    AttendanceViewModel attvm = new AttendanceViewModel()
-                    {
-                        ID = attdep[i].ID,
-                        TimeAttendance = attdep[i].TimeAttendance,
-                        TimeLeave = attdep[i].TimeLeave,
-                        Date = attdep[i].Date
-                    };
-
-                    Employee emp = db.Employees.Include(n => n.department).FirstOrDefault(x => x.Id == attdep[i].EmpID);
-                    if (emp != null)
-                    {
-                        attvm.EmployeeName = emp.Name;
-
-                        if (emp.department != null)
-                        {
-                            attvm.DepartmentName = emp.department.Name;
-                        }
-                    }
-
-                    allViewModel.Add(attvm);
-                }
-                return View("Index", allViewModel);
-            }
-
-
-            else
-            {
-              //  return MappingAttendanceToEmpAttedVM(allViewModel);
-
-                return Json(false); }
-        }*/
+      
       public IActionResult Testenddate (DateTime todate, DateTime fromdate )
         {
             if(todate>=fromdate)
@@ -406,16 +303,16 @@ namespace HRSystem.Controllers
         }
         public IActionResult Testdate (DateTime date)
         {
-            if(date >= new DateTime(2008, 1, 1, 00, 00, 0))
+            if(date >= new DateTime(2008, 1, 1, 00, 00, 0) && date<= DateTime.Now)
             {
                 return Json(true);
             }
             else
                 return Json(false);
         }
-        public IActionResult Testtime(TimeOnly leavetime, TimeOnly attendancetime)
+        public IActionResult Testtime(DateTime TimeLeave, DateTime TimeAttendance)
         {
-            if(leavetime.Hour > attendancetime.Hour)
+            if(TimeLeave.Hour > TimeAttendance.Hour)
                 return Json(true);
             else
                 return Json(false);
@@ -424,4 +321,117 @@ namespace HRSystem.Controllers
     }
    
 }
-      
+/*  public IActionResult Searchbydate(DateTime fromdate ,DateTime todate)
+   {
+       List<Attendance> attdate=AttendanceRepository.getbydate(fromdate , todate);
+       List<AttendanceViewModel> allViewModel = new List<AttendanceViewModel>();
+
+       for (var i = 0; i < attdate.Count; i++)
+       {
+           AttendanceViewModel attvm = new AttendanceViewModel()
+           {
+               ID = attdate[i].ID,
+               TimeAttendance = attdate[i].TimeAttendance,
+               TimeLeave = attdate[i].TimeLeave,
+               Date = attdate[i].Date
+           };
+
+           Employee emp = db.Employees.Include(n => n.department).FirstOrDefault(x => x.Id == attdate[i].EmpID);
+           if (emp != null)
+           {
+               attvm.EmployeeName = emp.Name;
+
+               if (emp.department != null)
+               {
+                   attvm.DepartmentName = emp.department.Name;
+               }
+           }
+
+           allViewModel.Add(attvm);
+       }
+           return View("index", allViewModel);
+   }
+
+
+   static DateTime fromdatemethod()
+   {
+       return new DateTime(1997, 6, 2, 00, 00, 0);
+   }
+   static DateTime todatemethod()
+   {
+       return  DateTime.Now;
+   }
+   [HttpPost]
+   public IActionResult search (string name , DateTime? fromdate , DateTime?  todate )
+   {
+
+
+       if (todate == null) { todate = todatemethod(); }
+       if (fromdate == null) { fromdate =fromdatemethod(); }
+
+       List<Attendance> attemp = AttendanceRepository.Getbyempname(name,fromdate,todate);
+       List<Attendance> attdep = AttendanceRepository.getbydepname(name, fromdate, todate);
+       List<AttendanceViewModel> allViewModel = new List<AttendanceViewModel>();
+
+       if (attemp.Count > 0)
+       {
+           for (var i = 0; i < attemp.Count; i++)
+           {
+               AttendanceViewModel attvm = new AttendanceViewModel()
+               {
+                   ID = attemp[i].ID,
+                   TimeAttendance = attemp[i].TimeAttendance,
+                   TimeLeave = attemp[i].TimeLeave,
+                   Date = attemp[i].Date
+               };
+               Employee emp = db.Employees.Include(n => n.department).FirstOrDefault(x => x.Id == attemp[i].EmpID);
+
+               if (emp != null)
+               {
+                   attvm.EmployeeName = emp.Name;
+
+                   if (emp.department != null)
+                   {
+                       attvm.DepartmentName = emp.department.Name;
+                   }
+               }
+
+               allViewModel.Add(attvm);
+           }
+           return View("index", allViewModel);
+       }
+       else if (attdep.Count > 0)
+       {
+           for (var i = 0; i < attdep.Count; i++)
+           {
+               AttendanceViewModel attvm = new AttendanceViewModel()
+               {
+                   ID = attdep[i].ID,
+                   TimeAttendance = attdep[i].TimeAttendance,
+                   TimeLeave = attdep[i].TimeLeave,
+                   Date = attdep[i].Date
+               };
+
+               Employee emp = db.Employees.Include(n => n.department).FirstOrDefault(x => x.Id == attdep[i].EmpID);
+               if (emp != null)
+               {
+                   attvm.EmployeeName = emp.Name;
+
+                   if (emp.department != null)
+                   {
+                       attvm.DepartmentName = emp.department.Name;
+                   }
+               }
+
+               allViewModel.Add(attvm);
+           }
+           return View("Index", allViewModel);
+       }
+
+
+       else
+       {
+         //  return MappingAttendanceToEmpAttedVM(allViewModel);
+
+           return Json(false); }
+   }*/ 

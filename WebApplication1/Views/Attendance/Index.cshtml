@@ -1,4 +1,8 @@
-﻿@model searchattendanceViewModel
+﻿@using X.PagedList;
+@using X.PagedList.Mvc.Core;
+@using X.PagedList.Mvc.Core.Fluent
+
+@model searchattendanceViewModel;
 
 @{
     
@@ -32,6 +36,8 @@
 
         <button type="submit" class="btn btn-primary col-1">Search</button>
     </div>
+    
+
 </form>
 
 
@@ -91,6 +97,10 @@
 </tbody>
   
 </table>
+<div class="pagination">
+  @*  @Html.PagedListPager((IPagedList)ViewBag.AttendanceList , page => Url.Action("Index",new { search=Model , page }))*@
+    @Html.PagedListPager((IPagedList)ViewBag.AttendanceList , page => Url.Action("Index",new {  page   }))
+</div>
 
 <a asp-action="ADD" class="btn btn-primary m-2">ADD</a>
 @section newscript{
@@ -100,7 +110,20 @@
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
 }
 
+@section styles{ 
+    <style>
+        
 
+        .pagination a.active {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .pagination a:hover:not(.active) {
+            background-color: #ddd;
+        }
+    </style>
+}
 
 
 
