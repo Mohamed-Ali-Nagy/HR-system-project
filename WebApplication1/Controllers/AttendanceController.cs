@@ -9,23 +9,24 @@ namespace HRSystem.Controllers
 {
     public class AttendanceController : Controller
     {
-
+        IGeneralSettingRepository settingRepository;
         IEmployeeRepositry employeeRepo;
         IDepartmentRepository departmentRepo;
         IAttendanceRepository AttendanceRepository;
+       
         HRContext db;
         public AttendanceController(
             IAttendanceRepository _attendanceRepository,
             IEmployeeRepositry _employeeRepo,
             IDepartmentRepository _departmentRepository,
-
-            HRContext _db
+            IGeneralSettingRepository _settingRepository,
+        HRContext _db
             )
         {
             AttendanceRepository = _attendanceRepository;
             employeeRepo = _employeeRepo;
             departmentRepo = _departmentRepository;
-
+            settingRepository= _settingRepository;
             db = _db;
 
         }
@@ -56,11 +57,11 @@ namespace HRSystem.Controllers
 
                 if (emp != null)
                 {
-                    attvm.EmployeeName = emp.Name;
+                    attvm.Employee = emp.Name;
 
                     if (emp.department != null)
                     {
-                        attvm.DepartmentName = emp.department.Name;
+                        attvm.Department= emp.department.Name;
 
 
                     }
@@ -90,6 +91,24 @@ namespace HRSystem.Controllers
         public IActionResult ADD(Attendance newattendance)
 
         {
+            string general = settingRepository.GetWeekRest1();
+            string general2 = settingRepository.GetWeekRest2();
+
+            DateTime date = newattendance.Date;
+            string dayOfWeek = date.ToString("dddd");
+
+
+
+            if (dayOfWeek == general || dayOfWeek == general2)
+            {
+                TempData["Message"] = "You are trying to enter data on a day off!!";
+            
+                return RedirectToAction("ADD", newattendance );
+            }
+
+
+
+
             if (ModelState.IsValid == true)
             {
                 if (newattendance != null)
@@ -126,6 +145,21 @@ namespace HRSystem.Controllers
         [HttpPost]
         public IActionResult Edit(int id, Attendance attend)
         {
+
+            string general = settingRepository.GetWeekRest1();
+            string general2 = settingRepository.GetWeekRest2();
+
+            DateTime date = attend.Date;
+            string dayOfWeek = date.ToString("dddd");
+
+
+
+            if (dayOfWeek == general || dayOfWeek == general2)
+            {
+                TempData["Message"] = "You are trying to enter data on a day off!!";
+                return RedirectToAction("ADD", attend);
+            }
+
 
             if (ModelState.IsValid == true)
             {
@@ -194,11 +228,11 @@ namespace HRSystem.Controllers
 
                         if (emp != null)
                         {
-                            attvm.EmployeeName = emp.Name;
+                            attvm.Employee = emp.Name;
 
                             if (emp.department != null)
                             {
-                                attvm.DepartmentName = emp.department.Name;
+                                attvm.Department= emp.department.Name;
                             }
                         }
 
@@ -223,11 +257,11 @@ namespace HRSystem.Controllers
                         Employee emp = db.Employees.Include(n => n.department).FirstOrDefault(x => x.Id == attdep[i].EmpID);
                         if (emp != null)
                         {
-                            attvm.EmployeeName = emp.Name;
+                            attvm.Employee= emp.Name;
 
                             if (emp.department != null)
                             {
-                                attvm.DepartmentName = emp.department.Name;
+                                attvm.Department= emp.department.Name;
                             }
                         }
 

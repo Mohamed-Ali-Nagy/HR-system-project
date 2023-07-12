@@ -57,7 +57,7 @@
                 <span asp-validation-for="WeekRest2" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save"  class="btn btn-primary" /> 
+                <input type="submit" value="Save" id="confirm-button" class="btn btn-primary" />
             </div>
         </form>
     </div>
@@ -70,5 +70,15 @@
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script src="~/lib/jquery/dist/jquery.js"></script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
-    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>  
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#confirm-button").click(function () {
+                if (!confirm("Are you sure you want to Edit")) {
+                    event.preventDefault();
+                }
+                
+            });
+        });
+    </script>
 }

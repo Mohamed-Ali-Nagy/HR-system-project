@@ -18,8 +18,8 @@ namespace HRSystem.Repository
         void save();
         #region For Salary
         int GetCountOfDaysOfAttendenceOfEmp(int id, Month month, int year);
-        int GetEmpAddHours(int id, Month month);
-        int GetEmpDeducateHours(int id, Month month);
+        int GetEmpAddHours(int id, Month month, int year);
+        int GetEmpDeducateHours(int id, Month month, int year);
         int GetCountOfDaysOfMonth(Month month);
         #endregion
     }
