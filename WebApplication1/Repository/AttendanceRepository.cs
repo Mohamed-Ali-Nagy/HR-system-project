@@ -33,13 +33,21 @@ namespace HRSystem.Repository
         {
            
             List<Employee> emp1 = db.Employees.Where(e => e.Name.Contains(searchmodel.Name)).ToList();
+            
             List<Attendance> atttendance1 = new List<Attendance>();
 
             foreach (Employee item in emp1)
             {
-                Attendance search = db.Attendances.Where(n=>n.Date>= searchmodel.fromdate && n.Date<= searchmodel.todate && n.EmpID== item.Id).FirstOrDefault();
+                List<Attendance> search = db.Attendances.Where(n => n.Date >= searchmodel.fromdate && n.Date <= searchmodel.todate && n.EmpID == item.Id).ToList();
+
                 if (search != null)
-                    atttendance1.Add(search);
+                {
+                    foreach(Attendance attendance in search)
+                    {
+                         atttendance1.Add(attendance);
+                    }
+                }
+                   
             }
             return atttendance1;
         }
@@ -53,9 +61,10 @@ namespace HRSystem.Repository
                 foreach (Employee item2 in emp)
                 {
                    
-                    Attendance search = db.Attendances.FirstOrDefault(n => n.EmpID == item2.Id && n.Date >= searchmodel.fromdate && n.Date<= searchmodel.todate);
-                    if(search!=null)
-                    att.Add(search);
+                   List< Attendance> search = db.Attendances.Where(n => n.EmpID == item2.Id && n.Date >= searchmodel.fromdate && n.Date<= searchmodel.todate).ToList();
+                    if (search != null)
+                        foreach (Attendance attendance in search) {
+                            att.Add(attendance); }
 
                 }
 
