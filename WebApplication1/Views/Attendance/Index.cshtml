@@ -1,16 +1,12 @@
 ﻿@model searchattendanceViewModel
 
 @{
-    
-  
     ViewData["Title"] = "Index";
 }
-
 <h1>Atendence & Leaving</h1>
 @{
     var i = 0;
 }
-
 <form class="container-fluid" method="post" asp-action="search" asp-controller="Attendance" >
     <div class="form-group col-4 ">
        <label asp-for="Name"></label>
