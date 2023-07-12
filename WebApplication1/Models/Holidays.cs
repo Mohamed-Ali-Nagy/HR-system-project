@@ -6,7 +6,7 @@ namespace HRSystem.Models
     {
         public int id { get; set; }
         [Required(ErrorMessage = "Name REQUIRED")]
-        [Uniquename]
+        [MinLength(3, ErrorMessage = "Namde must at least 3 characters")]
         public String Name { get; set; }
 
         [Required(ErrorMessage = "Date REQUIRED")]
