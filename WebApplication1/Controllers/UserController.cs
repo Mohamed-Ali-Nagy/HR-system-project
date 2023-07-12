@@ -53,7 +53,8 @@ namespace HRSystem.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (await userManager.FindByEmailAsync(newUser.Email) == null && await userManager.FindByNameAsync(newUser.UserName) == null)
+                ApplicationUser user1 = await userManager.FindByEmailAsync(newUser.Email);
+                if (user1 == null && await userManager.FindByNameAsync(newUser.UserName) == null)
                 {
                     ApplicationUser user = new ApplicationUser()
                     {
@@ -78,10 +79,14 @@ namespace HRSystem.Controllers
                         }
                     }
                 }
+                else if (user1 != null)
+                {
+                    ModelState.AddModelError("Email", "Email is already existed");
 
+                }
                 else
                 {
-                    ModelState.AddModelError("", "Email or user name is already exist");
+                    ModelState.AddModelError("userName", "Username is already existed");
                 }
 
             }
@@ -125,6 +130,8 @@ namespace HRSystem.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
+
         public async Task<IActionResult> edit(ApplicationUserGroupVM userVM)
         {
 
@@ -133,7 +140,7 @@ namespace HRSystem.Controllers
                 ApplicationUser user = await userManager.FindByIdAsync(userVM.Id);
                 if (await userManager.FindByEmailAsync(userVM.Email) != null && userVM.Email != user.Email)
                 {
-                    ModelState.AddModelError("Email", "email already existed");
+                    ModelState.AddModelError("Email", "Email already existed");
                     return View(userVM);
                 }
 
