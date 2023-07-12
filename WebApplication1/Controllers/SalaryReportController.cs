@@ -207,7 +207,7 @@ namespace HRSystem.Controllers
             salaryReportViewModel.TotalAdd = salaryReportViewModel.AddHours * DefaultAddHourRate;
             salaryReportViewModel.TotalDedacated = salaryReportViewModel.DedacatedHours * DefaultDeducateRate;
             salaryReportViewModel.TotalDue = Math.Round((double)(employee.Salary + HourRate * (salaryReportViewModel.TotalAdd - salaryReportViewModel.TotalDedacated) - (salaryReportViewModel.AbsenceDays * dailyRate)), 2);
-
+            ViewBag.year = thisYear;
             return View(salaryReportViewModel);
         }
 
