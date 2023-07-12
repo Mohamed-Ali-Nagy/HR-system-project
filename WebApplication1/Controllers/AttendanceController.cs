@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using HRSystem.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using HRSystem.Constants;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HRSystem.Controllers
 {
@@ -32,13 +34,15 @@ namespace HRSystem.Controllers
             db = _db;
 
         }
+        [Authorize(Permission.Attendance.View)]
 
         public IActionResult GetempNamesBydept(int depid)
         {
             List<Employee> empnams = db.Employees.Where(n => n.DeptID == depid).ToList();
             return Json(empnams);
         }
-        
+        [Authorize(Permission.Attendance.View)]
+
         public IActionResult Index( int  page=1)
         {
           
@@ -83,7 +87,8 @@ namespace HRSystem.Controllers
             return View();
         
         }
- 
+        [Authorize(Permission.Attendance.Create)]
+
         public IActionResult ADD()
 
         {
@@ -91,6 +96,8 @@ namespace HRSystem.Controllers
             ViewData["departementlist"] = departmentRepo.getAll();
             return View();
         }
+        [Authorize(Permission.Attendance.Create)]
+        [ValidateAntiForgeryToken]
         [HttpPost]
         public IActionResult ADD(Attendance newattendance)
 
@@ -131,6 +138,7 @@ namespace HRSystem.Controllers
             
             
         }
+        [Authorize(Permission.Attendance.Edit)]
 
         public IActionResult Edit(int id)
         {
@@ -142,7 +150,8 @@ namespace HRSystem.Controllers
             return View("ADD", attendance);
         }
 
-
+        [Authorize(Permission.Attendance.Edit)]
+        [ValidateAntiForgeryToken]
         [HttpPost]
         public IActionResult Edit(int id, Attendance attend)
         {
@@ -179,6 +188,7 @@ namespace HRSystem.Controllers
 
 
         }
+        [Authorize(Permission.Attendance.Delete)]
 
         public IActionResult Delete(int id)
         {
@@ -199,8 +209,9 @@ namespace HRSystem.Controllers
 
         }
 
-
-       [HttpPost]
+        [Authorize(Permission.Attendance.View)]
+        [ValidateAntiForgeryToken]
+        [HttpPost]
         public IActionResult search( searchattendanceViewModel search,int page1=1)
         {
             int pgsize;

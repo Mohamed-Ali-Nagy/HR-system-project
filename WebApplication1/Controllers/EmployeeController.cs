@@ -63,7 +63,7 @@ namespace HRSystem.Controllers
             ViewData["EmpGender"]=new List<Gender>() { Gender.Male,Gender.Female};
             return View();
         }
-        //[Authorize(Permission.Employee.Create)]
+        [Authorize(Permission.Employee.Create)]
 
         [HttpPost]
         public IActionResult add(Employee employee)
@@ -102,7 +102,7 @@ namespace HRSystem.Controllers
             ViewData["EmpGender"] = new List<Gender>() { Gender.Male,Gender.Female };
             return View(employee);
         }
-        // [HttpPost]
+        
         [Authorize(Permission.Employee.Delete)]
 
         public IActionResult delete(int id)
