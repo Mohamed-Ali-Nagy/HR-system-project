@@ -38,7 +38,7 @@
 
                             @foreach (var claim in role.RoleClaims)
                             {
-                                <li>@claim</li>
+                                <li>@string.Join(" ",claim.ToString().Split('.')[2],claim.ToString().Split('.')[1])</li>
                             }
                         </ol>
 

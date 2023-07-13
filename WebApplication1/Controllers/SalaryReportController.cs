@@ -1,8 +1,10 @@
 ﻿using ClosedXML.Excel;
+using HRSystem.Constants;
 using HRSystem.Enums;
 using HRSystem.Models;
 using HRSystem.Repository;
 using HRSystem.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using OfficeOpenXml;
@@ -28,6 +30,8 @@ namespace HRSystem.Controllers
             this.generalSettingRepo = generalSettingRepo;
             this.holidaysRepository = holidaysRepository;
         }
+        [Authorize(Permission.SalaryReport.View)]
+
         [HttpGet]
         public IActionResult Index()
         {
@@ -93,6 +97,8 @@ namespace HRSystem.Controllers
             return View(salRebVMlst);
         }
         [HttpPost]
+        [Authorize(Permission.SalaryReport.View)]
+
         public IActionResult Index(string name,Month month ,int yaer)
         {
             //intialize lst of employess with thier salaries
@@ -151,6 +157,8 @@ namespace HRSystem.Controllers
             }
             return View(salRebVMlst);
         }
+        [Authorize(Permission.SalaryReport.View)]
+
         public IActionResult Details(int id)
         {
             #region Current month() and year
@@ -212,6 +220,8 @@ namespace HRSystem.Controllers
         }
 
         [HttpPost]
+        [Authorize(Permission.SalaryReport.View)]
+
         public IActionResult DownloadExcel(string tabelData)
         {
             // Prepare your data (example)
@@ -235,7 +245,7 @@ namespace HRSystem.Controllers
             return null;
            
         }
-
+        [Authorize(Permission.SalaryReport.View)]
         [HttpGet]
         [Route("GetDataTable_Exporter")]
         public DataTable GetDataTable_Exporter(List<List<string>> data)

@@ -22,6 +22,29 @@ namespace HRSystem.Controllers
             roleManager = _roleManager;
             userManager= _userManger;
         }
+        public async Task<IActionResult> Index()
+        {
+            List<RoleUsersVM> rolesVM = new List<RoleUsersVM>();
+
+            List<IdentityRole> roles = roleManager.Roles.ToList();
+            for (int i = 0; i < roles.Count; i++)
+            {
+                RoleUsersVM roleUsersVM = new RoleUsersVM()
+                {
+                    Id = roles[i].Id,
+                    RoleName = roles[i].Name,
+                    Users = (await userManager.GetUsersInRoleAsync(roles[i].Name)).Select(u => u.UserName).ToList(),
+                    RoleClaims = (await roleManager.GetClaimsAsync(roles[i])).Select(c => c.Value).ToList(),
+                };
+
+                rolesVM.Add(roleUsersVM);
+            }
+
+
+
+            return View(rolesVM);
+
+        }
         [HttpGet]
         public IActionResult add()
         {
@@ -81,6 +104,7 @@ namespace HRSystem.Controllers
 
 
         }
+
         [HttpGet]
         public async Task<IActionResult> edit(string id)
         {
@@ -156,6 +180,10 @@ namespace HRSystem.Controllers
         public async Task<IActionResult> delete(string id)
         {
             var role=await roleManager.FindByIdAsync(id);
+            if (role == null)
+            {
+                 return RedirectToAction("index");
+            }
             var users =await userManager.GetUsersInRoleAsync(role.Name);
             if (users != null)
             {
@@ -172,29 +200,7 @@ namespace HRSystem.Controllers
             return RedirectToAction("index");
         }
 
-        public async Task<IActionResult> Index()
-        {
-            List<RoleUsersVM> rolesVM = new List<RoleUsersVM>();
 
-            List<IdentityRole> roles = roleManager.Roles.ToList();
-            for (int i = 0; i < roles.Count; i++)
-            {
-                RoleUsersVM roleUsersVM = new RoleUsersVM()
-                {
-                    Id = roles[i].Id,
-                    RoleName= roles[i].Name,
-                    Users = (await userManager.GetUsersInRoleAsync(roles[i].Name)).Select(u=>u.UserName).ToList(),
-                    RoleClaims = (await roleManager.GetClaimsAsync(roles[i])).Select(c => c.Value).ToList(),
-                };
-              
-                rolesVM.Add(roleUsersVM);
-            }
-
-          
-
-            return View(rolesVM);
-
-        }
 
     }
 }

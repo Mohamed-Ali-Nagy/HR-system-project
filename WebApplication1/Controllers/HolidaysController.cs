@@ -14,7 +14,6 @@ namespace HRSystem.Controllers
             this.holidayRepository = holidayRepository;
         }
         [Authorize(Permission.Holidays.View)]
-
         public IActionResult Index()
         {
 
@@ -26,6 +25,7 @@ namespace HRSystem.Controllers
         {
             return View();
         }
+
         [Authorize(Permission.Holidays.Edit)]
 
         public IActionResult Edit(int id)
@@ -34,8 +34,7 @@ namespace HRSystem.Controllers
             return View(hModel);
         }
         [HttpPost]
-        
-
+        [ValidateAntiForgeryToken]
         public IActionResult Edit(int id, Holidays h)
         {
             if (ModelState.IsValid)
