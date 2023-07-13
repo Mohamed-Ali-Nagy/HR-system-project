@@ -7,12 +7,12 @@
     <h4>GeneralSettings</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        @*<dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Id)
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Id)
-        </dd>
+        </dd>*@
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.AddHourRate)
         </dt>
@@ -39,7 +39,7 @@
         </dd>
     </dl>
 </div>
-<div class="m-5">
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-    <a asp-action="Index">Back to List</a>
+<div class="m-1">
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) 
+    @*<a asp-action="Index">Back to List</a>*@
 </div>

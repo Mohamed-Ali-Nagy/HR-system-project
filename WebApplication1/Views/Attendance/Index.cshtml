@@ -82,10 +82,39 @@
 </tbody>
   
 </table>
-<div class="pagination">
-  @*  @Html.PagedListPager((IPagedList)ViewBag.AttendanceList , page => Url.Action("Index",new { search=Model , page }))*@
-    @Html.PagedListPager((IPagedList)ViewBag.AttendanceList , page => Url.Action("Index",new {  page   }))
+
+<style>
+    .custom-pagination-style {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+        .custom-pagination-style .pagination a {
+            color: #333;
+            padding: 5px 10px;
+            border: 1px solid #ccc;
+            margin: 0 5px;
+        }
+
+            .custom-pagination-style .pagination a:hover {
+                background-color: #ccc;
+            }
+
+        .custom-pagination-style .pagination .active a {
+            background-color: #333;
+            color: #fff;
+        }
+</style>
+<div class="pagination custom-pagination-style">
+    @Html.PagedListPager((IPagedList)ViewBag.AttendanceList, page => Url.Action("Index", new { page }))
 </div>
+
+
+@*<div class="pagination">
+  
+    @Html.PagedListPager((IPagedList)ViewBag.AttendanceList , page => Url.Action("Index",new {  page   }))
+</div>*@
 
 <a asp-action="ADD" class="btn btn-primary m-2">ADD</a>
 @section newscript{

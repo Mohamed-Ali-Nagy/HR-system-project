@@ -291,10 +291,12 @@ namespace HRSystem.Controllers
                     return View("Index");
                 }
 
-
                 else
                 {
-                    return Json("Index");
+                    pgsize = 1;
+                    ViewBag.AttendanceList = allViewModel.ToPagedList(page1, pgsize);
+
+                    return View("Index");
                 }
             }
             else
